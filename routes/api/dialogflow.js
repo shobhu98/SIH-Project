@@ -1,3 +1,7 @@
+
+// DialogFlow file for running the ChatBot
+
+
 const express=require('express');
 const router=express.Router();
 const dialogflow = require('dialogflow');
@@ -13,7 +17,7 @@ const {Storage} = require('@google-cloud/storage');
 
 
 
-// Create a new session
+// Create a new chatbot session for interacting with chatbot
 const sessionClient = new dialogflow.SessionsClient({
     keyFilename:"./123.json"
 });
@@ -22,7 +26,7 @@ const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 // Text Query Route
 
 router.post('/textquery',async function (req,res) {
-    // Sending information from client to Dialogflow API
+    // Sending information from client to DialogFlow API
     console.log("here");
 
 
