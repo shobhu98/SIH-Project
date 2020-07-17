@@ -10,7 +10,7 @@ const  connectDB=require('./config/db');
 
 
 // Mongodb connection is called from config/db.js
-connectDB();
+// connectDB();
 
 
 app.use(express.json());
