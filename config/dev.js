@@ -1,3 +1,5 @@
+
+// all the  credentials for Dialogflow are stored here
 module.exports={
     googleprojectID:"fir-uackue",
     dialogFlowSessionID:"fir-session",

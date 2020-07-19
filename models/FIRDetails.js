@@ -34,6 +34,14 @@ const PostSchema=new Schema({
         required:true
 
     },
+    UIN:{
+        type:String,
+        required:true,
+    },
+    acceptance:{
+        type:Number,
+        default: 0,
+    },
 
     date:{
         type:Date,

@@ -2,7 +2,7 @@ const mongoose=require('mongoose');
 const  config=require('config');
 db=config.get('mongoURI');
 
-
+// Code to connect mongoDB Atlas with Backend(Node.js)
 const  connectDB=async ()=>{
     try {
         await mongoose.connect(db,{

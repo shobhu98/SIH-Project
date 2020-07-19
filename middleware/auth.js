@@ -1,3 +1,8 @@
+
+// This is a middleware for authentication. Here we check whether there is a token stored in the browser database for session.
+// EveryTime a user registers or login a JWT session code is created and stored in browser DB
+// Commands for transporting this session code from backend to browser DB will be present in  React files
+// I will explain you how to do that
 const jwt=require('jsonwebtoken');
 const config=require('config');
 
