@@ -4,6 +4,7 @@ import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/variables';
 import { Button } from 'react-native-paper';
 import { DefaultTheme, Provider as PaperProvider, Divider } from 'react-native-paper';
+import {StyleSheet} from 'react-native';
 
 const theme = {
     ...DefaultTheme,
@@ -14,6 +15,28 @@ const theme = {
         accent: '#f1c40f',
     },
 };
+const styles = StyleSheet.create({
+    form: {
+        paddingTop:20,
+    },
+    button: {
+        marginRight:40,
+        marginLeft:40, 
+        marginBottom:10, 
+        marginTop:10,
+        
+    },
+    getHelp: {
+        marginRight:20,
+        marginLeft:20, 
+        marginTop:10,
+        borderWidth: 2,
+    },
+    divider:{
+        margin:30, 
+        height:3
+    }
+});
 
 export default class Login extends React.Component {
     // constructor(props){
@@ -25,30 +48,26 @@ export default class Login extends React.Component {
             <StyleProvider style={getTheme(material)}>
                 <Container >
                     <Header >
-                        {/* <Left/> */}
-                        <Body>
                         <Title>Virtual Police Station</Title>
-                        </Body>
-                        {/* <Right /> */}
                     </Header>
                     <PaperProvider theme={theme}>
                         <Content padder>
-                            <Form style={{paddingTop:"20px"}}>
+                            <Form style={styles.form}>
                                 <Item regular>
                                 <Input placeholder="Aadhar Number"/>
                                 </Item>
-                                <Button mode="outlined" onPress={() => console.log('Pressed')} style={{marginRight:"40px",marginLeft:"40px", marginBottom:"10px", marginTop:"10px"}}>
+                                <Button mode="contained" onPress={() => console.log('Pressed')} style={styles.button}>
                                     Send OTP
                                 </Button>
                                 
                                 <Item regular>
                                 <Input placeholder="OTP" />
                                 </Item>
-                                <Button mode="outlined" onPress={() => this.props.navigation.navigate('MainPage')} style={{marginRight:"40px",marginLeft:"40px", marginTop:"10px"}}>
+                                <Button mode="contained" onPress={() => this.props.navigation.navigate('MainPage')} style={styles.button}>
                                     Log in
                                 </Button>
-                                <Divider style={{margin:"30px", height:"3px"}} theme={theme}/>
-                                <Button mode="contained" onPress={() => console.log('Pressed')} style={{marginRight:"20px",marginLeft:"20px", marginTop:"10px"}}>
+                                <Divider style={styles.divider} theme={theme}/>
+                                <Button mode="outlined" onPress={() => console.log('Pressed')} style={styles.getHelp}>
                                     Get Help
                                 </Button>
                             </Form>

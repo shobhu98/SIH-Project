@@ -2,15 +2,7 @@ import React from 'react';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
-import Language from './pages/Language';
-import Login from './pages/Login';
-import MainPage from './pages/MainPage';
-
-const Stack = createStackNavigator();
+import Routing from './Routing';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -35,15 +27,7 @@ export default class App extends React.Component {
     }
 
     return (
-      // <Language />
-      <NavigationContainer>
-        <Stack.Navigator>
-          
-          <Stack.Screen name="Language" component={Language} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="MainPage" component={MainPage} />
-        </Stack.Navigator>
-      </NavigationContainer>
+        <Routing/>
     );
   }
 }
