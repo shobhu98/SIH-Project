@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
+import { NoFlickerImage } from 'react-native-no-flicker-image';
 
 const styles = StyleSheet.create({
     container: {
@@ -37,12 +38,12 @@ export default class NotingDetails extends React.Component {
         setTimeout(() => {
             this.setState({index: (this.state.index+1)%5});
             this.next();
-        }, 300);
+        }, 200);
     }
 
     render() {
         return (
-            <Image
+            <NoFlickerImage
                 source={this.images[this.state.index]}
                 style={styles.logo}
             />

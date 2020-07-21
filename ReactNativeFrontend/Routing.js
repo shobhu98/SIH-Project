@@ -39,9 +39,9 @@ const AppNavigator = createStackNavigator({
 });
 
 const AnimationStack= createStackNavigator({
-    PoliceMan: PoliceMan,
     NotingDetails: NotingDetails,
-    RequestingDetails:RequestingDetails
+    RequestingDetails:RequestingDetails,
+    PoliceMan: PoliceMan
 });
 
 const FileFIRStack= createStackNavigator({
