@@ -3,6 +3,7 @@ import { Card, DefaultTheme } from 'react-native-paper';
 import {Content} from 'native-base';
 import {StyleSheet, Image, StatusBar} from 'react-native';
 import {StyleProvider, Header, Title} from 'native-base';
+import { Button, Provider as PaperProvider } from 'react-native-paper';
 
 const theme = {
     ...DefaultTheme,
@@ -21,45 +22,66 @@ const styles = StyleSheet.create({
         marginBottom:5,
         backgroundColor:"white",
         height:200,
-        borderWidth:2,
-        borderColor: "#9e9e9e",
+        borderWidth:1,
+        borderColor: "#dbdbdb",
     },
     tinyLogo: {
-        height: 150,
+        height: 140,
         width: 110,
         resizeMode: 'contain',
     },
+    content:{
+        backgroundColor:"white"
+    },
+    cardcontent:{
+        paddingBottom:20
+    }
 });
 
 export default class FileFIR extends React.Component {
     render(){
         return(
-            <Content>
+            <Content style={styles.content}>
                 <StatusBar backgroundColor="#16335C"/>
-                <Card.Title
-                    title="Talk to Virtual Officer"
-                    subtitle="Interactive Police Officer"
-                    // left={(props) => <Avatar.Icon {...props} icon="folder" />}
-                    right={(props) => <Image style={styles.tinyLogo} source={require('../assets/policeman.png')} resizeMethod="scale"/>}
-                    style={styles.card}
-                    theme={theme}
-                />
-                <Card.Title
-                    title="Call for help"
-                    subtitle="Professional Help will come your way"
-                    // left={(props) => <Avatar.Icon {...props} icon="folder" />}
-                    right={(props) => <Image style={styles.tinyLogo} source={require('../assets/form.png')} resizeMethod="scale"/>}
-                    style={styles.card}
-                    theme={theme}
-                />
-                <Card.Title
-                    title="Fill Manually"
-                    subtitle="The old fashioned way"
-                    // left={(props) => <Avatar.Icon {...props} icon="folder" />}
-                    right={(props) => <Image style={styles.tinyLogo} source={require('../assets/form.png')} resizeMethod="scale"/>}
-                    style={styles.card}
-                    theme={theme}
-                />
+                <PaperProvider theme={theme}>
+                    <Card style={styles.card}>
+                        <Card.Title
+                            title="Talk to Virtual Officer"
+                            subtitle="Interactive Police Officer"
+                            right={(props) => <Image style={styles.tinyLogo} source={require('../assets/policeman.png')} resizeMethod="scale"/>}
+                            theme={theme}
+                        />
+                        <Card.Actions style={styles.cardcontent}>
+                            <Button mode="contained" onPress={() => this.props.navigation.navigate('ChooseGender')}>PROCEED</Button>
+                        </Card.Actions>
+                    </Card>
+
+                    <Card style={styles.card}>
+                        <Card.Title
+                            title="Call for help"
+                            subtitle="Professional Help will come your way"
+                            right={(props) => <Image style={styles.tinyLogo} source={require('../assets/form.png')} resizeMethod="scale"/>}
+                            theme={theme}
+                        />
+                        <Card.Actions style={styles.cardcontent}>
+                            <Button mode="contained" onPress={() => this.props.navigation.navigate('ChooseGender')}>PROCEED</Button>
+                        </Card.Actions>
+                    </Card>
+                    
+                    <Card style={styles.card}>
+                        <Card.Title
+                            title="Fill Manually"
+                            subtitle="The old fashioned way"
+                            right={(props) => <Image style={styles.tinyLogo} source={require('../assets/form.png')} resizeMethod="scale"/>}
+                            theme={theme}
+                        />
+                        <Card.Actions style={styles.cardcontent}>
+                            <Button mode="contained" onPress={() => this.props.navigation.navigate('ChooseGender')}>PROCEED</Button>
+                        </Card.Actions>
+                    </Card>
+                    
+                </PaperProvider>
+                
             </Content>
         );
     }

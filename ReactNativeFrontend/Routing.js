@@ -1,4 +1,5 @@
 import React from 'react';
+import {Text} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -10,6 +11,11 @@ import FileFIR from './pages/FileFIR';
 import TrackStatus from './pages/TrackStatus';
 import Profile from './pages/Profile';
 import MedicalHelp from './pages/MedicalHelp';
+import ChooseGender from './pages/ChooseGender';
+
+import PoliceMan from './pages/animation_components/PoliceMan';
+import NotingDetails from './pages/animation_components/NotingDetails';
+import RequestingDetails from "./pages/animation_components/RequestingDetails";
 
 const AppNavigator = createStackNavigator({
   Language: {
@@ -32,11 +38,55 @@ const AppNavigator = createStackNavigator({
   },
 });
 
+const AnimationStack= createStackNavigator({
+    PoliceMan: PoliceMan,
+    NotingDetails: NotingDetails,
+    RequestingDetails:RequestingDetails
+});
+
+const FileFIRStack= createStackNavigator({
+    FileFIR: {
+      screen: FileFIR,
+      navigationOptions: {
+          headerShown: false,
+      }
+    },
+    ChooseGender: {
+      screen: ChooseGender,
+      navigationOptions: {
+          headerShown: false,
+      }
+    },
+    AnimationStack: {
+        screen: AnimationStack,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    
+});
+  
+
 const TabNavigator = createBottomTabNavigator({
-    FileFIR: FileFIR,
-    TrackStatus: TrackStatus,
+    FileFIRStack:{
+        screen:FileFIRStack,
+        navigationOptions: {
+            tabBarLabel: 'File FIR'
+        }
+    },
+    TrackStatus: {
+        screen:TrackStatus,
+        navigationOptions: {
+            tabBarLabel: 'Track Status'
+        }
+    },
     Profile: Profile,
-    MedicalHelp: MedicalHelp
+    MedicalHelp: {
+        screen:MedicalHelp,
+        navigationOptions: {
+            tabBarLabel: 'Medical Help'
+        }
+    },
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -45,14 +95,19 @@ const TabNavigator = createBottomTabNavigator({
         let IconComponent = Ionicons;
         let iconName;
         let iconSize;
-        if (routeName === 'FileFIR') {
-          iconName = focused? 'ios-information-circle': 'ios-information-circle-outline';
-          iconSize = focused? 28: 20;
+        if (routeName === 'FileFIRStack') {
+            iconName = focused ? 'ios-list-box' : 'ios-list';
+            iconSize = focused? 28: 18;
         } else if (routeName === 'TrackStatus') {
-          iconName = focused ? 'ios-list-box' : 'ios-list';
-          iconSize = focused? 28: 20;
+            iconName = focused? 'ios-information-circle': 'ios-information-circle-outline';
+            iconSize = focused? 28: 18;
+        } else if (routeName === 'Profile'){
+            iconName = focused ? 'ios-contact' : 'ios-contact';
+            iconSize = focused? 28: 18;
+        } else if (routeName === 'MedicalHelp'){
+            iconName = focused ? 'md-help-circle' : 'md-help';
+            iconSize = focused? 28: 18;
         }
-
         // You can return any component that you like here!
         return <IconComponent name={iconName} size={iconSize} color={tintColor} />;
       },
