@@ -42,7 +42,7 @@ export default class RequestingDetailsMale extends React.Component {
         setTimeout(() => {
             this.setState({index: (this.state.index+1)%9});
             this.next();
-        }, 10);
+        }, 200);
     }
 
     render() {
