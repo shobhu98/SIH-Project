@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
+import { NoFlickerImage } from 'react-native-no-flicker-image';
 
 const styles = StyleSheet.create({
     container: {
@@ -46,7 +47,7 @@ export default class PoliceMan extends React.Component {
 
     render() {
         return (
-            <Image
+            <NoFlickerImage
                 source={this.images[this.state.index]}
                 style={styles.logo}
             />

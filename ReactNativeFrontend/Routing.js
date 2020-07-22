@@ -12,6 +12,7 @@ import TrackStatus from './pages/TrackStatus';
 import Profile from './pages/Profile';
 import MedicalHelp from './pages/MedicalHelp';
 import ChooseGender from './pages/ChooseGender';
+import FillForm from './pages/FillForm';
 
 import PoliceMan from './pages/animation_components/PoliceMan';
 import NotingDetails from './pages/animation_components/NotingDetails';
@@ -39,9 +40,9 @@ const AppNavigator = createStackNavigator({
 });
 
 const AnimationStack= createStackNavigator({
-    PoliceMan: PoliceMan,
     NotingDetails: NotingDetails,
-    RequestingDetails:RequestingDetails
+    RequestingDetails:RequestingDetails,
+    PoliceMan: PoliceMan
 });
 
 const FileFIRStack= createStackNavigator({
@@ -59,6 +60,12 @@ const FileFIRStack= createStackNavigator({
     },
     AnimationStack: {
         screen: AnimationStack,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    FillForm: {
+        screen: FillForm,
         navigationOptions: {
             headerShown: false,
         }
