@@ -45,7 +45,7 @@ const AppNavigator = createStackNavigator({
 });
 
 const AnimationStack= createStackNavigator({
-    NotingDetailsFemale: PoliceWoman,
+    NotingDetailsFemale: NotingDetailsFemale
 });
 
 const FileFIRStack= createStackNavigator({
