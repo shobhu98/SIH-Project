@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
 
@@ -17,6 +17,9 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+
+import CheckIcon from '@material-ui/icons/Check';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -40,72 +43,77 @@ const tableIcons = {
   
 
 
-export default function PendingFir() {
-  const [state, setState] = React.useState({
+export default class PendingFir extends Component{
+  state={
     columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Surname', field: 'surname' },
-      { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-      {
-        title: 'Birth Place',
-        field: 'birthCity',
-        lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-      },
+      { title: 'FIR id', field: 'firid' },
+      { title: 'Complainant Name', field: 'name' },
+      { title: 'Status', field: 'status'}
     ],
-    data: [
-      { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-      {
-        name: 'Zerya Betül',
-        surname: 'Baran',
-        birthYear: 2017,
-        birthCity: 34,
-      },
-    ],
-  });
 
-  return (
-    <MaterialTable
-      icons={tableIcons}
-      title="Pending FIR"
-      columns={state.columns}
-      data={state.data}
-      editable={{
-        onRowAdd: (newData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              setState((prevState) => {
-                const data = [...prevState.data];
-                data.push(newData);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              if (oldData) {
-                setState((prevState) => {
-                  const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-                });
-              }
-            }, 600);
-          }),
-        onRowDelete: (oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              setState((prevState) => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-      }}
-    />
-  );
+    data: [
+      { 
+        name: 'Mehmet Gupta', firid: 'MPDN18', status: 'Pending'
+      },
+      {
+        name: 'Zerya Betül', firid: 'KNPE11', status: 'More information Requested'
+      },
+      { 
+        name: 'Mehmet Gupta', firid: 'MPDN18', status: 'Pending'
+      },
+      {
+        name: 'Zerya Betül', firid: 'KNPE11', status: 'More information Requested'
+      },
+      { 
+        name: 'Mehmet Gupta', firid: 'MPDN18', status: 'Pending'
+      },
+      {
+        name: 'Zerya Betül', firid: 'KNPE11', status: 'More information Requested'
+      },
+    ],
+    actions: [
+      {
+        icon: () => <CheckIcon/>,
+        tooltip: 'Accept FIR',
+        onClick: (event, rowData) => alert("Accepted " + rowData.firid)
+      },
+      rowData => ({
+        icon: () => <WarningIcon/>,
+        tooltip: 'Request more information',
+        onClick: (event, rowData) => alert("More infromation requested for " + rowData.firid),
+        disabled: rowData.status === "More information Requested"
+      })
+    ]
+  }
+
+  handleRowClick = (event, rowData) => {
+    alert("Downloading: "+rowData.firid);
+  };
+
+
+  componentWillMount(){
+    //API Call to fetch pending FIR list
+    
+
+  }
+  
+  render(){
+    return (
+      <MaterialTable
+        options={{
+          exportButton: true,
+          exportFileName: 'Pending_FIRs',
+          actionsColumnIndex: -1,
+         
+        }}
+        onRowClick={this.handleRowClick}
+        icons={tableIcons}
+        title="Pending FIR"
+        columns={this.state.columns}
+        data={this.state.data}
+        actions={this.state.actions}
+      />
+    );
+  }
+
 }
