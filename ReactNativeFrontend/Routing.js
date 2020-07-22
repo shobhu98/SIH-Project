@@ -12,6 +12,7 @@ import TrackStatus from './pages/TrackStatus';
 import Profile from './pages/Profile';
 import MedicalHelp from './pages/MedicalHelp';
 import ChooseGender from './pages/ChooseGender';
+import FillForm from './pages/FillForm';
 
 import PoliceMan from './pages/animation_components/male/PoliceMan';
 import NotingDetailsMale from './pages/animation_components/male/NotingDetailsMale';
@@ -60,6 +61,12 @@ const FileFIRStack= createStackNavigator({
     },
     AnimationStack: {
         screen: AnimationStack,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    FillForm: {
+        screen: FillForm,
         navigationOptions: {
             headerShown: false,
         }
