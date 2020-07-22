@@ -16,15 +16,15 @@ const styles = StyleSheet.create({
     },
 });
 
-export default class NotingDetails extends React.Component {
+export default class NotingDetailsMale extends React.Component {
     constructor(props) {
         super(props);
         this.images = [
-            require('../../assets/images/complete_images/looking_down_mouth_closed_penLeft.png'),
-            require('../../assets/images/complete_images/looking_down_mouth_closed_penRight.png'),
-            require('../../assets/images/complete_images/looking_down_mouth_closed_penLeft.png'),
-            require('../../assets/images/complete_images/looking_down_mouth_closed_penRight.png'),
-            require('../../assets/images/complete_images/eyes_closed_mouth_closed.png'),
+            require('../../../assets/images/complete_images/male/looking_down_mouth_closed_penLeft.png'),
+            require('../../../assets/images/complete_images/male/looking_down_mouth_closed_penRight.png'),
+            require('../../../assets/images/complete_images/male/looking_down_mouth_closed_penLeft.png'),
+            require('../../../assets/images/complete_images/male/looking_down_mouth_closed_penRight.png'),
+            require('../../../assets/images/complete_images/male/eyes_closed_mouth_closed.png'),
         ];
         this.next = this.next.bind(this);
         this.state = {index: 0};
