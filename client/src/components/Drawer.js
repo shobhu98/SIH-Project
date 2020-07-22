@@ -15,15 +15,15 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import AssessmentIcon from '@material-ui/icons/Assessment';
-import TimelineIcon from '@material-ui/icons/Timeline';
-import HomeIcon from '@material-ui/icons/Home';
+
 import { createMuiTheme } from '@material-ui/core/styles';
-import {Switch} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness';
-import SettingsIcon from '@material-ui/icons/Settings';
-import purple from '@material-ui/core/colors/purple';
+
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+
 
 
 const drawerWidth = 330;
@@ -183,7 +183,7 @@ export default function MiniDrawer(props) {
             <ListItem button key={text} component={Link} to={'/'+text}>
               <ListItemIcon>{
                   
-                      index===0?<HomeIcon/>:index===1?<TimelineIcon/>:<AssessmentIcon/>
+                      index===0?<ListAltIcon/>:index===1?<AutorenewIcon/>:<PlaylistAddCheckIcon/>
                   }
 
               </ListItemIcon>
