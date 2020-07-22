@@ -4,15 +4,20 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import Routing from './Routing';
 
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
+//import MainModel from './EPstates';
+import { createStore } from 'easy-peasy';
+import { StoreProvider } from 'easy-peasy';
 
-// import Language from './pages/Language';
-// import Login from './pages/Login';
-// import MainPage from './pages/MainPage';
+const colorScheme= {
+    primaryColor:"#16335C",
+    secondaryColor:"#FF4B63"
+};
 
+const MainModel={
+    colors: colorScheme
+};
 
-// const Stack = createStackNavigator();
+const store = createStore(MainModel);
 
 export default class App extends React.Component {
   constructor(props) {
@@ -37,7 +42,10 @@ export default class App extends React.Component {
     }
 
     return (
-        <Routing />
+        <StoreProvider store={store}>
+            <Routing />
+        </StoreProvider>
+        
     );
   }
 }
