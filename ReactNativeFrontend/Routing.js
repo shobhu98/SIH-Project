@@ -15,13 +15,14 @@ import ChooseGender from './pages/ChooseGender';
 import FillForm from './pages/FillForm';
 import Policeman from './pages/Policeman';
 import Policewoman from './pages/Policewoman';
+import FillCaseDetails from './pages/FillCaseDetails';
 
-import PoliceMan from './pages/animation_components/male/PoliceMan';
+// import PoliceMan from './pages/animation_components/male/PoliceMan';
 import NotingDetailsMale from './pages/animation_components/male/NotingDetailsMale';
 import RequestingDetailsMale from "./pages/animation_components/male/RequestingDetailsMale";
 import NotingDetailsFemale from "./pages/animation_components/female/NotingDetailsFemale";
 import RequestingDetailsFemale from "./pages/animation_components/female/RequestingDetailsFemale";
-import PoliceWoman from "./pages/animation_components/female/PoliceWoman";
+// import PoliceWoman from "./pages/animation_components/female/PoliceWoman";
 
 const AppNavigator = createStackNavigator({
   Language: {
@@ -44,9 +45,9 @@ const AppNavigator = createStackNavigator({
   },
 });
 
-const AnimationStack= createStackNavigator({
-    NotingDetailsFemale: PoliceWoman,
-});
+// const AnimationStack= createStackNavigator({
+//     NotingDetailsFemale: PoliceWoman,
+// });
 
 const FileFIRStack= createStackNavigator({
     FileFIR: {
@@ -62,24 +63,29 @@ const FileFIRStack= createStackNavigator({
       }
     },
     MAnimationStack: {
-        screen: AnimationStack,
+        screen: Policeman,
         navigationOptions: {
             headerShown: false,
         }
     },
-    // FAnimationStack: {
-    //     screen: Policewoman,
-    //     navigationOptions: {
-    //         headerShown: false,
-    //     }
-    // },
+    FAnimationStack: {
+        screen: Policewoman,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
     FillForm: {
         screen: FillForm,
         navigationOptions: {
             headerShown: false,
         }
     },
-    
+    FillCaseDetails :{
+        screen: FillCaseDetails,
+        navigationOptions: {
+            headerShown: false,
+        }
+    }
 });
   
 

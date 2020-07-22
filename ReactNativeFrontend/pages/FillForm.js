@@ -1,7 +1,10 @@
 import React from 'react';
-import { Button, Provider as PaperProvider, DefaultTheme, Title } from 'react-native-paper';
+import { Button, Provider as PaperProvider, DefaultTheme, Title, Divider } from 'react-native-paper';
 import { Container, Input, H2, Text, Textarea, Item, StyleProvider, Content, Picker, Icon} from 'native-base';
 import DatePicker from 'react-native-datepicker'
+import getTheme from '../native-base-theme/components';
+import material from '../native-base-theme/variables/textjs';
+import {StyleSheet, View} from 'react-native';
 
 const theme = {
     ...DefaultTheme,
@@ -12,6 +15,28 @@ const theme = {
         accent: '#f1c40f',
     },
 };
+const styles = StyleSheet.create({
+    h2:{
+        marginTop:10,
+        color:"#FF4B63"
+    },
+    text:{
+        marginTop:15
+    },
+    divider:{
+        height:2,
+        marginTop:10,
+        marginLeft:5,
+        marginRight:5
+    },
+    bg:{
+        backgroundColor:"white"
+    },
+    proceedButton:{
+        marginVertical:20,
+        marginHorizontal:10
+    }
+});
 
 export default class FillForm extends React.Component {
     constructor(props) {
@@ -27,7 +52,8 @@ export default class FillForm extends React.Component {
         this.state = {
             selected2: undefined,
             date:"22-07-2020",
-            optionsj:optionsj
+            optionsj:optionsj,
+            nationality: undefined
         };   
 
     }
@@ -36,17 +62,28 @@ export default class FillForm extends React.Component {
           selected2: value
         });
     }
+
+    onNationalityChange(value) {
+        this.setState({
+          nationality: value
+        });
+    }
     
     render(){
         return(
-            <Content padder>
-                <Text>Complainant's Name</Text>
+            <StyleProvider style={getTheme(material)}>
+
+            
+            <Content padder style={styles.bg}>
+                <H2 style={styles.h2}>Personal Details</H2>
+                <Divider style={styles.divider} />
+                <Text style={styles.text}>Complainant's Name</Text>
                 <Item regular>
                     <Input placeholder='Name' />
                 </Item>
-                <Text>Complainant's Address</Text>
+                <Text style={styles.text}>Complainant's Address</Text>
                 <Textarea rowSpan={4} bordered placeholder="Address" />
-                <Text>District</Text>
+                <Text style={styles.text}>District</Text>
                 <Item picker>
                 <Picker
                     mode="dropdown"
@@ -63,19 +100,33 @@ export default class FillForm extends React.Component {
                     ))}
                 </Picker>
                 </Item>
-                <Text>Complainant's Mobile Number</Text>
+                <Text style={styles.text}>Complainant's Mobile Number</Text>
                 <Item regular>
                     <Input placeholder='Mobile Number' />
                 </Item>
-                <Text>Complainant's Email ID</Text>
+                <Text style={styles.text}>Complainant's Email ID</Text>
                 <Item regular>
                     <Input placeholder='Email ID' />
                 </Item>
-                <Text>Complainant's Nationality</Text>
-                <Item regular>
-                    <Input placeholder='Nationality' />
+                <Text style={styles.text}>Complainant's Nationality</Text>
+                <Item picker>
+                    <Picker
+                        mode="dropdown"
+                        iosIcon={<Icon name="arrow-down" />}
+                        style={{ width: undefined }}
+                        placeholder="Select nationality"
+                        placeholderStyle={{ color: "#bfc6ea" }}
+                        placeholderIconColor="#007aff"
+                        selectedValue={this.state.nationality}
+                        onValueChange={this.onNationalityChange.bind(this)}
+                    >
+                        <Picker.Item label="Indian" value={false} />
+                        <Picker.Item label="Other" value={true} />
+                    </Picker>
                 </Item>
-                <Text>Complainant's Date Of Birth</Text>
+                
+                {this.state.nationality && <View><Text style={styles.text}>Complainant's Passport Number</Text><Item regular><Input placeholder='Passport Number'/></Item></View>}
+                <Text style={styles.text}>Complainant's Date Of Birth</Text>
                 <DatePicker
                     style={{width: 200}}
                     date={this.state.date}
@@ -100,8 +151,12 @@ export default class FillForm extends React.Component {
                     }}
                     onDateChange={(date) => {this.setState({date: date})}}
                 />
+                <PaperProvider theme={theme}>
+                    <Button mode="contained" style={styles.proceedButton}  onPress={() => this.props.navigation.navigate('FillCaseDetails')} >Proceed</Button>
+                </PaperProvider>
+                
             </Content>
-        
+            </StyleProvider>
         );
     }
 }
