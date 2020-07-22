@@ -13,6 +13,8 @@ import Profile from './pages/Profile';
 import MedicalHelp from './pages/MedicalHelp';
 import ChooseGender from './pages/ChooseGender';
 import FillForm from './pages/FillForm';
+import Policeman from './pages/Policeman';
+import Policewoman from './pages/Policewoman';
 
 import PoliceMan from './pages/animation_components/male/PoliceMan';
 import NotingDetailsMale from './pages/animation_components/male/NotingDetailsMale';
@@ -43,7 +45,7 @@ const AppNavigator = createStackNavigator({
 });
 
 const AnimationStack= createStackNavigator({
-    NotingDetailsFemale: NotingDetailsFemale,
+    NotingDetailsFemale: PoliceWoman,
 });
 
 const FileFIRStack= createStackNavigator({
@@ -59,12 +61,18 @@ const FileFIRStack= createStackNavigator({
           headerShown: false,
       }
     },
-    AnimationStack: {
+    MAnimationStack: {
         screen: AnimationStack,
         navigationOptions: {
             headerShown: false,
         }
     },
+    // FAnimationStack: {
+    //     screen: Policewoman,
+    //     navigationOptions: {
+    //         headerShown: false,
+    //     }
+    // },
     FillForm: {
         screen: FillForm,
         navigationOptions: {
