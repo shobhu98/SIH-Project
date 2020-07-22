@@ -20,15 +20,15 @@ export default class PoliceMan extends React.Component {
     constructor(props) {
         super(props);
         this.images = [
-            require('../../assets/images/complete_images/eyes_closed_mouth_closed.png'),
-            require('../../assets/images/complete_images/eyes_closed_mouth_open.png'),
-            require('../../assets/images/complete_images/eyes_normal_mouth_open.png'),
-            require('../../assets/images/complete_images/eyes_open_mouth_closed.png'),
-            require('../../assets/images/complete_images/looking_down_mouth_closed.png'),
-            require('../../assets/images/complete_images/looking_down_mouth_closed_penLeft.png'),
-            require('../../assets/images/complete_images/looking_down_mouth_closed_penRight.png'),
-            require('../../assets/images/complete_images/looking_down_mouth_open.png'),
-            require('../../assets/images/complete_images/smile_face_as_mascot.png'),
+            require('../../../assets/images/complete_images/male/eyes_closed_mouth_closed.png'),
+            require('../../../assets/images/complete_images/male/eyes_closed_mouth_open.png'),
+            require('../../../assets/images/complete_images/male/eyes_normal_mouth_open.png'),
+            require('../../../assets/images/complete_images/male/eyes_open_mouth_closed.png'),
+            require('../../../assets/images/complete_images/male/looking_down_mouth_closed.png'),
+            require('../../../assets/images/complete_images/male/looking_down_mouth_closed_penLeft.png'),
+            require('../../../assets/images/complete_images/male/looking_down_mouth_closed_penRight.png'),
+            require('../../../assets/images/complete_images/male/looking_down_mouth_open.png'),
+            require('../../../assets/images/complete_images/male/smile_face_as_mascot.png'),
         ];
         this.next = this.next.bind(this);
         this.state = {index: 0};

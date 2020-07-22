@@ -13,10 +13,16 @@ import Profile from './pages/Profile';
 import MedicalHelp from './pages/MedicalHelp';
 import ChooseGender from './pages/ChooseGender';
 import FillForm from './pages/FillForm';
+import Policeman from './pages/Policeman';
+import Policewoman from './pages/Policewoman';
+import FillCaseDetails from './pages/FillCaseDetails';
 
-import PoliceMan from './pages/animation_components/PoliceMan';
-import NotingDetails from './pages/animation_components/NotingDetails';
-import RequestingDetails from "./pages/animation_components/RequestingDetails";
+// import PoliceMan from './pages/animation_components/male/PoliceMan';
+import NotingDetailsMale from './pages/animation_components/male/NotingDetailsMale';
+import RequestingDetailsMale from "./pages/animation_components/male/RequestingDetailsMale";
+import NotingDetailsFemale from "./pages/animation_components/female/NotingDetailsFemale";
+import RequestingDetailsFemale from "./pages/animation_components/female/RequestingDetailsFemale";
+// import PoliceWoman from "./pages/animation_components/female/PoliceWoman";
 
 const AppNavigator = createStackNavigator({
   Language: {
@@ -39,11 +45,9 @@ const AppNavigator = createStackNavigator({
   },
 });
 
-const AnimationStack= createStackNavigator({
-    NotingDetails: NotingDetails,
-    RequestingDetails:RequestingDetails,
-    PoliceMan: PoliceMan
-});
+// const AnimationStack= createStackNavigator({
+//     NotingDetailsFemale: PoliceWoman,
+// });
 
 const FileFIRStack= createStackNavigator({
     FileFIR: {
@@ -58,8 +62,14 @@ const FileFIRStack= createStackNavigator({
           headerShown: false,
       }
     },
-    AnimationStack: {
-        screen: AnimationStack,
+    MAnimationStack: {
+        screen: Policeman,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    FAnimationStack: {
+        screen: Policewoman,
         navigationOptions: {
             headerShown: false,
         }
@@ -70,7 +80,12 @@ const FileFIRStack= createStackNavigator({
             headerShown: false,
         }
     },
-    
+    FillCaseDetails :{
+        screen: FillCaseDetails,
+        navigationOptions: {
+            headerShown: false,
+        }
+    }
 });
   
 
