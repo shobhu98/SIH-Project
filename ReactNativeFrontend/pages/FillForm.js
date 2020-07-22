@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Provider as PaperProvider, DefaultTheme, Title } from 'react-native-paper';
 import { Container, Input, H2, Text, Textarea, Item, StyleProvider, Content, Picker, Icon} from 'native-base';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DatePicker from 'react-native-datepicker'
 
 const theme = {
     ...DefaultTheme,
@@ -16,28 +16,26 @@ const theme = {
 export default class FillForm extends React.Component {
     constructor(props) {
         super(props);
+        var options=["Agar Malwa","Alirajpur","Annupur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Hoshangabad","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Mandla","Mandsaur","Morena","Narsinghpur","Neemuch","Niwari","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umari","Vidisha"];
+        var optionsj=[];
+        for(var i=0;i<options.length;i++){
+            optionsj.push({
+                name:options[i],
+                key:"key"+i
+            });
+        }
         this.state = {
-          selected2: undefined,
-          date:true
-        };
+            selected2: undefined,
+            date:"22-07-2020",
+            optionsj:optionsj
+        };   
+
     }
     onValueChange2(value: string) {
         this.setState({
           selected2: value
         });
     }
-    // showDatePicker(){
-    //     this.state.setState({date:true});
-    // };
-    
-    // hideDatePicker(){
-    //     this.state.setState({date:false});
-    // };
-
-    // handleConfirm = (date) => {
-    //     console.warn("A date has been picked: ", date);
-    //     hideDatePicker();
-    // };
     
     render(){
         return(
@@ -60,11 +58,9 @@ export default class FillForm extends React.Component {
                     selectedValue={this.state.selected2}
                     onValueChange={this.onValueChange2.bind(this)}
                 >
-                    <Picker.Item label="D1" value="key0" />
-                    <Picker.Item label="D2" value="key1" />
-                    <Picker.Item label="D3" value="key2" />
-                    <Picker.Item label="D4" value="key3" />
-                    <Picker.Item label="D5" value="key4" />
+                    {this.state.optionsj.map((option, index) => (
+                        <Picker.Item label={option.name} value={option.key} />
+                    ))}
                 </Picker>
                 </Item>
                 <Text>Complainant's Mobile Number</Text>
@@ -79,14 +75,31 @@ export default class FillForm extends React.Component {
                 <Item regular>
                     <Input placeholder='Nationality' />
                 </Item>
-                {/* <Text>Complainant's Date Of Birth</Text>
-                <Button title="Show Date Picker" onPress={showDatePicker()} />
-                <DateTimePickerModal
-                    isVisible={this.state.date}
+                <Text>Complainant's Date Of Birth</Text>
+                <DatePicker
+                    style={{width: 200}}
+                    date={this.state.date}
                     mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker()}
-                /> */}
+                    placeholder="select date"
+                    format="DD-MM-YYYY"
+                    minDate="01-05-1947"
+                    maxDate="22-07-2020"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                    dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0
+                    },
+                    dateInput: {
+                        marginLeft: 36
+                    }
+                    // ... You can check the source to find the other keys.
+                    }}
+                    onDateChange={(date) => {this.setState({date: date})}}
+                />
             </Content>
         
         );

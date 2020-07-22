@@ -4,6 +4,7 @@ import {Content} from 'native-base';
 import {StyleSheet, Image, StatusBar} from 'react-native';
 import {StyleProvider, Header, Title} from 'native-base';
 import { Button, Provider as PaperProvider } from 'react-native-paper';
+import { useStoreState } from 'easy-peasy';
 
 const theme = {
     ...DefaultTheme,
@@ -11,6 +12,7 @@ const theme = {
     colors: {
         ...DefaultTheme.colors,
         primary: '#16335C',
+        // primary: useStoreState(state => state.colors.primaryColor),
         accent: '#f1c40f',
     },
 };
