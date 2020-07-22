@@ -15,6 +15,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import {Button} from '@material-ui/core'
 
 import { createMuiTheme } from '@material-ui/core/styles';
 import {Link} from 'react-router-dom'
@@ -134,6 +135,7 @@ export default function MiniDrawer(props) {
         })}
       >
         <Toolbar>
+          <div  style={{ flex: 1 }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -147,16 +149,17 @@ export default function MiniDrawer(props) {
           </IconButton>
           <Typography variant="h6" noWrap>
             SHO Portal
-          </Typography>
-            <div >
-              <ListItem button onClick={() => setDarkMode(!darkMode)} edge="start">
-                <ListItemIcon>{
-                    <SettingsBrightnessIcon />
-                }</ListItemIcon>
-                <ListItemText>Toggle Dark Mode</ListItemText>
-              </ListItem>
-            
-            </div>
+          </Typography >
+            </div >
+              <Button onClick={() => setDarkMode(!darkMode)}
+                startIcon={<SettingsBrightnessIcon />}
+                size="large"
+                color="#ffffff"
+              >
+                Toggle Dark Mode
+              </Button>        
+              
+
         </Toolbar>
       </AppBar>
       <Drawer
