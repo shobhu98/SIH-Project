@@ -23,9 +23,17 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.20",
     "morgan": "~1.9.1",
+    "nexmo": "^2.8.0",
     "nodemon": "^2.0.4",
     "pug": "2.0.0-beta11",
     "puppeteer": "^5.1.0",
+    "speakeasy": "^2.0.0",
+    "twilio": "^3.48.1",
     "uuid": "^8.2.0"
-  }
+  },
+  "main": "server.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
