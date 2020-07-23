@@ -21,6 +21,9 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import CheckIcon from '@material-ui/icons/Check';
 import WarningIcon from '@material-ui/icons/Warning';
 
+import { Modal } from '@material-ui/core';
+import FIRModal from './FIRModal'
+
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -87,6 +90,7 @@ export default class PendingFir extends Component{
   }
 
   handleRowClick = (event, rowData) => {
+    
     alert("Downloading: "+rowData.firid);
   };
 
@@ -99,20 +103,24 @@ export default class PendingFir extends Component{
   
   render(){
     return (
-      <MaterialTable
-        options={{
-          exportButton: true,
-          exportFileName: 'Pending_FIRs',
-          actionsColumnIndex: -1,
-         
-        }}
-        onRowClick={this.handleRowClick}
-        icons={tableIcons}
-        title="Pending FIR"
-        columns={this.state.columns}
-        data={this.state.data}
-        actions={this.state.actions}
-      />
+      <div>
+        <MaterialTable
+          options={{
+            exportButton: true,
+            exportFileName: 'Pending_FIRs',
+            actionsColumnIndex: -1,
+          
+          }}
+          onRowClick={this.handleRowClick}
+          icons={tableIcons}
+          title="Pending FIR"
+          columns={this.state.columns}
+          data={this.state.data}
+          actions={this.state.actions}
+        />
+
+        <FIRModal/>
+      </div>
     );
   }
 
