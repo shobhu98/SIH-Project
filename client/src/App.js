@@ -1,25 +1,26 @@
 import React from 'react';
 import logo from './logo.svg';
+
+import {BrowserRouter,Route,Switch, Link} from 'react-router-dom'
+
+import MiniDrawer from './components/Drawer'
+import HomePage from './components/Homepage'
+import PendingFir from './components/PendingFir'
+
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <MiniDrawer>
+        <Switch>
+          <Route path='/' component={HomePage} exact/>
+          <Route path='/HomePage' component={HomePage} exact/>
+          <Route path='/Pending FIR' component={PendingFir} exact/>
+          
+        </Switch>
+      </MiniDrawer>
+    </BrowserRouter>
   );
 }
 
