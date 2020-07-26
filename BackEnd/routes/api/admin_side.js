@@ -32,13 +32,34 @@ router.get('/',auth,async function (req,res) {
 // This API  is for unique FIR. Every time the police clicks on a FIR all the details of that will be displayed on the portal
 router.get('/:id',auth,async function (req,res) {
     try {
-        const posts= await Post.findById(req.params.id);
-        if(!posts){
-            return res.status(404).json({msg:'Post Not found'});
+        const fir= await FIRDetails.findById(req.params.id);
+        if(!fir){
+            return res.status(404).json({msg:'FIR Not found'});
         }
-        res.json(posts);
+        res.json(fir);
     }catch (err) {
         console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+
+});
+
+router.post('/:id',auth,async function (req,res) {
+    const {acceptance,type_of_incident}=req.body;
+    try {
+        let fir=FIRDetails.findOne({user:req.user.id});
+        if(profile){
+            //Update
+            profile=await Profile.findOneAndUpdate({user:req.user.id},
+                {$set:acceptance,type_of_incident},
+                {new:true})
+        }
+        // Create
+
+        await profile.save();
+        res.json(profile);
+    }catch (err) {
+        console.log(err.message);
         res.status(500).send('Server Error');
     }
 

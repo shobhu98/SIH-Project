@@ -34,14 +34,24 @@ const PostSchema=new Schema({
         required:true
 
     },
+    FIRNUM:{
+      type:String,
+
+    },
+
     UIN:{
         type:String,
         required:true,
     },
+
     acceptance:{
         type:Number,
         default: 0,
     },
+    type_of_crime:{
+        type:String,
+    },
+
 
     date:{
         type:Date,
