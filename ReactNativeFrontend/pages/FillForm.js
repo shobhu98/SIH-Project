@@ -57,7 +57,7 @@ export default class FillForm extends React.Component {
         };   
 
     }
-    onValueChange2(value: string) {
+    onValueChange2(value) {
         this.setState({
           selected2: value
         });

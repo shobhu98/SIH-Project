@@ -1,38 +1,170 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
 import { Button, Provider as PaperProvider, DefaultTheme, Title, Divider } from 'react-native-paper';
 import { Container, Input, H2, Text, Textarea, Item, StyleProvider, Content, Picker, Icon} from 'native-base';
+import DatePicker from 'react-native-datepicker'
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/textjs';
+import {StyleSheet, View} from 'react-native';
 
 const theme = {
     ...DefaultTheme,
     roundness: 2,
     colors: {
         ...DefaultTheme.colors,
-        primary: '#FF4B63',
+        primary: '#16335C',
         accent: '#f1c40f',
     },
 };
 const styles = StyleSheet.create({
-    englishButton: {
-        margin: 40,
-        padding:30,
-        borderColor:"#FF4B63",
-        borderWidth: 2,
+    h2:{
+        marginTop:10,
+        color:"#FF4B63"
     },
+    text:{
+        marginTop:15
+    },
+    divider:{
+        height:2,
+        marginTop:10,
+        marginLeft:5,
+        marginRight:5
+    },
+    bg:{
+        backgroundColor:"white"
+    },
+    proceedButton:{
+        marginVertical:20,
+        marginHorizontal:10
+    }
 });
 
 export default class FillCaseDetails extends React.Component {
+    
+    constructor(props) {
+        super(props);
+        var options=["Agar Malwa","Alirajpur","Annupur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Hoshangabad","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Mandla","Mandsaur","Morena","Narsinghpur","Neemuch","Niwari","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umari","Vidisha"];
+        var optionsj=[];
+        for(var i=0;i<options.length;i++){
+            optionsj.push({
+                name:options[i],
+                key:"key"+i
+            });
+        }
+        this.state = {
+            selected2: undefined,
+            date:"22-07-2020",
+            optionsj:optionsj,
+            nationality: undefined,
+        };   
+    }
+    
+    onValueChange2(value) {
+        this.setState({
+          selected2: value
+        });
+    }
+
+    onNationalityChange(value) {
+        this.setState({
+          nationality: value
+        });
+    }
+
     render(){
         return(
-            <Content style={styles.content}>
-                <PaperProvider theme={theme}>
-                    {/* <Title>Choose gender of officer</Title> */}
-                    <Button mode="outlined" style={styles.englishButton} labelStyle={styles.labelstyle} icon="gender-male" onPress={() => this.props.navigation.navigate('MAnimationStack')} >yolo</Button>
-                    <Button mode="outlined" style={styles.hindiButton} labelStyle={styles.labelstyle} icon="gender-female" onPress={() => this.props.navigation.navigate('FAnimationStack')}>yolo</Button>
-                </PaperProvider>
-            </Content>
+            <StyleProvider style={getTheme(material)}>
+                <Content padder style={styles.bg}>
+                    <H2 style={styles.h2}>Incident Details</H2>
+                    <Divider style={styles.divider} />
+                    <Text style={styles.text}>Place of Occurence</Text>
+                    <Item regular>
+                        <Input placeholder='Place' />
+                    </Item>
+                    <Text style={styles.text}>District where incident occured</Text>
+                    <Item picker>
+                        <Picker
+                            mode="dropdown"
+                            iosIcon={<Icon name="arrow-down" />}
+                            style={{ width: undefined }}
+                            placeholder="Select your District"
+                            placeholderStyle={{ color: "#bfc6ea" }}
+                            placeholderIconColor="#007aff"
+                            selectedValue={this.state.selected2}
+                            onValueChange={this.onValueChange2.bind(this)}
+                        >
+                            {this.state.optionsj.map((option, index) => (
+                                <Picker.Item label={option.name} value={option.key} />
+                            ))}
+                        </Picker>
+                    </Item>
+                    <Text style={styles.text}>Police Station</Text>
+                    <Item picker>
+                        <Picker
+                            mode="dropdown"
+                            iosIcon={<Icon name="arrow-down" />}
+                            style={{ width: undefined }}
+                            placeholder="Select your District"
+                            placeholderStyle={{ color: "#bfc6ea" }}
+                            placeholderIconColor="#007aff"
+                            selectedValue={this.state.selected2}
+                            onValueChange={this.onValueChange2.bind(this)}
+                        >
+                            {this.state.optionsj.map((option, index) => (
+                                <Picker.Item label={option.name} value={option.key} />
+                            ))}
+                        </Picker>
+                    </Item>
+                    <Text style={styles.text}>Type of incident</Text>
+                    <Item picker>
+                        <Picker
+                            mode="dropdown"
+                            iosIcon={<Icon name="arrow-down" />}
+                            style={{ width: undefined }}
+                            placeholder="Select your District"
+                            placeholderStyle={{ color: "#bfc6ea" }}
+                            placeholderIconColor="#007aff"
+                            selectedValue={this.state.selected2}
+                            onValueChange={this.onValueChange2.bind(this)}
+                        >
+                            {this.state.optionsj.map((option, index) => (
+                                <Picker.Item label={option.name} value={option.key} />
+                            ))}
+                        </Picker>
+                    </Item>
+                    <Text style={styles.text}>Brief description of incident</Text>
+                    <Textarea rowSpan={4} bordered placeholder="Description" />
+                    <Text style={styles.text}>Date of Incident</Text>
+                    <DatePicker
+                        style={{width: 200}}
+                        date={this.state.date}
+                        mode="datetime"
+                        placeholder="select date"
+                        format="DD-MM-YYYY"
+                        minDate="01-05-1947"
+                        maxDate="22-07-2020"
+                        confirmBtnText="Confirm"
+                        cancelBtnText="Cancel"
+                        customStyles={{
+                        dateIcon: {
+                            position: 'absolute',
+                            left: 0,
+                            top: 4,
+                            marginLeft: 0
+                        },
+                        dateInput: {
+                            marginLeft: 36
+                        }
+                        // ... You can check the source to find the other keys.
+                        }}
+                        onDateChange={(date) => {this.setState({date: date})}}
+                    />
+                    
+                    <PaperProvider theme={theme}>
+                        <Button mode="contained" style={styles.proceedButton}  onPress={() => this.props.navigation.navigate('Signature')} >Proceed</Button>
+                    </PaperProvider>
+                    
+                </Content>
+            </StyleProvider>
         );
     }
 }

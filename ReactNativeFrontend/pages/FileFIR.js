@@ -66,7 +66,7 @@ export default class FileFIR extends React.Component {
                             theme={theme}
                         />
                         <Card.Actions style={styles.cardcontent}>
-                            <Button mode="contained" onPress={() => this.props.navigation.navigate('ChooseGender')}>PROCEED</Button>
+                            <Button mode="contained" onPress={() => this.props.navigation.navigate('CallForHelp')}>PROCEED</Button>
                         </Card.Actions>
                     </Card>
                     

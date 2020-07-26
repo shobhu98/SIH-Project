@@ -16,6 +16,11 @@ import FillForm from './pages/FillForm';
 import Policeman from './pages/Policeman';
 import Policewoman from './pages/Policewoman';
 import FillCaseDetails from './pages/FillCaseDetails';
+import Signature from './pages/Signature';
+import CallForHelp from './pages/CallForHelp';
+
+import ViewFIR from './pages/ViewFIR';
+import EditFIR from './pages/EditFIR';
 
 // import PoliceMan from './pages/animation_components/male/PoliceMan';
 import NotingDetailsMale from './pages/animation_components/male/NotingDetailsMale';
@@ -85,7 +90,40 @@ const FileFIRStack= createStackNavigator({
         navigationOptions: {
             headerShown: false,
         }
-    }
+    },
+    Signature :{
+        screen: Signature,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    CallForHelp :{
+        screen: CallForHelp,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+});
+
+const TrackStatusStack= createStackNavigator({
+    TrackStatus: {
+      screen: TrackStatus,
+      navigationOptions: {
+          headerShown: false,
+      }
+    },
+    EditFIR: {
+        screen: EditFIR,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    ViewFIR: {
+        screen: ViewFIR,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
 });
   
 
@@ -97,7 +135,7 @@ const TabNavigator = createBottomTabNavigator({
         }
     },
     TrackStatus: {
-        screen:TrackStatus,
+        screen:TrackStatusStack,
         navigationOptions: {
             tabBarLabel: 'Track Status'
         }
