@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const PORT=process.env.PORT||7000;
 const app = express();
 const  connectDB=require('./config/db');
+var cors = require('cors')
 
 
 // Mongodb connection is called from config/db.js
@@ -16,7 +17,7 @@ const  connectDB=require('./config/db');
 
 
 
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
