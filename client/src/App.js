@@ -26,7 +26,7 @@ class App extends Component {
     fetch("http://localhost:7000/api/admin_auth",{
       method:"POST",
       headers: {'Content-Type': 'application/json', 'x-auth-token':localStorage.getItem("login").token},
-      body: JSON.stringify({"email":"admin101@gmail.com","password":"admin101","uin":"103245"})
+      body: JSON.stringify(this.state)
     }).then((response)=>{
       response.json().then((result)=>{
         console.warn("res",result);
@@ -34,25 +34,19 @@ class App extends Component {
           login:true,
           token:result.token
         }))
+        this.setState({
+          login:true
+        })
       })
     })
-    /*
-    axios.post('/user', {
-      firstName: 'Fred',
-      lastName: 'Flintstone'
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    */
+
   }
   render(){
     return (
       <div>
-        <div>
+        {
+          !this.state.login?
+          <div>
           <input type="text" onChange={(event)=>{this.setState({email:event.target.value})}}></input><br>
           </br>
           <input type="password" onChange={(event)=>{this.setState({password:event.target.value})
@@ -62,8 +56,20 @@ class App extends Component {
           </br>
           <button onClick={()=>{this.login()}}>Login</button>
         </div>
+        :
+        <BrowserRouter>
+          <MiniDrawer>
+            <Switch> 
+              <Route path='/' component={HomePage} exact/>
+              <Route path='/HomePage' component={HomePage} exact/>
+              <Route path='/Pending FIR' component={PendingFir} exact/>
+              
+            </Switch>
+          </MiniDrawer>
+        </BrowserRouter>
+        }
         
-          
+          {/* 
           <BrowserRouter>
           <MiniDrawer>
             <Switch> 
@@ -74,7 +80,7 @@ class App extends Component {
             </Switch>
           </MiniDrawer>
         </BrowserRouter>
-          
+          */}
         
         
       </div>

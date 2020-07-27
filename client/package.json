@@ -46,5 +46,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "proxy": {
+    "/api/admin_auth": {
+        "target": "http://localhost:7000"
+    }
   }
 }
