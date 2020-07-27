@@ -16,11 +16,10 @@ const config=require('config');
 //@route POST api/admin_auth
 //@desc  Authenticate Administrator
 // @access Public
-router.post('/',[
+router.post('/',auth,[
     // Checking details entered by the user
     check('email',"Please include a valid email").isEmail(),
     check('password','Password required').exists(),
-    check('uin','UIN is required').exists(),
 ],async function (req,res) {
     const errors=validationResult(req);
     if(!errors.isEmpty()){

@@ -14,6 +14,7 @@
     "concurrently": "^5.2.0",
     "config": "^3.3.1",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dialogflow": "^1.2.0",
     "dialogflow-fulfillment": "^0.6.1",

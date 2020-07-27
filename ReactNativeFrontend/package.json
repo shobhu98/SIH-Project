@@ -8,17 +8,22 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@codler/native-base": "^2.14.2",
     "@material-ui/core": "^4.11.0",
-    "@react-native-community/datetimepicker": "2.4.0",
+    "@react-native-community/datetimepicker": "^2.4.0",
     "@react-native-community/masked-view": "0.1.10",
+    "@react-native-community/voice": "^1.1.6",
     "easy-peasy": "^3.3.1",
     "expo": "~38.0.8",
     "expo-font": "~8.2.1",
+    "expo-gl": "^8.3.1",
+    "expo-pixi": "^1.2.0",
+    "expo-speech": "~8.2.1",
     "expo-status-bar": "^1.0.2",
     "native-base": "^2.13.12",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
+    "react-instantsearch-native": "^6.7.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-elements": "^2.0.4",
     "react-native-gesture-handler": "~1.6.0",
@@ -27,7 +32,9 @@
     "react-native-reanimated": "~1.9.0",
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",
+    "react-native-signature-capture": "^0.4.10",
     "react-native-vector-icons": "^7.0.0",
+    "react-native-voice": "^0.3.0",
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.4.0",
     "react-navigation-stack": "^2.8.2",
@@ -35,7 +42,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
-    "babel-preset-expo": "~8.1.0"
+    "babel-preset-expo": "~8.1.0",
+    "react-native": "^0.63.2"
   },
   "private": true,
   "rnpm": {
