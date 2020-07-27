@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
     "server": "nodemon server",
-    "client": "npm start cd ./client ",
-    "ReactNativeFrontend": "npm start cd ./ReactNativeFrontend ",
+    "client": "npm start --prefix client",
+    "ReactNativeFrontend": "npm start --prefix ReactNativeFrontend",
     "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run ReactNativeFrontend\""
+
   },
   "dependencies": {
     "@google-cloud/storage": "^5.1.2",
