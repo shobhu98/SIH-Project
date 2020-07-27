@@ -25,6 +25,8 @@ app.use(cookieParser());
 app.use('/api/user',require('./routes/api/user'));
 app.use('/api/auth',require('./routes/api/auth'));
 app.use('/api/admin_auth',require('./routes/api/admin_auth'));
+app.use('/api/admin_register',require('./routes/api/admin_register'));
+app.use('/api/admin_side',require('./routes/api/admin_side'));
 app.use('/api/dialogflow',require('./routes/api/dialogflow'));
 app.use('/api/pdfGenerate',require('./routes/api/pdfGenerator'));
 app.use('/api/lodgeFIR',require('./routes/api/lodgeFIR'));
