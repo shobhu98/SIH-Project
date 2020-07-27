@@ -99,7 +99,7 @@ class App extends Component {
         }))
         this.storeCollector();
       })
-    })
+    }).catch(error => {alert(error)})
 
   }
 
