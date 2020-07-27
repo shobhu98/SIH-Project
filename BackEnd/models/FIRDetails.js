@@ -58,4 +58,4 @@ const PostSchema=new Schema({
         default: Date.now
     }
 });
-module.exports=Post=mongoose.model('FIR_Details',PostSchema);
+module.exports=Post=mongoose.model('fir_details',PostSchema);

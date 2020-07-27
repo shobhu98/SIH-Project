@@ -16,34 +16,45 @@ const config=require('config');
 //@route POST api/admin_auth
 //@desc  Authenticate Administrator
 // @access Public
-router.post('/',auth,[
+router.post('/',[
     // Checking details entered by the user
     check('email',"Please include a valid email").isEmail(),
     check('password','Password required').exists(),
+    check('UIN',"UIN required").exists(),
+    check('stationName','station Name Required').exists()
 ],async function (req,res) {
     const errors=validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});
     }
-    const {email,password}=req.body;
+    const {email,password,stationName,UIN}=req.body;
 
 
     try {
         //See if User exists
         let admin=await Admin.findOne({email});
-        if(!admin){
-            res.status(400).json({errors:[{msg:'Invalid Credentials'}]});
+        if(admin){
+            res.status(400).json({errors:[{msg:'User already exist'}]});
         }
 
-        const isMatch=await bcrypt.compare(password,admin.password);
+
+        admin=new Admin({
+            password,
+           UIN,
+            stationName,
+            email,
+
+        });
 
 
-        if(!isMatch){
-            return res
-                .status(400)
-                .json({errors:[{msg:'Invalid Password,Passwords Do Not Match'}]});
-        }
-  // session id creation for admin
+        const salt=await bcrypt.genSalt(10);
+
+       admin.password=await bcrypt.hash(password,salt);
+
+        await admin.save();
+
+
+        // session id creation for admin
         const payload={
             user:{
                 id:admin.id
