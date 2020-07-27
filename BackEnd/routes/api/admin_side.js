@@ -45,22 +45,27 @@ router.get('/:id',auth,async function (req,res) {
 });
 
 router.post('/:id',auth,async function (req,res) {
-    const {acceptance,type_of_incident}=req.body;
+     const {acceptance,type_of_crime}=req.body;
     try {
-        let fir=FIRDetails.findOne({user:req.user.id});
-        if(profile){
+       let fir= await FIRDetails.findById(req.params.id);
+        if(fir){
             //Update
-            profile=await Profile.findOneAndUpdate({user:req.user.id},
-                {$set:acceptance,type_of_incident},
+           fir=await FIRDetails.findOneAndUpdate({id:req.params.id},
+                {$set:acceptance},
                 {new:true})
         }
-        // Create
 
-        await profile.save();
-        res.json(profile);
+        fir=new FIRDetails(acceptance);
+
+
+         await fir.save();
+        res.json(fir);
     }catch (err) {
         console.log(err.message);
         res.status(500).send('Server Error');
     }
 
 });
+
+
+module.exports=router;
