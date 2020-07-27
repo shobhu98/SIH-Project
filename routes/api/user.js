@@ -14,7 +14,6 @@ const User=require('../../models/Users');
 
 router.get('/',[
     //here we check whether details entered by the complainant are correct or not
-    check('name',"Name is required").not().isEmpty(),
     check('number',"Please include a valid number").isLength({min:10}),
     check('password',"Please enter a valid password").isLength({min:6})
 ],async function (req,res) {
@@ -25,7 +24,7 @@ router.get('/',[
     }
     console.log(req.url);
     // details destructured from the body
-    const {number,name,password}=req.body;
+    const {number,password}=req.body;
     try{
         let user=await User.findOne({number});
         if(user){
@@ -41,7 +40,7 @@ router.get('/',[
         ).then(data=>{
 
          console.log("hello");
-         res.json({data});
+         res.json({data,number,password});
 
         });
 
