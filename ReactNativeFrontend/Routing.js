@@ -5,6 +5,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Ionicons } from '@expo/vector-icons'; 
 
+import CheckingCredentials from './pages/CheckingCredentials';
 import Language from './pages/Language';
 import Login from './pages/Login';
 import FileFIR from './pages/FileFIR';
@@ -18,6 +19,8 @@ import Policewoman from './pages/Policewoman';
 import FillCaseDetails from './pages/FillCaseDetails';
 import Signature from './pages/Signature';
 import CallForHelp from './pages/CallForHelp';
+import Chatbot from './pages/Policeman';
+import FillProfile from './pages/FillProfile';
 
 import ViewFIR from './pages/ViewFIR';
 import EditFIR from './pages/EditFIR';
@@ -29,26 +32,7 @@ import NotingDetailsFemale from "./pages/animation_components/female/NotingDetai
 import RequestingDetailsFemale from "./pages/animation_components/female/RequestingDetailsFemale";
 // import PoliceWoman from "./pages/animation_components/female/PoliceWoman";
 
-const AppNavigator = createStackNavigator({
-  Language: {
-    screen: Language,
-    navigationOptions: {
-        headerShown: false,
-    }
-  },
-  Login: {
-    screen: Login,
-    navigationOptions: {
-        headerShown: false,
-    }
-  },
-  MainPage: {
-    screen: FileFIR,
-    navigationOptions: {
-        headerShown: false,
-    }
-  },
-});
+
 
 // const AnimationStack= createStackNavigator({
 //     NotingDetailsFemale: PoliceWoman,
@@ -68,7 +52,7 @@ const FileFIRStack= createStackNavigator({
       }
     },
     MAnimationStack: {
-        screen: Policeman,
+        screen: Chatbot,
         navigationOptions: {
             headerShown: false,
         }
@@ -125,6 +109,27 @@ const TrackStatusStack= createStackNavigator({
         }
     },
 });
+
+const ProfileStack=createStackNavigator({
+    Profile: {
+        screen: Profile,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    FillProfile:{
+        screen:FillProfile,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    ChangeLanguage:{
+        screen:Language,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+});
   
 
 const TabNavigator = createBottomTabNavigator({
@@ -140,7 +145,7 @@ const TabNavigator = createBottomTabNavigator({
             tabBarLabel: 'Track Status'
         }
     },
-    Profile: Profile,
+    Profile: ProfileStack,
     MedicalHelp: {
         screen:MedicalHelp,
         navigationOptions: {
@@ -179,4 +184,25 @@ const TabNavigator = createBottomTabNavigator({
   }
 );
 
-export default createAppContainer(TabNavigator);
+const AppNavigator = createStackNavigator({
+    CheckingCredentials: {
+        screen: CheckingCredentials,
+        navigationOptions: {
+            headerShown: false,
+        }
+      },
+    Login: {
+      screen: Login,
+      navigationOptions: {
+          headerShown: false,
+      }
+    },
+    MainPage: {
+      screen: TabNavigator,
+      navigationOptions: {
+          headerShown: false,
+      }
+    },
+  });
+
+export default createAppContainer(AppNavigator);

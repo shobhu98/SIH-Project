@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Header, Left, Body, Right, Title, StyleProvider, Content, Form, Item, Input, Label } from 'native-base';
+import { Container, Header,  Title, StyleProvider, Content, Form, Item, Input, Label } from 'native-base';
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/variables';
 import { Button } from 'react-native-paper';
@@ -35,14 +35,37 @@ const styles = StyleSheet.create({
     divider:{
         margin:30, 
         height:3
+    },
+    errortext:{
+        fontSize:13,
+        marginLeft:2,
+        marginTop:2,
+        color:"#de5454"
     }
 });
 
 export default class Login extends React.Component {
-    // constructor(props){
-    //     super(props);
-    //     const [text, setText] = React.useState('');
-    // }
+    constructor(props){
+        super(props);
+        this.sendOTP=this.sendOTP.bind(this);
+        this.login=this.login.bind(this);
+        this.state={
+            phone:"",
+            OTP:"",
+            phoneErr:false,
+            otpErr:false
+        }
+    }
+
+    sendOTP(){
+        
+        console.log(this.state.phone);
+    }
+
+    login(){
+
+    }
+
     render(){
         return(
             <StyleProvider style={getTheme(material)}>
@@ -54,9 +77,10 @@ export default class Login extends React.Component {
                         <Content padder>
                             <Form style={styles.form}>
                                 <Item regular>
-                                <Input placeholder="Aadhar Number"/>
+                                    <Input placeholder="Phone Number" onChangeText={text => this.setState({phone:text})}/>
                                 </Item>
-                                <Button mode="contained" onPress={() => console.log('Pressed')} style={styles.button}>
+                                {this.state.phoneErr && <Label style={styles.errortext}>Please enter correct phone number of 10 digits</Label>}
+                                <Button mode="contained" onPress={this.sendOTP} style={styles.button}>
                                     Send OTP
                                 </Button>
                                 

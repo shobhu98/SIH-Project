@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class FillForm extends React.Component {
+export default class FillProfile extends React.Component {
     constructor(props) {
         super(props);
         var options=["Agar Malwa","Alirajpur","Annupur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Hoshangabad","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Mandla","Mandsaur","Morena","Narsinghpur","Neemuch","Niwari","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umari","Vidisha"];
@@ -151,7 +151,7 @@ export default class FillForm extends React.Component {
                     onDateChange={(date) => {this.setState({date: date})}}
                 />
                 <PaperProvider theme={theme}>
-                    <Button mode="contained" style={styles.proceedButton}  onPress={() => this.props.navigation.navigate('FillCaseDetails')} >Proceed</Button>
+                    <Button mode="contained" style={styles.proceedButton}  onPress={() => this.props.navigation.navigate('Profile')} >Proceed</Button>
                 </PaperProvider>
                 
             </Content>
