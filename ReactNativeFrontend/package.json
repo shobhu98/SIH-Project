@@ -55,5 +55,5 @@
   "rnpm": {
     "assets": "./assets/fonts"
   },
-  "proxy":"http://localhost:19002"
+  "proxy": "http://localhost:19002"
 }
