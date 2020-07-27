@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Provider as PaperProvider, DefaultTheme, Title, Divider } from 'react-native-paper';
+import { Button, Provider as PaperProvider, DefaultTheme, Title, Divider, IconButton } from 'react-native-paper';
 import { Container, Input, H2, Text, Textarea, Item, StyleProvider, Content, Picker, Icon} from 'native-base';
 import DatePicker from 'react-native-datepicker'
 import getTheme from '../native-base-theme/components';
@@ -157,6 +157,14 @@ export default class FillCaseDetails extends React.Component {
                         // ... You can check the source to find the other keys.
                         }}
                         onDateChange={(date) => {this.setState({date: date})}}
+                    />
+
+                    <Text style={styles.text}>Attach picture evidence</Text>
+                    <IconButton
+                        icon="camera"
+                        color="red"
+                        size={20}
+                        onPress={() => this.props.navigation.navigate('ClickCamera')}
                     />
                     
                     <PaperProvider theme={theme}>

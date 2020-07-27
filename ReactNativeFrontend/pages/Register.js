@@ -5,6 +5,7 @@ import material from '../native-base-theme/variables/variables';
 import { Button } from 'react-native-paper';
 import { DefaultTheme, Provider as PaperProvider, Divider } from 'react-native-paper';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import axios from 'axios';
 
 const theme = {
     ...DefaultTheme,
@@ -60,22 +61,71 @@ export default class Login extends React.Component {
     constructor(props){
         super(props);
         this.sendOTP=this.sendOTP.bind(this);
-        this.login=this.login.bind(this);
+        this.register=this.register.bind(this);
         this.state={
             phone:"",
             password:"",
-            err:false,
-            otpErr:false
+            otp:"",
+            otpshow:false
         }
     }
 
-    sendOTP(){
-        
+    async sendOTP(){
+        //register here
+
+
+        const config={
+            headers:{
+                'Content-Type':'application/json'
+            }
+        }
+        const body=JSON.stringify({number:this.state.phone, password:this.state.password});
+        // try{
+        //     const res=await axios.get('/api/user',body,config);
+        //     console.log(res.data);
+        // }
+        // catch(err){
+        //     console.log(err);
+        // }
+
+        // axios({
+        //     method: 'get',
+        //     url: '/api/user',
+        //     data: {
+        //       number: this.state.phone,
+        //       password: this.state.password
+        //     }
+        // }).then(function (response) {
+        //     console.log(response);
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   });;
+
+        fetch('/api/user', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                number:this.state.phone, 
+                password:this.state.password
+            })
+        }).then(function(res){
+            console.log(res)
+        }).catch (function (error){
+            console.log(error);
+        })
+
+        this.setState({otpshow:true});
         console.log(this.state.phone);
+        console.log(this.state.password);
     }
 
-    login(){
-
+    register(){
+        console.log(this.state.phone);
+        console.log(this.state.password);
+        console.log(this.state.otp);
     }
 
     render(){
@@ -89,7 +139,7 @@ export default class Login extends React.Component {
                         <Content padder>
                             <Form style={styles.form}>
                                 <Item regular style={styles.input}>
-                                    <Input placeholder="Phone Number" onChangeText={text => this.setState({phone:text})}/>
+                                    <Input placeholder="Enter Phone Number" onChangeText={text => this.setState({phone:text})}/>
                                 </Item>
                                 {/* {this.state.phoneErr && <Label style={styles.errortext}>Please enter correct phone number of 10 digits</Label>}
                                 <Button mode="contained" onPress={this.sendOTP} style={styles.button}>
@@ -97,24 +147,25 @@ export default class Login extends React.Component {
                                 </Button> */}
                                 
                                 <Item regular style={styles.input}>
-                                    <Input placeholder="Password" onChangeText={text => this.setState({password:text})}/>
+                                    <Input placeholder="Enter Password" onChangeText={text => this.setState({password:text})}/>
                                 </Item>
-                                <Button mode="contained" onPress={() => this.props.navigation.navigate('MainPage')} style={styles.button}>
-                                    Log in
+                                <Button mode="contained" onPress={this.sendOTP} style={styles.button}>
+                                    Send OTP
                                 </Button>
-                                {/* <Button mode="contained" onPress={() => this.props.navigation.navigate('Camera')} style={styles.button}>
-                                    Camera
-                                </Button> */}
                                 <Divider style={styles.divider} theme={theme}/>
-                                <View style={styles.view}>
-                                    <Text>Haven't registered yet? </Text>
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
-                                        <Text style={styles.text}>Register now!</Text>
-                                    </TouchableOpacity>
+
+                                {this.state.otpshow && 
+                                    <View>
+                                    <Item regular style={styles.input}>
+                                        <Input placeholder="Enter OTP" onChangeText={text => this.setState({otp:text})}/>
+                                    </Item>
+                                    <Button mode="contained" onPress={this.register} style={styles.button}>
+                                        Register
+                                    </Button>
                                 </View>
-                                <Button mode="outlined" onPress={() => console.log('Pressed')} style={styles.getHelp}>
-                                    Get Help
-                                </Button>
+                                }
+                                
+
                             </Form>
                         </Content>
                         

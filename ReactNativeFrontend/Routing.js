@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import CheckingCredentials from './pages/CheckingCredentials';
 import Language from './pages/Language';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import FileFIR from './pages/FileFIR';
 import TrackStatus from './pages/TrackStatus';
 import Profile from './pages/Profile';
@@ -21,6 +22,9 @@ import Signature from './pages/Signature';
 import CallForHelp from './pages/CallForHelp';
 import Chatbot from './pages/Policeman';
 import FillProfile from './pages/FillProfile';
+
+import Camera from './pages/Camera';
+import ShowImage from './pages/ShowImage';
 
 import ViewFIR from './pages/ViewFIR';
 import EditFIR from './pages/EditFIR';
@@ -37,6 +41,21 @@ import RequestingDetailsFemale from "./pages/animation_components/female/Request
 // const AnimationStack= createStackNavigator({
 //     NotingDetailsFemale: PoliceWoman,
 // });
+
+const PhotoStack= createStackNavigator({
+    Camera: {
+        screen: Camera,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    ShowImage:{
+        screen: ShowImage,
+        navigationOptions: {
+            headerShown: false,
+        }
+    }
+});
 
 const FileFIRStack= createStackNavigator({
     FileFIR: {
@@ -87,6 +106,12 @@ const FileFIRStack= createStackNavigator({
             headerShown: false,
         }
     },
+    ClickCamera:{
+        screen: PhotoStack,
+        navigationOptions: {
+            headerShown: false,
+        }
+    }
 });
 
 const TrackStatusStack= createStackNavigator({
@@ -197,12 +222,24 @@ const AppNavigator = createStackNavigator({
           headerShown: false,
       }
     },
+    Register: {
+        screen: Register,
+        navigationOptions: {
+            headerShown: false,
+        }
+      },
     MainPage: {
       screen: TabNavigator,
       navigationOptions: {
           headerShown: false,
       }
     },
+    // Camera: {
+    //     screen: Camera,
+    //     navigationOptions: {
+    //         headerShown: false,
+    //     }
+    //   },
   });
 
 export default createAppContainer(AppNavigator);
