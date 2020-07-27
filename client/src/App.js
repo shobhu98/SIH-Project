@@ -23,17 +23,18 @@ import HomePage from './components/Homepage'
 import PendingFir from './components/PendingFir'
 
 import './App.css';
+import Background from './Assets/MPlogo.jpg';
 
 const styles = ((theme) => ({
   root: {
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: "url(" + Background + ")",
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
+    //backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
   paper: {
@@ -115,7 +116,7 @@ class App extends Component {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              SHO Portal Sign in
             </Typography>
             <form className={classes.form} noValidate>
               <TextField
@@ -128,6 +129,20 @@ class App extends Component {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={(event)=>{this.setState({email:event.target.value})}}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="uin"
+                label="UIN"
+                type="number"
+                name="UIN"
+                autoComplete="uin"
+                autoFocus
+                onChange={(event)=>{this.setState({uin:event.target.value})}}
               />
               <TextField
                 variant="outlined"
@@ -139,6 +154,8 @@ class App extends Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(event)=>{this.setState({password:event.target.value})
+        console.log(this.state)}}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -150,9 +167,11 @@ class App extends Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                onClick={()=>{this.login()}}
               >
                 Sign In
               </Button>
+              {/* 
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -165,7 +184,7 @@ class App extends Component {
                   </Link>
                 </Grid>
               </Grid>
-              
+              */}
             </form>
           </div>
         </Grid>
