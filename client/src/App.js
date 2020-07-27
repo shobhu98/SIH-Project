@@ -25,7 +25,7 @@ class App extends Component {
     
     fetch("http://localhost:7000/api/admin_auth",{
       method:"POST",
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json', 'x-auth-token':localStorage.getItem("login").token},
       body: JSON.stringify({"email":"admin101@gmail.com","password":"admin101","uin":"103245"})
     }).then((response)=>{
       response.json().then((result)=>{
@@ -62,8 +62,8 @@ class App extends Component {
           </br>
           <button onClick={()=>{this.login()}}>Login</button>
         </div>
-        {
-          /*
+        
+          
           <BrowserRouter>
           <MiniDrawer>
             <Switch> 
@@ -74,8 +74,8 @@ class App extends Component {
             </Switch>
           </MiniDrawer>
         </BrowserRouter>
-          */
-        }
+          
+        
         
       </div>
     );
