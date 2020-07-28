@@ -21,7 +21,11 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import CheckIcon from '@material-ui/icons/Check';
 import WarningIcon from '@material-ui/icons/Warning';
 
-import { Modal } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import { Divider,Button, Typography } from '@material-ui/core';
 import FIRModal from './FIRModal'
 
 const tableIcons = {
@@ -44,8 +48,7 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
   
-
-
+  
 export default class PendingFir extends Component{
   state={
     columns: [
@@ -86,13 +89,29 @@ export default class PendingFir extends Component{
         onClick: (event, rowData) => alert("More infromation requested for " + rowData.firid),
         disabled: rowData.status === "More information Requested"
       })
-    ]
+    ],
+    open:false,
+    firid:null
   }
 
-  handleRowClick = (event, rowData) => {
-    
-    alert("Downloading: "+rowData.firid);
+  handleRowClick = (event, rowData) => {  
+
+    //alert("Downloading: "+rowData.firid);
+    console.log(rowData.firid);
+  
+      this.setState({
+        open:true,
+        firid:rowData.firid
+      })
+  
+
   };
+  close =() => {
+    this.setState({
+      open:false
+      
+    })
+  }
 
 
   componentWillMount(){
@@ -111,15 +130,16 @@ export default class PendingFir extends Component{
             actionsColumnIndex: -1,
           
           }}
-          onRowClick={this.handleRowClick}
+          onRowClick={(event,rowData) => this.handleRowClick(event,rowData)}
           icons={tableIcons}
           title="Pending FIR"
           columns={this.state.columns}
           data={this.state.data}
           actions={this.state.actions}
         />
+        {this.state.open===true?<FIRModal data={this.state.firid} close={this.close}/>:<></>}
 
-        <FIRModal/>
+      
       </div>
     );
   }

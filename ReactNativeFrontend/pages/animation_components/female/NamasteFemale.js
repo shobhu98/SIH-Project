@@ -26,7 +26,6 @@ export default class NamasteFemale extends React.Component {
             require('../../../assets/images/complete_images/female/female_namaste_mouth_open.png'),
             require('../../../assets/images/complete_images/female/femail_namaste_mouth_close.png'),
 
-
             require('../../../assets/images/complete_images/female/female_namaste_eyes_closed__mouth_closed.png'),
             require('../../../assets/images/complete_images/female/femail_namaste_mouth_close.png'),
             require('../../../assets/images/complete_images/female/femail_namaste_mouth_close.png'),
