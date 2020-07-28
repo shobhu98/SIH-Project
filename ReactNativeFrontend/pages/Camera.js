@@ -7,6 +7,8 @@ export default class CameraExample extends React.Component {
     constructor(props){
         super(props);
         this.takePicture=this.takePicture.bind(this);
+        // this.goBack=this.goBack.bind(this);
+        // const { navigation } = this.props;
     }
   state = {
     hasCameraPermission: null,
@@ -30,6 +32,11 @@ export default class CameraExample extends React.Component {
         }
     };
 
+    // goBack(){
+    //   console.log("go back")
+    //   this.props.navigation.goBack();
+    // }
+
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -40,35 +47,56 @@ export default class CameraExample extends React.Component {
       return (
         <View style={{ flex: 1 }}>
           <Camera style={{ flex: 1 }} type={this.state.type} ref={ref => {
-    this.camera = ref;
-  }}>
+        this.camera = ref;
+      }}>
+        <View style={{flexDirection:'row',justifyContent:'space-between',margin:10}}>
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({
+                type:
+                  this.state.type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back,
+              });
+            }}>
+            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+          onPress={() => this.props.navigation.goBack(null)}>
+            <Text style={{ fontSize: 18, marginBottom: 20, color: 'white' }}>X</Text>
+          </TouchableOpacity>
+        </View>
+    
             <View
               style={{
                 flex: 1,
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
-              }}>
-              <TouchableOpacity
+                justifyContent:'center',
+                // alignItems: 'center',
+                // alignSelf: 'flex-end',
+              }}
+              >
+                <View
                 style={{
-                  flex: 0.1,
-                  alignSelf: 'flex-end',
-                  alignItems: 'center',
+                  // flex: 0.1,
+                  // flexDirection:'row',
+                  justifyContent: 'flex-end',
+                  
                 }}
-                onPress={() => {
-                  this.setState({
-                    type:
-                      this.state.type === Camera.Constants.Type.back
-                        ? Camera.Constants.Type.front
-                        : Camera.Constants.Type.back,
-                  });
-                }}>
-                <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.takePicture}> 
-              <Image source={require("../assets/icon.png")}
-              style={{width: 100,
-              height: 100}} /> 
-              </TouchableOpacity>
+                
+                
+                >
+                  
+                  <TouchableOpacity onPress={this.takePicture}> 
+                    <Image source={require("../assets/circle-cropped.png")}
+                    style={{width: 70,
+                    height: 70,
+                    marginBottom:10}} /> 
+                  </TouchableOpacity>
+                </View>
+              
+              
             </View>
           </Camera>
         </View>

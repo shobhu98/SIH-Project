@@ -124,7 +124,16 @@ export default class FillForm extends React.Component {
                     </Picker>
                 </Item>
                 
-                {this.state.nationality && <View><Text style={styles.text}>Complainant's Passport Number</Text><Item regular><Input placeholder='Passport Number'/></Item></View>}
+                {this.state.nationality && <View>
+                    <Text style={styles.text}>Complainant's Country</Text>
+                    <Item regular>
+                        <Input placeholder='Country'/>
+                    </Item>
+                    <Text style={styles.text}>Complainant's Passport Number</Text>
+                    <Item regular>
+                        <Input placeholder='Passport Number'/>
+                    </Item>
+                </View>}
                 <Text style={styles.text}>Complainant's Date Of Birth</Text>
                 <DatePicker
                     style={{width: 200}}

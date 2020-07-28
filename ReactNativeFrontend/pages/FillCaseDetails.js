@@ -169,6 +169,8 @@ export default class FillCaseDetails extends React.Component {
                     </Item>
                     <Text style={styles.text}>Brief description of incident</Text>
                     <Textarea rowSpan={4} bordered placeholder="Description" />
+                    <Text style={styles.text}>Details of Suspects (if any)</Text>
+                    <Textarea rowSpan={4} bordered placeholder="Name and phone number of suspects" />
                     <Text style={styles.text}>Date of Incident</Text>
                     <DatePicker
                         style={{width: 200}}

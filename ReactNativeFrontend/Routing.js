@@ -22,6 +22,7 @@ import Signature from './pages/Signature';
 import CallForHelp from './pages/CallForHelp';
 import Chatbot from './pages/Policeman';
 import FillProfile from './pages/FillProfile';
+import FIRsaved from './pages/FIRsaved';
 
 import Camera from './pages/Camera';
 import ShowImage from './pages/ShowImage';
@@ -97,6 +98,12 @@ const FileFIRStack= createStackNavigator({
     },
     Signature :{
         screen: Signature,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    FIRsaved :{
+        screen: FIRsaved,
         navigationOptions: {
             headerShown: false,
         }
