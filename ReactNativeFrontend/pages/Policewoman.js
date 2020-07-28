@@ -3,7 +3,7 @@ import NotingDetailsFemale from './animation_components/female/NotingDetailsFema
 import RequestingDetailsFemale from "./animation_components/female/RequestingDetailsFemale";
 import {Button, Provider as PaperProvider} from 'react-native-paper';
 
-export default class Policeman extends React.Component {
+export default class Policewoman extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

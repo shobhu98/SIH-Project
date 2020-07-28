@@ -38,7 +38,7 @@ export default class NotingDetailsMale extends React.Component {
         setTimeout(() => {
             this.setState({index: (this.state.index+1)%5});
             this.next();
-        }, 200);
+        }, 300);
     }
 
     render() {
