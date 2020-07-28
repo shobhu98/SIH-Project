@@ -16,7 +16,7 @@ const config=require('config');
 //@route POST api/admin_auth
 //@desc  Authenticate Administrator
 // @access Public
-router.post('/',auth,[
+router.post('/',[
     // Checking details entered by the user
     check('email',"Please include a valid email").isEmail(),
     check('password','Password required').exists(),

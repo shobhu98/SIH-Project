@@ -27,7 +27,7 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 
 
-const drawerWidth = 330;
+const drawerWidth = 280;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +98,7 @@ export default function MiniDrawer(props) {
   const [darkMode, setDarkMode] = useState(true);
   const classes = useStyles();
   //const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const {children} = props
 
   const theme = createMuiTheme({
@@ -158,7 +158,13 @@ export default function MiniDrawer(props) {
               >
                 Toggle Dark Mode
               </Button>        
-              
+              <Button 
+                startIcon={<SettingsBrightnessIcon />}
+                size="large"
+                color="#ffffff"
+              >
+                Logout
+              </Button>  
 
         </Toolbar>
       </AppBar>
