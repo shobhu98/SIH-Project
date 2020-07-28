@@ -55,11 +55,11 @@ router.post('/',[
     }
 
 });
-router.get('/save',async function (req,res) {
- const   {code}=req.body;
- const number="8920862975";
- const name="St";
- const password="123456";
+router.post('/save',async function (req,res) {
+ const {number,password,code}=req.body;
+//  const number="8920862975";
+//  const name="St";
+//  const password="123456";
 
     try {
         twilio.verify.services(twilio_credentials.servideID).verificationChecks.create({
@@ -72,7 +72,8 @@ router.get('/save',async function (req,res) {
            }
         });
     let    user=new User({
-            name,number,password
+            // name,number,password
+            number,password
         });
         // encrypting the password using bcrypt(SHA-256 Algorithm)
         const  salt=await  bcrypt.genSalt(10);
