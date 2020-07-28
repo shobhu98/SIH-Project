@@ -74,14 +74,14 @@ export default class Login extends React.Component {
         //register here
 
 
-        const config={
-            headers:{
-                'Content-Type':'application/json'
-            }
-        }
-        const body=JSON.stringify({number:this.state.phone, password:this.state.password});
+        // const config={
+        //     headers:{
+        //         'Content-Type':'application/json'
+        //     }
+        // }
+        // const body=JSON.stringify({number:this.state.phone, password:this.state.password});
         // try{
-        //     const res=await axios.get('/api/user',body,config);
+        //     const res=await axios.post('/api/user',body,config);
         //     console.log(res.data);
         // }
         // catch(err){
@@ -102,8 +102,8 @@ export default class Login extends React.Component {
         //     console.log(error);
         //   });;
 
-        fetch('/api/user', {
-            method: 'GET',
+        fetch('http://192.168.1.10:7000/api/user', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -116,6 +116,13 @@ export default class Login extends React.Component {
         }).catch (function (error){
             console.log(error);
         })
+
+        // fetch('http://192.168.1.10:7000/api/user')
+        // .then(function(res){
+        //     console.log(res)
+        // }).catch (function (error){
+        //     console.log(error);
+        // })
 
         this.setState({otpshow:true});
         console.log(this.state.phone);

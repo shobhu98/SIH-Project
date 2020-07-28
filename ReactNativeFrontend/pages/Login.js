@@ -102,9 +102,9 @@ export default class Login extends React.Component {
                                 <Button mode="contained" onPress={() => this.props.navigation.navigate('MainPage')} style={styles.button}>
                                     Log in
                                 </Button>
-                                {/* <Button mode="contained" onPress={() => this.props.navigation.navigate('Camera')} style={styles.button}>
+                                <Button mode="contained" onPress={() => this.props.navigation.navigate('PickImage')} style={styles.button}>
                                     Camera
-                                </Button> */}
+                                </Button>
                                 <Divider style={styles.divider} theme={theme}/>
                                 <View style={styles.view}>
                                     <Text>Haven't registered yet? </Text>

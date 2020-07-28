@@ -12,7 +12,11 @@ const twilio_credentials=require('../../config/twilio');
 const twilio=require('twilio')(twilio_credentials.accountSID,twilio_credentials.authToken);
 const User=require('../../models/Users');
 
-router.get('/',[
+router.get('/', async function (req,res){
+    res.send("Hello World");
+})
+
+router.post('/',[
     //here we check whether details entered by the complainant are correct or not
     check('number',"Please include a valid number").isLength({min:10}),
     check('password',"Please enter a valid password").isLength({min:6})

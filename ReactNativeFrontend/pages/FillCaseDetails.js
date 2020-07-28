@@ -5,6 +5,10 @@ import DatePicker from 'react-native-datepicker'
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/textjs';
 import {StyleSheet, View} from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+
 
 const theme = {
     ...DefaultTheme,
@@ -35,6 +39,9 @@ const styles = StyleSheet.create({
     proceedButton:{
         marginVertical:20,
         marginHorizontal:10
+    },
+    buttonView:{
+        flexDirection:"row"
     }
 });
 
@@ -55,6 +62,7 @@ export default class FillCaseDetails extends React.Component {
             date:"22-07-2020",
             optionsj:optionsj,
             nationality: undefined,
+            uriList:[]
         };   
     }
     
@@ -69,6 +77,34 @@ export default class FillCaseDetails extends React.Component {
           nationality: value
         });
     }
+    componentDidMount() {
+        this.getPermissionAsync();
+    }
+    getPermissionAsync = async () => {
+        if (Constants.platform.ios) {
+          const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+    };
+    _pickImage = async () => {
+        try {
+          let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+          });
+          if (!result.cancelled) {
+            this.setState({ uriList: this.state.uriList.concat(result.uri) });
+          }
+    
+          console.log(result);
+        } catch (E) {
+          console.log(E);
+        }
+    };
 
     render(){
         return(
@@ -160,12 +196,35 @@ export default class FillCaseDetails extends React.Component {
                     />
 
                     <Text style={styles.text}>Attach picture evidence</Text>
-                    <IconButton
-                        icon="camera"
-                        color="red"
-                        size={20}
-                        onPress={() => this.props.navigation.navigate('ClickCamera')}
-                    />
+                    <View style={styles.buttonView}>
+                        <IconButton
+                            icon="camera"
+                            color="red"
+                            size={30}
+                            onPress={() => this.props.navigation.navigate('ClickCamera')}
+                        />
+                        <IconButton
+                            icon="attachment"
+                            color="red"
+                            size={30}
+                            onPress={this._pickImage}
+                        />
+                        
+                    </View>
+                    <Text>Attached items: {this.state.uriList.length}</Text>
+                    
+                    {/* {this.state.uriList.map((option, index) => (
+                        <View>
+                            <Text>{option}</Text>
+                            <IconButton
+                                icon="attachment"
+                                color="black"
+                                size={30}
+                                onPress={this.removeLink({option})}
+                            />
+                        </View>
+                        
+                    ))} */}
                     
                     <PaperProvider theme={theme}>
                         <Button mode="contained" style={styles.proceedButton}  onPress={() => this.props.navigation.navigate('Signature')} >Proceed</Button>

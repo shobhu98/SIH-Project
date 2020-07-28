@@ -25,6 +25,7 @@ import FillProfile from './pages/FillProfile';
 
 import Camera from './pages/Camera';
 import ShowImage from './pages/ShowImage';
+import PickImage from './pages/PickImage';
 
 import ViewFIR from './pages/ViewFIR';
 import EditFIR from './pages/EditFIR';
@@ -234,12 +235,12 @@ const AppNavigator = createStackNavigator({
           headerShown: false,
       }
     },
-    // Camera: {
-    //     screen: Camera,
-    //     navigationOptions: {
-    //         headerShown: false,
-    //     }
-    //   },
+    PickImage: {
+        screen: PickImage,
+        navigationOptions: {
+            headerShown: false,
+        }
+      },
   });
 
 export default createAppContainer(AppNavigator);

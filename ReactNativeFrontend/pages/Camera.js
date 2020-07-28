@@ -25,8 +25,8 @@ export default class CameraExample extends React.Component {
             // this.props.navigation.navigate('ShowImage', {uri:data.base64});
             const options = {skipProcessing: true};
             const data = await this.camera.takePictureAsync(options);
-            console.log(data.uri);
-            this.props.navigation.navigate('ShowImage', {uri:data.base64});
+            //console.log(data.uri);
+            this.props.navigation.navigate('ShowImage',{uri:data.uri});
         }
     };
 
