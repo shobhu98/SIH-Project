@@ -5,6 +5,9 @@ import material from '../native-base-theme/variables/variables';
 import { Button } from 'react-native-paper';
 import { DefaultTheme, Provider as PaperProvider, Divider } from 'react-native-paper';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions } from "react-native";
+import NamasteMale from "./animation_components/male/NamasteMale";
+import NamasteFemale from "./animation_components/female/NamasteFemale";
 
 const theme = {
     ...DefaultTheme,
@@ -53,6 +56,17 @@ const styles = StyleSheet.create({
     },
     input:{
         marginBottom:10
+    },
+    blueview:{
+        height:250,
+        backgroundColor:"#16335C",
+        zIndex:-1,
+        justifyContent:'flex-end',
+        
+    },
+    label:{
+        color:"white",
+        fontSize:24
     }
 });
 
@@ -81,10 +95,19 @@ export default class Login extends React.Component {
     render(){
         return(
             <StyleProvider style={getTheme(material)}>
-                <Container >
-                    <Header >
+                <Container style={{backgroundColor:"white"}}>
+                    {/* <Header >
                         <Title>Virtual Police Station</Title>
-                    </Header>
+                    </Header> */}
+                    <View style={{flexDirection:'row', position:'absolute'}}>
+                        <NamasteMale/>
+                        <NamasteFemale style={{left:250}}/>
+                    </View>
+                    <View>
+                        <View style={styles.blueview}>
+                            <Label style={styles.label}>Virtual Police Station</Label>
+                        </View>
+                    </View>
                     <PaperProvider theme={theme}>
                         <Content padder>
                             <Form style={styles.form}>
@@ -102,9 +125,9 @@ export default class Login extends React.Component {
                                 <Button mode="contained" onPress={() => this.props.navigation.navigate('MainPage')} style={styles.button}>
                                     Log in
                                 </Button>
-                                <Button mode="contained" onPress={() => this.props.navigation.navigate('PickImage')} style={styles.button}>
+                                {/* <Button mode="contained" onPress={() => this.props.navigation.navigate('PickImage')} style={styles.button}>
                                     Camera
-                                </Button>
+                                </Button> */}
                                 <Divider style={styles.divider} theme={theme}/>
                                 <View style={styles.view}>
                                     <Text>Haven't registered yet? </Text>
