@@ -17,17 +17,16 @@ export default class Policeman extends React.Component {
             return(
                 
                 <PaperProvider>
-                    <NamasteFemale />
                     <Button mode="contained" onPress={() => this.setState({police: this.state.police + 1})}>press</Button>
+                    <NamasteFemale />
                 </PaperProvider>
             ); 
         }
         else{
             return(
                 <PaperProvider>
-                    <NamasteMale />
                     <Button mode="contained" onPress={() => this.setState({police: this.state.police - 1})}>press</Button>
-
+                    <NamasteMale />
                 </PaperProvider>
             ); 
         }      
