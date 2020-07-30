@@ -30,7 +30,7 @@ router.post('/',[
     // details destructured from the body
     const {number,password}=req.body;
     try{
-        let user=await User.findOne({number});
+        let user=await User.findOne({number:number});
         if(user){
             res.status(400).json({errors:[{msg:'User already exist'}]});
 
@@ -117,8 +117,14 @@ router.get('/save',async function (req,res) {
 //     const password = "1234568";
 // }
 
-router.post('/save',async function (req,res) {
- const {number,password,code}=req.body;
+router.post('/save',[
+    check('number','number should exist and length should be 10').isLength({min:10}),
+    check('name','name should exist ').exists(),
+    check('code','enter the 6 digit code ').isLength({min:6}),
+    check('password','please enter minimum 6 digit password ').isLength({min:6}),
+],async function (req,res) {
+
+ const {number,password,code,name}=req.body;
 //  const number="8920862975";
 //  const name="St";
 //  const password="123456";
@@ -136,7 +142,7 @@ router.post('/save',async function (req,res) {
         });
     let    user=new User({
             // name,number,password
-            number,password
+            number,password,name
         });
         // encrypting the password using bcrypt(SHA-256 Algorithm)
         const  salt=await  bcrypt.genSalt(10);
