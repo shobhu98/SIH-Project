@@ -21,7 +21,11 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
 import Background from "./Assets/MPlogo.jpg";
-
+import {
+  
+  MuiThemeProvider,
+} from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
 
 const styles = (theme) => ({
   root: {
@@ -55,6 +59,19 @@ const styles = (theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 });
+const theme = createMuiTheme({
+  palette: {
+    type: "light",
+    primary: {
+      main: "#2B5CA9",
+    },
+    secondary: {
+      main: "#ff4081",
+      light: "#8748ae",
+      dark: "#8748ae",
+    },
+  },
+});
 
 class App extends Component {
   constructor() {
@@ -66,7 +83,9 @@ class App extends Component {
       login: false,
       store: null,
     };
+    
   }
+  
 
   componentDidMount(){
     this.storeCollector()
@@ -120,6 +139,7 @@ class App extends Component {
     const { classes } = this.props;
 
     return (
+      <MuiThemeProvider theme={theme}>
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -177,6 +197,7 @@ class App extends Component {
           </div>
         </Grid>
       </Grid>
+      </MuiThemeProvider>
     );
   }
 
