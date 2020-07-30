@@ -52,7 +52,7 @@ const PostSchema=new Schema({
         type:String,
     },
     signature:{
-        type:object
+        type:Object
     },
 
 
