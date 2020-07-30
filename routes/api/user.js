@@ -121,45 +121,45 @@ router.post('/save',[
 
 
 
-router.get('/save/:number/:name/:password',async function (req,res) {
-    // Registering the new user using the User Model-> models/User.js
-    const name=req.params.name;
-    const number=req.params.number;
-    const password=req.params.password;
-    try{
-        user=new User({
-            name,number,password
-        });
-        // encrypting the password using bcrypt(SHA-256 Algorithm)
-        const  salt=await  bcrypt.genSalt(10);
-        user.password=await bcrypt.hash(password,salt);
-
-        // Saving the user in mongoDB database
-        await  user.save();
-        // creating a code for unique session
-        const payload={
-            user:{
-                id:user.id
-            }
-        };
-        // encrypting the above code using JWT authentication
-        jwt.sign(payload,
-            config.get('jwtSecret'),
-            {expiresIn:360000},
-            function (err,token) {
-                if(err){
-                    throw err;
-                }
-                res.json({token});
-
-            });
-    }catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server Error");
-    }
-
-});
-
+// router.get('/save/:number/:name/:password',async function (req,res) {
+//     // Registering the new user using the User Model-> models/User.js
+//     const name=req.params.name;
+//     const number=req.params.number;
+//     const password=req.params.password;
+//     try{
+//         user=new User({
+//             name,number,password
+//         });
+//         // encrypting the password using bcrypt(SHA-256 Algorithm)
+//         const  salt=await  bcrypt.genSalt(10);
+//         user.password=await bcrypt.hash(password,salt);
+//
+//         // Saving the user in mongoDB database
+//         await  user.save();
+//         // creating a code for unique session
+//         const payload={
+//             user:{
+//                 id:user.id
+//             }
+//         };
+//         // encrypting the above code using JWT authentication
+//         jwt.sign(payload,
+//             config.get('jwtSecret'),
+//             {expiresIn:360000},
+//             function (err,token) {
+//                 if(err){
+//                     throw err;
+//                 }
+//                 res.json({token});
+//
+//             });
+//     }catch (err) {
+//         console.error(err.message);
+//         res.status(500).send("Server Error");
+//     }
+//
+// });
+//
 
 
 module.exports=router;
