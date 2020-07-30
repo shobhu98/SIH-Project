@@ -66,7 +66,7 @@ export default class FileFIR extends React.Component {
             },
             Title3:{
                 en: "Fill Manually",
-                hi: "FIR स्वयं भरें"
+                hi: "एफआईआर स्वयं भरें"
             },
             Subtitle3: {
                 hi: "पुराने ढंग का",

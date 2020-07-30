@@ -103,7 +103,7 @@ export default class ChooseGender extends React.Component {
             },
             SignOut:{
                 en:"Sign Out",
-                hi:"भाषा बदलो"
+                hi:"प्रस्थान करें"
             },
             Details:{
                 en:"Details",

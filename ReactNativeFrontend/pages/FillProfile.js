@@ -5,6 +5,8 @@ import DatePicker from 'react-native-datepicker'
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/textjs';
 import {StyleSheet, View} from 'react-native';
+import lan from './global'
+import Lan from './LanguageStrings'
 
 const theme = {
     ...DefaultTheme,
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
 export default class FillProfile extends React.Component {
     constructor(props) {
         super(props);
-        var options=["Agar Malwa","Alirajpur","Annupur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Hoshangabad","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Mandla","Mandsaur","Morena","Narsinghpur","Neemuch","Niwari","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umari","Vidisha"];
+        var options= Lan.DistrictOptions[lan];
         var optionsj=[];
         for(var i=0;i<options.length;i++){
             optionsj.push({
@@ -74,15 +76,15 @@ export default class FillProfile extends React.Component {
 
             
             <Content padder style={styles.bg}>
-                <H2 style={styles.h2}>Personal Details</H2>
+                <H2 style={styles.h2}>{Lan.PersonalDetails[lan]}</H2>
                 <Divider style={styles.divider} />
-                <Text style={styles.text}>Complainant's Name</Text>
+                <Text style={styles.text}>{Lan.ComplainantsName[lan]}</Text>
                 <Item regular>
-                    <Input placeholder='Name' />
+                    <Input placeholder={Lan.PlaceHolderName[lan]} />
                 </Item>
-                <Text style={styles.text}>Complainant's Address</Text>
-                <Textarea rowSpan={4} bordered placeholder="Address" />
-                <Text style={styles.text}>District</Text>
+                <Text style={styles.text}>{Lan.ComplainantsAddress[lan]}</Text>
+                <Textarea rowSpan={4} bordered placeholder={Lan.PlaceHolderAddress[lan]} />
+                <Text style={styles.text}>{Lan.District[lan]}</Text>
                 <Item picker>
                 <Picker
                     mode="dropdown"
@@ -99,33 +101,33 @@ export default class FillProfile extends React.Component {
                     ))}
                 </Picker>
                 </Item>
-                <Text style={styles.text}>Complainant's Mobile Number</Text>
+                <Text style={styles.text}>{Lan.PhoneNumber[lan]}</Text>
                 <Item regular>
-                    <Input placeholder='Mobile Number' />
+                    <Input placeholder={Lan.PhoneNumberPlaceHolder[lan]}/>
                 </Item>
-                <Text style={styles.text}>Complainant's Email ID</Text>
+                <Text style={styles.text}>{Lan.Email[lan]}</Text>
                 <Item regular>
-                    <Input placeholder='Email ID' />
+                    <Input placeholder={Lan.PlaceHolderEmail[lan]} />
                 </Item>
-                <Text style={styles.text}>Complainant's Nationality</Text>
+                <Text style={styles.text}>{Lan.Nationality[lan]} </Text>
                 <Item picker>
                     <Picker
                         mode="dropdown"
                         iosIcon={<Icon name="arrow-down" />}
                         style={{ width: undefined }}
-                        placeholder="Select nationality"
+                        placeholder={Lan.NationalityPlaceHolder[lan]}
                         placeholderStyle={{ color: "#bfc6ea" }}
                         placeholderIconColor="#007aff"
                         selectedValue={this.state.nationality}
                         onValueChange={this.onNationalityChange.bind(this)}
                     >
-                        <Picker.Item label="Indian" value={false} />
-                        <Picker.Item label="Other" value={true} />
+                        <Picker.Item label={Lan.Indian[lan]} value={false} />
+                        <Picker.Item label={Lan.Other[lan]} value={true} />
                     </Picker>
                 </Item>
                 
-                {this.state.nationality && <View><Text style={styles.text}>Complainant's Passport Number</Text><Item regular><Input placeholder='Passport Number'/></Item></View>}
-                <Text style={styles.text}>Complainant's Date Of Birth</Text>
+                {this.state.nationality && <View><Text style={styles.text}>{Lan.PassportNumber[lan]}</Text><Item regular><Input placeholder={Lan.PassportNumberPlaceHolder[lan]}/></Item></View>}
+                <Text style={styles.text}>{Lan.DOB[lan]}</Text>
                 <DatePicker
                     style={{width: 200}}
                     date={this.state.date}
@@ -151,7 +153,7 @@ export default class FillProfile extends React.Component {
                     onDateChange={(date) => {this.setState({date: date})}}
                 />
                 <PaperProvider theme={theme}>
-                    <Button mode="contained" style={styles.proceedButton}  onPress={() => this.props.navigation.navigate('Profile')} >Proceed</Button>
+                    <Button mode="contained" style={styles.proceedButton}  onPress={() => this.props.navigation.navigate('Profile')} >{Lan.ProceedButton[lan]}</Button>
                 </PaperProvider>
                 
             </Content>
