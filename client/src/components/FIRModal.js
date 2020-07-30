@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal({ close, data }) {
+export default function TransitionsModal({ close, firid, accept,moreinfo,status }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
@@ -33,7 +33,15 @@ export default function TransitionsModal({ close, data }) {
     setOpen(false);
     close();
   };
-
+  const acceptFIR = () => {
+    accept(firid);
+    close();
+  }
+  const moreinfoFIR = () => {
+    moreinfo(firid);
+    close();
+  }
+ 
   return (
     <div>
       <Modal
@@ -51,7 +59,7 @@ export default function TransitionsModal({ close, data }) {
         <Fade in={open}>
           <div className={classes.paper}>
             <Typography variant="h4" id="transition-modal-title">
-              FIR id :{data}
+              FIR id :{status}
             </Typography>
             <br></br>
             <Divider />
@@ -154,12 +162,14 @@ export default function TransitionsModal({ close, data }) {
               <br></br>
               <Grid container spacing={3}>
                 <Grid item >
-                  <Button onClick={handleOpen} color="primary">
+                  <Button onClick={acceptFIR} color="primary">
                     Accept
                   </Button>
                 </Grid>
                 <Grid item >
-                  <Button onClick={handleClose} color="secondary">
+                  <Button onClick={moreinfoFIR} color="secondary" 
+                    disabled = {status === "More information requested"}
+                  >
                     Request More Information
                   </Button>
                 </Grid>
