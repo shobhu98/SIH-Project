@@ -15,18 +15,18 @@ const  FIRDetails=require('../../models/FIRDetails');
 // @access  Private
 // each FIR has a UIN(Unique Identification Number) . Every police station will be able to access only those FIR that matches with their Number
 // all FIR's are then sorted based on latest FIR's
-// router.get('/fir',auth,[
-//     check('uin',"uin should exist").exists()
-// ],async function (req,res) {
-//     try {
-//         const fir= await  FIRDetails.find({UIN:req.body.uin}).sort({date:-1});
-//         res.json(fir);
-//     }catch (err) {
-//         console.error(err.message);
-//         res.status(500).send('Server Error');
-//     }
-//
-// });
+router.put('/fir',auth,[
+    check('uin',"uin should exist").exists()
+],async function (req,res) {
+    try {
+        const fir= await  FIRDetails.find({UIN:req.body.uin}).sort({date:-1});
+        res.json(fir);
+    }catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+
+});
 
 // @route  GET api/admin_side/:id
 // @desc   GET post by id
