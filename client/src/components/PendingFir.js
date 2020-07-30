@@ -49,6 +49,11 @@ const tableIcons = {
 };
 
 export default class PendingFir extends Component {
+
+  constructor(props){
+    super(props);
+  }
+
   state = {
     columns: [
       { title: "FIR id", field: "firid" },
@@ -75,30 +80,68 @@ export default class PendingFir extends Component {
     open: false,
     firid: null,
     openSignaturePad: false,
+    status: null
   };
 
   accept = (event,rowData) => {
 
     //this.acceptFIR(rowData.firid)
+    this.acceptStart(rowData.firid);
+  }
+  acceptStart = (firid) =>{
     this.setState({
       openSignaturePad: true,
-      firid: rowData.firid,
-    },()=>console.log(this.state.openSignaturePad));
+      firid: firid,
+    });
   }
   moreInfo = (event,rowData) => {
-    alert(rowData.firid)
+    this.moreInfoStart(rowData.firid);
 
   }
-
-  firIdFinder(firid){
-    var id;
-    this.state.data.forEach(element => {
-      if(firid === element._id){
-
-      }
+  moreInfoStart =(firid) => {
+   
+    var body = {"acceptance":"2"}
+    fetch("http://localhost:7000/api/admin_side/" + firid , {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+      body: JSON.stringify(body)
+    }).then((response) => {
+      response.json().then((result) => {
+        //console.log(result.errors[0].msg);
+        console.log(response.status);
+        if (response.status === 200) {
+          console.log(result);
+          alert("More information has been requested for "+firid);
+          this.setState({
+            data:[]
+          },() =>this.fetchFIRList())
+        
+          
+        } else {
+          var error = new Error(response.statusText);
+          error.response = response;
+          throw error;
+        }
+      });
+    })
+    .catch((err) => {
+      alert(err);
     });
-    return id;
+
   }
+
+  // firIdFinder(firid){
+  //   var id;
+  //   this.state.data.forEach(element => {
+  //     if(firid === element._id){
+
+  //     }
+  //   });
+  //   return id;
+  // }
 
   handleRowClick = (event, rowData) => {
     //alert("Downloading: "+rowData.firid);
@@ -131,6 +174,7 @@ export default class PendingFir extends Component {
     this.setState({
       open: true,
       firid: rowData.firid,
+      status: rowData.status
     });
   };
   close = () => {
@@ -144,10 +188,13 @@ export default class PendingFir extends Component {
       openSignaturePad: false,
     });
   };
-  acceptFIR(firid) {
-    var check="d";
-    var sign="ss";
-    var body = {acceptance:"1", type_of_crime:check, signature:sign};
+  rec = (sign,type) => {
+    console.log(this.state.firid+"  "+type+"  "+sign);
+    this.acceptFIR(this.state.firid,type,sign)
+  }
+  acceptFIR(firid,type,sign) {
+    
+    var body = {acceptance:"1", type_of_crime:type, signature:sign};
 
     fetch("http://localhost:7000/api/admin_side/" + firid , {
       method: "POST",
@@ -273,7 +320,7 @@ export default class PendingFir extends Component {
           actions={this.state.actions}
         />
         {this.state.open === true ? (
-          <FIRModal data={this.state.firid} close={this.close} accept={this.accept} moreInfo={this.moreinfo}/>
+          <FIRModal firid={this.state.firid} status={this.state.status} moreinfo={this.moreInfoStart} close={this.close} accept={this.acceptStart} moreInfo={this.moreinfo}/>
         ) : (
           <></>
         )}
@@ -286,7 +333,5 @@ export default class PendingFir extends Component {
       </div>
     );
   }
-  rec(data){
-    alert(data);
-  }
+  
 }

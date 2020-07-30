@@ -2,7 +2,8 @@ import React from 'react';
 import {StyleSheet, Image, StatusBar} from 'react-native';
 import {Content} from 'native-base';
 import { Button, Provider as PaperProvider, DefaultTheme, Title } from 'react-native-paper';
-import { Ionicons } from '@expo/vector-icons'; 
+import lan from './global.js'
+
 
 const theme = {
     ...DefaultTheme,
@@ -36,15 +37,34 @@ const styles = StyleSheet.create({
     }
 });
 
+
 export default class ChooseGender extends React.Component {
+    constructor(props){
+        super(props);
+        const Lan = {
+            Male: {
+                en: "Male",
+                hi: "नर"
+            },
+            Female: {
+                en: "Female",
+                hi: "महिला"
+            }
+
+        };
+        this.state = {
+            titles: Lan
+        };
+        console.log(lan);
+    }
     render(){
         return(
             <Content style={styles.content}>
                 <StatusBar backgroundColor="#16335C"/>
                 <PaperProvider theme={theme}>
                     {/* <Title>Choose gender of officer</Title> */}
-                    <Button mode="outlined" style={styles.englishButton} labelStyle={styles.labelstyle} icon="gender-male" onPress={() => this.props.navigation.navigate('MAnimationStack')} >MALE</Button>
-                    <Button mode="outlined" style={styles.hindiButton} labelStyle={styles.labelstyle} icon="gender-female" onPress={() => this.props.navigation.navigate('FAnimationStack')}>FEMALE</Button>
+                    <Button mode="outlined" style={styles.englishButton} labelStyle={styles.labelstyle} icon="gender-male" onPress={() => this.props.navigation.navigate('MAnimationStack')} >{this.state.titles.Male[lan]}</Button>
+                    <Button mode="outlined" style={styles.hindiButton} labelStyle={styles.labelstyle} icon="gender-female" onPress={() => this.props.navigation.navigate('FAnimationStack')}>{this.state.titles.Female[lan]}</Button>
                 </PaperProvider>
             </Content>
         );

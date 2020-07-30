@@ -1,57 +1,40 @@
 import React from 'react';
-import { AppLoading } from 'expo';
+import {AppLoading} from 'expo';
 import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 import Routing from './Routing';
+import {createStore, StoreProvider, action} from 'easy-peasy';
 
-//import MainModel from './EPstates';
-import { createStore } from 'easy-peasy';
-import { StoreProvider } from 'easy-peasy';
-
-const productsModel = {
-  items: {
-    1: { id: 1, name: 'Peas', price: 10 }
-  }
+const colorScheme = {
+    primaryColor: "#16335C",
+    secondaryColor: "#FF4B63"
 };
 
-const basketModel = {
-  productIds: [1]
-};
-
-const storeModel = {
-  products: productsModel,
-  basket: basketModel
-};
-
-const store = createStore(storeModel);
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isReady: false,
-    };
-  }
-
-  async componentDidMount() {
-    await Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      ...Ionicons.font,
-    });
-    this.setState({ isReady: true });
-  }
-
-  render() {
-    if (!this.state.isReady) {
-      return <AppLoading />;
+    constructor(props) {
+        super(props);
+        this.state = {
+            isReady: false,
+        };
     }
 
-    return (
-        <StoreProvider store={store}>
-            <Routing />
-        </StoreProvider>
-        
-    );
-  }
+    async componentDidMount() {
+        await Font.loadAsync({
+            Roboto: require('native-base/Fonts/Roboto.ttf'),
+            Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+            ...Ionicons.font,
+        });
+        this.setState({isReady: true});
+    }
+
+    render() {
+        if (!this.state.isReady) {
+            return <AppLoading/>;
+        }
+
+        return (
+            <Routing/>
+        );
+    }
 }
