@@ -74,15 +74,16 @@ export default class PendingFir extends Component {
     ],
     open: false,
     firid: null,
-    openSignaturePad: true,
+    openSignaturePad: false,
   };
 
   accept = (event,rowData) => {
-    this.acceptFIR(rowData.firid)
+
+    //this.acceptFIR(rowData.firid)
     this.setState({
       openSignaturePad: true,
       firid: rowData.firid,
-    });
+    },()=>console.log(this.state.openSignaturePad));
   }
   moreInfo = (event,rowData) => {
     alert(rowData.firid)
@@ -140,7 +141,7 @@ export default class PendingFir extends Component {
 
   closeSignaturePad = () => {
     this.setState({
-      open: false,
+      openSignaturePad: false,
     });
   };
   acceptFIR(firid) {
@@ -278,11 +279,14 @@ export default class PendingFir extends Component {
         )}
 
         {this.state.openSignaturePad === true ? (
-          <App data={this.state.firid} closeSignaturePad={this.closeSignaturePad} />
+          <App data={this.state.firid} closeSignaturePad={this.closeSignaturePad} rec={this.rec} open={this.state.openSignaturePad}/>
         ) : (
           <></>
         )}
       </div>
     );
+  }
+  rec(data){
+    alert(data);
   }
 }
