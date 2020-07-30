@@ -35,19 +35,19 @@ router.get('/',auth,async function (req,res) {
 // @access Public
 router.post('/',[
     // checking whether
-    check('email',"Please include a valid email").isEmail(),
+    check('number',"Please include a valid number").isLength({min:10}),
     check('password','Password required').exists(),
 ],async function (req,res) {
     const errors=validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});
     }
-    const {email,password}=req.body;
+    const {number,password}=req.body;
 
 
     try {
         //See if User exists
-        let user=await User.findOne({email});
+        let user=await User.findOne({number:number});
         if(!user){
             res.status(400).json({errors:[{msg:'Invalid Credentials'}]});
         }

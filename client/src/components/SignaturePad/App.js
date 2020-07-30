@@ -4,7 +4,8 @@ import SignaturePad from "react-signature-canvas";
 import "./App.css";
 import "./sigCanvas.css";
 
-function App() {
+function App({closeSignaturePad, rec, open}) {
+  //closeSignaturePad = closeSignaturePad.bind(this);
   const [imageURL, setImageURL] = useState(null); // create a state that will contain our image url
 
   const sigCanvas = useRef({});
@@ -17,19 +18,24 @@ function App() {
   from white spaces via a method given by react-signature-canvas
   then saves it in our state */
   const save = () => {
-    setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"));
-    
+    setImageURL((sigCanvas.current.getTrimmedCanvas().toDataURL("image/png")),rec(imageURL));
+    //imageURL?rec(imageURL):console.log(imageURL);
   };
 
   return (
     <div className="App">
-      <h1>Signature Pad Example</h1>
+      <h1>dsss</h1>
       <Popup
         modal
         trigger={<button>Open Signature Pad</button>}
+        on="focus"
+        open={open}
+        //onClose={closeSignaturePad()}
         closeOnDocumentClick={false}
+        defaultOpen={true}
       >
         {(close) => (
+          
           <>
             <SignaturePad
               ref={sigCanvas}
@@ -40,7 +46,7 @@ function App() {
             {/* Button to trigger save canvas image */}
             <button onClick={save}>Save</button>
             <button onClick={clear}>Clear</button>
-            <button onClick={close}>Close</button>
+            <button onClick={closeSignaturePad}>Close</button>
           </>
         )}
       </Popup>
