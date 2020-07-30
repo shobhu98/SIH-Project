@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Popup from "reactjs-popup";
 import SignaturePad from "react-signature-canvas";
 import "./sigCanvas.css";
-import { TextField, makeStyles, MuiThemeProvider, createMuiTheme, ThemeProvider,Grid,Paper, Typography } from "@material-ui/core";
+import { Button,TextField, makeStyles, MuiThemeProvider, createMuiTheme, ThemeProvider,Grid,Paper, Typography } from "@material-ui/core";
 
 function App({closeSignaturePad, rec, open}) {
   //closeSignaturePad = closeSignaturePad.bind(this);
@@ -102,9 +102,9 @@ const classes = styles();
                 }}
               />
             {/* Button to trigger save canvas image */}
-            <button onClick={save}>Submit</button>
-            <button onClick={clear}>Clear</button>
-            <button onClick={closeSignaturePad}>Close</button>
+            <Button onClick={save} color="primary">Submit</Button>
+            <Button onClick={clear} color="secondary">Clear</Button>
+            <Button onClick={closeSignaturePad}>Close</Button>
           </>
         )}
       </Popup>
