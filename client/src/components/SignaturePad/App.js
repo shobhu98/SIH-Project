@@ -24,12 +24,23 @@ function App({closeSignaturePad, rec, open}) {
     console.log("In use efffect")
     if (imageURL && type && submit){
       rec(imageURL,type)
+      console.log("recced")
+      closeSignaturePad();
+
     }
   });
 
   const save = () => {
-    setImageURL((sigCanvas.current.getTrimmedCanvas().toDataURL("image/png")));
-    setSubmit(true)
+    
+    if(!imageURL)
+      alert("Please Sign in the white box");
+    else if (!type)
+      alert("Please enter Type of crime");
+    else{
+      setSubmit(true);
+      //open=false
+      //closeSignaturePad()
+    }
     //imageURL?rec(imageURL):console.log(imageURL);
     //imageURL ? rec(imageURL,type) : console.log("d")
   };
@@ -72,6 +83,7 @@ const classes = styles();
               canvasProps={{
                 className: "signatureCanvas",
               }}
+              onEnd={()=>setImageURL((sigCanvas.current.getTrimmedCanvas().toDataURL("image/png")))}
             />
             <TextField
                 

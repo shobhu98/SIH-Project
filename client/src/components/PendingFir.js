@@ -151,7 +151,7 @@ export default class PendingFir extends Component {
   };
   rec = (sign,type) => {
     console.log(this.state.firid+"  "+type+"  "+sign);
-    //this.acceptFIR(this.state.firid,type,sign)
+    this.acceptFIR(this.state.firid,type,sign)
   }
   acceptFIR(firid,type,sign) {
     
