@@ -180,7 +180,12 @@ const TabNavigator = createBottomTabNavigator({
             tabBarLabel: Lan.TrackStatusTabNam[lan]
         }
     },
-    Profile: ProfileStack,
+    Profile: {
+        screen:ProfileStack,
+        navigationOptions: {
+            tabBarLabel: Lan.ProfileTabName[lan]
+        }
+    },
     MedicalHelp: {
         screen:MedicalHelp,
         navigationOptions: {

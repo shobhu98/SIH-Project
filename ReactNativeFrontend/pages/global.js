@@ -1,3 +1,4 @@
-const lan = 'hi';
+let lan = 'hi';
+
 export default lan
 

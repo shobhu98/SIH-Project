@@ -9,6 +9,7 @@ import {Dimensions } from "react-native";
 import NamasteMale from "./animation_components/male/NamasteMale";
 import NamasteFemale from "./animation_components/female/NamasteFemale";
 import lan from './global.js'
+import {NavigationActions, StackActions} from "react-navigation";
 
 const theme = {
     ...DefaultTheme,

@@ -162,6 +162,10 @@ const Lan = {
     FileFIRTabName:{
         en:"File FIR",
         hi:"एफआईआर दर्ज करें"
+    },
+    ProfileTabName:{
+        en:"Profile",
+        hi:"प्रोफ़ाइल"
     }
 
 };
