@@ -1,73 +1,73 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component } from "react";
+import logo from "./logo.svg";
 
-import {BrowserRouter,Route, Switch} from 'react-router-dom'
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+import MiniDrawer from "./components/Drawer";
+import HomePage from "./components/Homepage";
+import PendingFir from "./components/PendingFir";
+
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+
+import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+
 import { withStyles } from "@material-ui/core/styles";
 
+import Background from "./Assets/MPlogo.jpg";
 
-import MiniDrawer from './components/Drawer'
-import HomePage from './components/Homepage'
-import PendingFir from './components/PendingFir'
 
-import './App.css';
-import Background from './Assets/MPlogo.jpg';
-
-const styles = ((theme) => ({
+const styles = (theme) => ({
   root: {
-    height: '100vh',
+    height: "100vh",
   },
   image: {
     backgroundImage: "url(" + Background + ")",
-    backgroundRepeat: 'no-repeat',
+    backgroundRepeat: "no-repeat",
     backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+      theme.palette.type === "light"
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
     //backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: "center",
   },
   paper: {
     margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
-
+});
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
-    this.state={
-      email:null,
-      password:null,
-      uin:null,
-      login:false,
-      store:null
-    }
+    this.state = {
+      email: null,
+      password: null,
+      uin: 103245,
+      login: false,
+      store: null,
+    };
   }
+
   componentDidMount(){
     this.storeCollector()
   }
@@ -82,30 +82,43 @@ class App extends Component {
     }
   }
 
-  login(){
+  login() {
     console.log(JSON.stringify(this.state));
-    
-    fetch("http://localhost:7000/api/admin_auth",{
-      method:"POST",
-      headers: {'Content-Type': 'application/json'
-    },
-      body: JSON.stringify(this.state)
-    }).then((response)=>{
-      response.json().then((result)=>{
-        console.warn("res",result);
-        localStorage.setItem('login',JSON.stringify({
-          login:true,
-          store:result.token
-        }))
-        this.storeCollector();
-      })
-    }).catch(error => {alert(error)})
 
+    fetch("http://localhost:7000/api/admin_auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(this.state),
+      
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200 && result.token) {
+            alert(result);
+            localStorage.setItem('login',JSON.stringify({
+                login: true,
+                token: result.token,
+                uin: this.state.uin
+              })
+            );
+            this.storeCollector();
+          } else {
+            result.errors.forEach((element) => {
+              throw (element.msg);
+            });
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
   }
 
   SignInSide() {
     const { classes } = this.props;
-  
+
     return (
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
@@ -118,32 +131,21 @@ class App extends Component {
             <Typography component="h1" variant="h5">
               SHO Portal Sign in
             </Typography>
-            <form className={classes.form} noValidate>
+            <form className={classes.form}>
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
                 name="email"
+                label="Email"
                 autoComplete="email"
                 autoFocus
-                onChange={(event)=>{this.setState({email:event.target.value})}}
+                onChange={(event) => {
+                  this.setState({ email: event.target.value });
+                }}
               />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="uin"
-                label="UIN"
-                type="number"
-                name="UIN"
-                autoComplete="uin"
-                autoFocus
-                onChange={(event)=>{this.setState({uin:event.target.value})}}
-              />
+
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -152,93 +154,47 @@ class App extends Component {
                 name="password"
                 label="Password"
                 type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={(event)=>{this.setState({password:event.target.value})
-        console.log(this.state)}}
+                
+                onChange={(event) => {
+                  this.setState({ password: event.target.value }
+                  );
+                }}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+              
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={()=>{this.login()}}
+                onClick={() => {
+                  this.login();
+                }}
               >
                 Sign In
               </Button>
-              {/* 
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-              */}
             </form>
           </div>
         </Grid>
       </Grid>
     );
   }
-  render(){
+
+  page() {
     return (
-      <div>
-        {
-
-          !this.state.login?
-          this.SignInSide()
-        :
-        <BrowserRouter>
-          <MiniDrawer>
-            <Switch> 
-              <Route path='/' component={HomePage} exact/>
-              <Route path='/HomePage' component={HomePage} exact/>
-              <Route path='/Pending FIR' component={PendingFir} exact/>
-              
-            </Switch>
-          </MiniDrawer>
-        </BrowserRouter>
-        }
-        
-          {/* 
-          <div>
-          <input type="text" onChange={(event)=>{this.setState({email:event.target.value})}}></input><br>
-          </br>
-          <input type="password" onChange={(event)=>{this.setState({password:event.target.value})
-        console.log(this.state)}}></input><br>
-          </br>
-          <input type="number" onChange={(event)=>{this.setState({uin:event.target.value})}}></input><br>
-          </br>
-          <button onClick={()=>{this.login()}}>Login</button>
-        </div>
-
-
-          <BrowserRouter>
-          <MiniDrawer>
-            <Switch> 
-              <Route path='/' component={HomePage} exact/>
-              <Route path='/HomePage' component={HomePage} exact/>
-              <Route path='/Pending FIR' component={PendingFir} exact/>
-              
-            </Switch>
-          </MiniDrawer>
-        </BrowserRouter>
-          */}
-        
-        
-      </div>
+      <BrowserRouter>
+        <MiniDrawer>
+          <Switch>
+            <Route path="/" component={HomePage} exact />
+            <Route path="/HomePage" component={HomePage} exact />
+            <Route path="/Pending FIR" component={PendingFir} exact />
+          </Switch>
+        </MiniDrawer>
+      </BrowserRouter>
     );
+  }
+  render() {
+    return <div>{!this.state.login ? this.SignInSide() : this.page()}</div>;
   }
 }
 
