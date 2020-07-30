@@ -85,10 +85,13 @@ export default class PendingFir extends Component {
   accept = (event,rowData) => {
 
     //this.acceptFIR(rowData.firid)
+    this.acceptStart(rowData.firid);
+  }
+  acceptStart = (firid) =>{
     this.setState({
       openSignaturePad: true,
-      firid: rowData.firid,
-    },()=>console.log(this.state.firid));
+      firid: firid,
+    });
   }
   moreInfo = (event,rowData) => {
     alert(rowData.firid)
@@ -281,7 +284,7 @@ export default class PendingFir extends Component {
           actions={this.state.actions}
         />
         {this.state.open === true ? (
-          <FIRModal data={this.state.firid} close={this.close} accept={this.accept} moreInfo={this.moreinfo}/>
+          <FIRModal data={this.state.firid} close={this.close} accept={this.acceptStart} moreInfo={this.moreinfo}/>
         ) : (
           <></>
         )}

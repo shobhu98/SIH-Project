@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal({ close, data }) {
+export default function TransitionsModal({ close, data, accept }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
@@ -33,6 +33,10 @@ export default function TransitionsModal({ close, data }) {
     setOpen(false);
     close();
   };
+  const acceptFIR = () => {
+    accept(data);
+    close();
+  }
 
   return (
     <div>
@@ -154,7 +158,7 @@ export default function TransitionsModal({ close, data }) {
               <br></br>
               <Grid container spacing={3}>
                 <Grid item >
-                  <Button onClick={handleOpen} color="primary">
+                  <Button onClick={acceptFIR} color="primary">
                     Accept
                   </Button>
                 </Grid>
