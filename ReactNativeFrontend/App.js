@@ -8,16 +8,22 @@ import Routing from './Routing';
 import { createStore } from 'easy-peasy';
 import { StoreProvider } from 'easy-peasy';
 
-const colorScheme= {
-    primaryColor:"#16335C",
-    secondaryColor:"#FF4B63"
+const productsModel = {
+  items: {
+    1: { id: 1, name: 'Peas', price: 10 }
+  }
 };
 
-const MainModel={
-    colors: colorScheme
+const basketModel = {
+  productIds: [1]
 };
 
-const store = createStore(MainModel);
+const storeModel = {
+  products: productsModel,
+  basket: basketModel
+};
+
+const store = createStore(storeModel);
 
 export default class App extends React.Component {
   constructor(props) {

@@ -10,6 +10,7 @@ import {Dimensions } from "react-native";
 import NamasteMale from "./animation_components/male/NamasteMale";
 import NamasteFemale from "./animation_components/female/NamasteFemale";
 import { StackActions, NavigationActions } from 'react-navigation';
+import { useStoreState } from 'easy-peasy';
 
 const theme = {
     ...DefaultTheme,
@@ -72,7 +73,15 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class Login extends React.Component {
+
+
+export default function ProductsInBasket() {
+  const count = useStoreState(state => state.basket.productIds.length);
+  console.log(count);
+  return(<Login />); 
+}
+
+class Login extends React.Component {
     constructor(props){
         super(props);
         this.sendOTP=this.sendOTP.bind(this);
@@ -83,6 +92,7 @@ export default class Login extends React.Component {
             err:false,
             otpErr:false
         }
+        console.log(ProductsInBasket());
     }
 
     sendOTP(){
@@ -118,6 +128,7 @@ export default class Login extends React.Component {
                     <PaperProvider theme={theme}>
                         <Content padder>
                             <Form style={styles.form}>
+                                {/* <Label>{this.props.lang}</Label> */}
                                 <Item regular style={styles.input}>
                                     <Input keyboardType={'numeric'} placeholder="Phone Number" onChangeText={text => this.setState({phone:text})}/>
                                 </Item>
@@ -154,22 +165,3 @@ export default class Login extends React.Component {
         );
     }
 }
-
-
-
-// login(){
-//     //check login here
-//     const resetAction = StackActions.reset({
-//         index: 0,
-//         actions: [NavigationActions.navigate({ routeName: 'MainPage' })],
-//     });
-//     this.props.navigation.dispatch(resetAction)
-// }
-
-{/* <Item regular style={styles.input}>
-                                    <Input secureTextEntry={true} placeholder="Password" onChangeText={text => this.setState({password:text})}/>
-                                </Item> */}
-
-                                // <Item regular style={styles.input}>
-                                //     <Input placeholder="Phone Number" keyboardType={'numeric'} onChangeText={text => this.setState({phone:text})}/>
-                                // </Item>
