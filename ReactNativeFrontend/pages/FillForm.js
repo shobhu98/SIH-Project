@@ -5,6 +5,7 @@ import DatePicker from 'react-native-datepicker'
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/textjs';
 import {StyleSheet, View} from 'react-native';
+import lan from './global.js'
 
 const theme = {
     ...DefaultTheme,
