@@ -49,6 +49,11 @@ const tableIcons = {
 };
 
 export default class PendingFir extends Component {
+
+  constructor(props){
+    super(props);
+  }
+
   state = {
     columns: [
       { title: "FIR id", field: "firid" },
@@ -83,7 +88,7 @@ export default class PendingFir extends Component {
     this.setState({
       openSignaturePad: true,
       firid: rowData.firid,
-    },()=>console.log(this.state.openSignaturePad));
+    },()=>console.log(this.state.firid));
   }
   moreInfo = (event,rowData) => {
     alert(rowData.firid)
@@ -144,10 +149,13 @@ export default class PendingFir extends Component {
       openSignaturePad: false,
     });
   };
-  acceptFIR(firid) {
-    var check="d";
-    var sign="ss";
-    var body = {acceptance:"1", type_of_crime:check, signature:sign};
+  rec = (sign,type) => {
+    console.log(this.state.firid+"  "+type+"  "+sign);
+    //this.acceptFIR(this.state.firid,type,sign)
+  }
+  acceptFIR(firid,type,sign) {
+    
+    var body = {acceptance:"1", type_of_crime:type, signature:sign};
 
     fetch("http://localhost:7000/api/admin_side/" + firid , {
       method: "POST",
@@ -286,7 +294,5 @@ export default class PendingFir extends Component {
       </div>
     );
   }
-  rec(data){
-    alert(data);
-  }
+  
 }

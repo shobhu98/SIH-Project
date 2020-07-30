@@ -1,13 +1,15 @@
 import React, { useState, useRef } from "react";
 import Popup from "reactjs-popup";
 import SignaturePad from "react-signature-canvas";
-import "./App.css";
 import "./sigCanvas.css";
+import { TextField, makeStyles, MuiThemeProvider, createMuiTheme, ThemeProvider,Grid,Paper, Typography } from "@material-ui/core";
 
 function App({closeSignaturePad, rec, open}) {
   //closeSignaturePad = closeSignaturePad.bind(this);
   const [imageURL, setImageURL] = useState(null); // create a state that will contain our image url
-
+  const [type, setType] = useState(null);
+  const [submit, setSubmit] = useState(null);
+  //var type="Dowry";
   const sigCanvas = useRef({});
 
   /* a function that uses the canvas ref to clear the canvas 
@@ -17,14 +19,41 @@ function App({closeSignaturePad, rec, open}) {
   /* a function that uses the canvas ref to trim the canvas 
   from white spaces via a method given by react-signature-canvas
   then saves it in our state */
+
+  React.useEffect(() => {
+    console.log("In use efffect")
+    if (imageURL && type && submit){
+      rec(imageURL,type)
+    }
+  });
+
   const save = () => {
-    setImageURL((sigCanvas.current.getTrimmedCanvas().toDataURL("image/png")),rec(imageURL));
+    setImageURL((sigCanvas.current.getTrimmedCanvas().toDataURL("image/png")));
+    setSubmit(true)
     //imageURL?rec(imageURL):console.log(imageURL);
+    //imageURL ? rec(imageURL,type) : console.log("d")
   };
 
+  const styles = makeStyles({
+    multilineColor:{
+        color:'black'
+    }
+  });
+  const theme=createMuiTheme({
+      
+    palette: {
+      type:"light",
+      
+      
+    }
+  
+  });
+
+const classes = styles();
   return (
     <div className="App">
-      <h1>dsss</h1>
+      <MuiThemeProvider theme={theme}>
+      <Grid>
       <Popup
         modal
         trigger={<button>Open Signature Pad</button>}
@@ -37,24 +66,44 @@ function App({closeSignaturePad, rec, open}) {
         {(close) => (
           
           <>
+          <Typography variant="subtitle1" className={classes.multilineColor}>Please Sign in the box below and enter the type of crime</Typography>
             <SignaturePad
               ref={sigCanvas}
               canvasProps={{
                 className: "signatureCanvas",
               }}
             />
+            <TextField
+                
+                margin="normal"
+                required
+                fullWidth
+                name="type"
+                label="Type of Crime"
+                
+                autoFocus
+                onChange={(event) => {
+                  setType(event.target.value);
+                }}
+                InputProps={{
+                  className: classes.multilineColor
+                }}
+              />
             {/* Button to trigger save canvas image */}
-            <button onClick={save}>Save</button>
+            <button onClick={save}>Submit</button>
             <button onClick={clear}>Clear</button>
             <button onClick={closeSignaturePad}>Close</button>
           </>
         )}
       </Popup>
-      <br />
-      <br />
-      {/* if our we have a non-null image url we should 
-      show an image and pass our imageURL state to it*/}
-      {imageURL ? (
+      
+      </Grid>
+      </MuiThemeProvider>
+    </div>
+  );
+}
+/*
+(
         
         <img
           src={imageURL}
@@ -66,9 +115,6 @@ function App({closeSignaturePad, rec, open}) {
             width: "150px",
           }}
         />
-      ) : null}
-    </div>
-  );
-}
-
+      )
+*/
 export default App;
