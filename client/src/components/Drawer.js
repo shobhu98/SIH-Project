@@ -170,6 +170,11 @@ export default function MiniDrawer(props) {
               startIcon={<ExitToAppIcon />}
               size="large"
               style={{ color: purple[50] }}
+              onClick={() => {
+                localStorage.clear()
+                window.location.reload(false);
+              }}
+              
             >
               Logout
             </Button>
