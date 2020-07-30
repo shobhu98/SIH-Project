@@ -51,13 +51,14 @@ router.get('/:st',auth,async function (req,res) {
 });
 
 router.post('/:id',auth,async function (req,res) {
-     const {acceptance,type_of_crime}=req.body;
+     const {acceptance,type_of_crime,signature}=req.body;
     try {
        let fir= await FIRDetails.findById(req.params.id);
        const  update={
         "$set":{
             type_of_crime:type_of_crime,
-            acceptance:acceptance
+            acceptance:acceptance,
+            signature:signature
         }
        };
         if(fir){
