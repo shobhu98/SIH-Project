@@ -185,7 +185,7 @@ class App extends Component {
       <BrowserRouter>
         <MiniDrawer>
           <Switch>
-            <Route path="/" component={HomePage} exact />
+            <Route path="/" component={PendingFir} exact />
             <Route path="/HomePage" component={HomePage} exact />
             <Route path="/Pending FIR" component={PendingFir} exact />
           </Switch>

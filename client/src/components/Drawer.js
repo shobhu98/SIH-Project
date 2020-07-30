@@ -91,7 +91,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paddingClass: {
       padding: theme.spacing(0, 1)
-  }
+  },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
 export default function MiniDrawer(props) {
@@ -135,7 +138,7 @@ export default function MiniDrawer(props) {
         })}
       >
         <Toolbar>
-          <div  style={{ flex: 1 }}>
+          
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -147,10 +150,10 @@ export default function MiniDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" className={classes.title}>
             SHO Portal
           </Typography >
-            </div >
+            
               <Button onClick={() => setDarkMode(!darkMode)}
                 startIcon={<SettingsBrightnessIcon />}
                 size="large"
