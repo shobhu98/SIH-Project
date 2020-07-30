@@ -18,6 +18,10 @@ const  FIRDetails=require('../../models/FIRDetails');
 router.put('/fir',auth,[
     check('uin',"uin should exist").exists()
 ],async function (req,res) {
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+    }
     try {
         const fir= await  FIRDetails.find({UIN:req.body.uin}).sort({date:-1});
         res.json(fir);
@@ -50,8 +54,19 @@ router.get('/:st',auth,async function (req,res) {
 
 });
 
-router.post('/:id',auth,async function (req,res) {
-     const {acceptance,type_of_crime,signature}=req.body;
+router.post('/:id',auth,[
+  check('acceptance','should ne 0 or 1').not().isEmpty(),
+  check('type_of_crime','please mention the type of crime').not().isEmpty(),
+  check('signature',"signature must exist").not().isEmpty()
+],async function (req,res) {
+
+
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+    }
+    const {acceptance,type_of_crime,signature}=req.body;
+
     try {
        let fir= await FIRDetails.findById(req.params.id);
        const  update={
