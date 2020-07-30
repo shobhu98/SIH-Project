@@ -39,14 +39,16 @@ export default class Signature extends React.Component {
     this.refs.signatureCanvas.clear()
   }
   saveCanvas = async () => {
-    const signature_result = await
-    this.refs.signatureCanvas.takeSnapshotAsync({
-      format: 'jpeg', // 'png' also supported
-      quality: 0.5, // quality 0 for very poor 1 for very good
-      result: 'file' // 
-    })
+    // const signature_result = await
+    // this.refs.signatureCanvas.takeSnapshotAsync({
+    //   format: 'jpeg', // 'png' also supported
+    //   quality: 0.5, // quality 0 for very poor 1 for very good
+    //   result: 'file' // 
+    // })
+
     //yourFnToSaveItInYourAPI(signature_result)
     // inside the fn above, use signature_result.uri to get the absolute file path
+    this.props.navigation.navigate('FIRsaved');
   }
   render() {
     return (

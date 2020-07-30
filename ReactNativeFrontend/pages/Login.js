@@ -4,7 +4,10 @@ import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/variables';
 import { Button } from 'react-native-paper';
 import { DefaultTheme, Provider as PaperProvider, Divider } from 'react-native-paper';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions } from "react-native";
+import NamasteMale from "./animation_components/male/NamasteMale";
+import NamasteFemale from "./animation_components/female/NamasteFemale";
 
 const theme = {
     ...DefaultTheme,
@@ -41,6 +44,29 @@ const styles = StyleSheet.create({
         marginLeft:2,
         marginTop:2,
         color:"#de5454"
+    },
+    view:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom:50
+    },
+    text:{
+        color:"#16335C",
+        textDecorationLine: 'underline',
+    },
+    input:{
+        marginBottom:10
+    },
+    blueview:{
+        height:250,
+        backgroundColor:"#16335C",
+        zIndex:-1,
+        justifyContent:'flex-end',
+        
+    },
+    label:{
+        color:"white",
+        fontSize:24
     }
 });
 
@@ -51,8 +77,8 @@ export default class Login extends React.Component {
         this.login=this.login.bind(this);
         this.state={
             phone:"",
-            OTP:"",
-            phoneErr:false,
+            password:"",
+            err:false,
             otpErr:false
         }
     }
@@ -69,28 +95,46 @@ export default class Login extends React.Component {
     render(){
         return(
             <StyleProvider style={getTheme(material)}>
-                <Container >
-                    <Header >
+                <Container style={{backgroundColor:"white"}}>
+                    {/* <Header >
                         <Title>Virtual Police Station</Title>
-                    </Header>
+                    </Header> */}
+                    <View style={{flexDirection:'row', position:'absolute'}}>
+                        <NamasteMale/>
+                        <NamasteFemale style={{left:250}}/>
+                    </View>
+                    <View>
+                        <View style={styles.blueview}>
+                            <Label style={styles.label}>Virtual Police Station</Label>
+                        </View>
+                    </View>
                     <PaperProvider theme={theme}>
                         <Content padder>
                             <Form style={styles.form}>
-                                <Item regular>
+                                <Item regular style={styles.input}>
                                     <Input placeholder="Phone Number" onChangeText={text => this.setState({phone:text})}/>
                                 </Item>
-                                {this.state.phoneErr && <Label style={styles.errortext}>Please enter correct phone number of 10 digits</Label>}
+                                {/* {this.state.phoneErr && <Label style={styles.errortext}>Please enter correct phone number of 10 digits</Label>}
                                 <Button mode="contained" onPress={this.sendOTP} style={styles.button}>
                                     Send OTP
-                                </Button>
+                                </Button> */}
                                 
-                                <Item regular>
-                                <Input placeholder="OTP" />
+                                <Item regular style={styles.input}>
+                                    <Input placeholder="Password" onChangeText={text => this.setState({password:text})}/>
                                 </Item>
                                 <Button mode="contained" onPress={() => this.props.navigation.navigate('MainPage')} style={styles.button}>
                                     Log in
                                 </Button>
+                                {/* <Button mode="contained" onPress={() => this.props.navigation.navigate('PickImage')} style={styles.button}>
+                                    Camera
+                                </Button> */}
                                 <Divider style={styles.divider} theme={theme}/>
+                                <View style={styles.view}>
+                                    <Text>Haven't registered yet? </Text>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+                                        <Text style={styles.text}>Register now!</Text>
+                                    </TouchableOpacity>
+                                </View>
                                 <Button mode="outlined" onPress={() => console.log('Pressed')} style={styles.getHelp}>
                                     Get Help
                                 </Button>

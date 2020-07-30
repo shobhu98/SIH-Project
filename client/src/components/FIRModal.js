@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal() {
+export default function TransitionsModal({close,data}) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleOpen = () => {
     setOpen(true);
@@ -30,13 +30,14 @@ export default function TransitionsModal() {
 
   const handleClose = () => {
     setOpen(false);
+    close();
   };
+
+
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        react-transition-group
-      </button>
+ 
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -51,7 +52,7 @@ export default function TransitionsModal() {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <Typography variant="h4" id="transition-modal-title">FIR id:ABCD</Typography>
+            <Typography variant="h4" id="transition-modal-title">FIR id:{data}</Typography>
             <Divider/>
             <Typography id="transition-modal-description">
                 Cornish rex. Ocicat persian so burmese for jaguar, or mouser. Puma cornish rex. American bobtail burmese, persian jaguar but singapura devonshire rex. Scottish fold bobcat bobcat munchkin maine coon or kitty american bobtail. Maine coon burmese american shorthair or tomcat, and american shorthair donskoy so cornish rex. Turkish angora lynx and himalayan. Lion leopard. Manx turkish angora burmese or tom, yet scottish fold. Grimalkin. Mouser havana brown but tomcat ocelot. Kitty russian blue. Balinese bobcat yet british shorthair birman or mouser siberian. Egyptian mau turkish angora burmese. American bobtail. Malkin bengal. Singapura cheetah cheetah munchkin birman but leopard so ocicat. Persian tom. Sphynx tomcat. Devonshire rex sphynx puma and savannah siberian tomcat. Birman kitten. Kitty tomcat panther so singapura. Bengal balinese birman grimalkin jaguar devonshire rex munchkin. Puma. Egyptian mau ocelot siberian for kitty tiger so burmese so tomcat.

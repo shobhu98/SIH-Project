@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     card: {
         marginLeft:20,
         marginRight:20,
-        marginTop:10,
+        marginTop:15,
         marginBottom:5,
         backgroundColor:"white",
         height:200,

@@ -37,7 +37,7 @@ router.get('/:st',auth,async function (req,res) {
     try {
         console.log("hello there");
 
-        const fir= await FIRDetails.find({name:req.params.st}).sort({date:-1});
+        const fir= await FIRDetails.findById(req.params.st);
 
         if(!fir){
             return res.status(404).json({msg:'FIR Not found'});
@@ -54,17 +54,26 @@ router.post('/:id',auth,async function (req,res) {
      const {acceptance,type_of_crime}=req.body;
     try {
        let fir= await FIRDetails.findById(req.params.id);
+       const  update={
+        "$set":{
+            type_of_crime:type_of_crime,
+            acceptance:acceptance
+        }
+       };
         if(fir){
             //Update
-           fir=await FIRDetails.findOneAndUpdate({id:req.params.id},
-                {$set:acceptance},
-                {new:true})
+            // console.log(fir);
+           fir=await FIRDetails.findOneAndUpdate({_id:req.params.id},
+               update,
+               {new:true});
+           console.log(fir);
+              await fir.save();
         }
 
-        fir=new FIRDetails(acceptance);
+        // fir=new FIRDetails(acceptance);
 
 
-         await fir.save();
+
         res.json(fir);
     }catch (err) {
         console.log(err.message);

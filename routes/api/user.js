@@ -12,7 +12,11 @@ const twilio_credentials=require('../../config/twilio');
 const twilio=require('twilio')(twilio_credentials.accountSID,twilio_credentials.authToken);
 const User=require('../../models/Users');
 
-router.get('/',[
+router.get('/', async function (req,res){
+    res.send("Hello World");
+})
+
+router.post('/',[
     //here we check whether details entered by the complainant are correct or not
     check('number',"Please include a valid number").isLength({min:10}),
     check('password',"Please enter a valid password").isLength({min:6})
@@ -51,53 +55,63 @@ router.get('/',[
     }
 
 });
-router.get('/save',async function (req,res) {
- const   {code}=req.body;
- const number="8920862975";
- const name="Shobhit";
- const password="1234568";
 
-    try {
-        twilio.verify.services(twilio_credentials.servideID).verificationChecks.create({
-                to: "+91" + number,
-                code: code
-            }
-        ).then(data => {
-           if(data.data.valid==='false'){
-               res.json.status(500)({msg:"Incorrect OTP"})
-           }
-        });
-    let    user=new User({
-            name,number,password
-        });
-        // encrypting the password using bcrypt(SHA-256 Algorithm)
-        const  salt=await  bcrypt.genSalt(10);
-        user.password=await bcrypt.hash(password,salt);
+// router.get('/save',async function (req,res) {
+//     const {code} = req.body;
+//     const number = "8920862975";
+//     const name = "Shobhit";
+//     const password = "1234568";
+// }
 
-        // Saving the user in mongoDB database
-        await  user.save();
-        // creating a code for unique session
-        const payload={
-            user:{
-                id:user.id
-            }
-        };
-        // encrypting the above code using JWT authentication
-        jwt.sign(payload,
-            config.get('jwtSecret'),
-            {expiresIn:360000},
-            function (err,token) {
-                if (err) {
-                    throw err;
-                }
-                res.json({token});
-
-            })
-    }catch (err) {
-        console.log(err);
-
-    }
-});
+// router.post('/save',async function (req,res) {
+//  const {number,password,code}=req.body;
+// //  const number="8920862975";
+// //  const name="St";
+// //  const password="123456";
+//
+//
+//     try {
+//         twilio.verify.services(twilio_credentials.servideID).verificationChecks.create({
+//                 to: "+91" + number,
+//                 code: code
+//             }
+//         ).then(data => {
+//            if(data.data.valid==='false'){
+//                res.json.status(500)({msg:"Incorrect OTP"})
+//            }
+//         });
+//     let    user=new User({
+//             // name,number,password
+//             number,password
+//         });
+//         // encrypting the password using bcrypt(SHA-256 Algorithm)
+//         const  salt=await  bcrypt.genSalt(10);
+//         user.password=await bcrypt.hash(password,salt);
+//
+//         // Saving the user in mongoDB database
+//         await  user.save();
+//         // creating a code for unique session
+//         const payload={
+//             user:{
+//                 id:user.id
+//             }
+//         };
+//         // encrypting the above code using JWT authentication
+//         jwt.sign(payload,
+//             config.get('jwtSecret'),
+//             {expiresIn:360000},
+//             function (err,token) {
+//                 if (err) {
+//                     throw err;
+//                 }
+//                 res.json({token});
+//
+//             })
+//     }catch (err) {
+//         console.log(err);
+//
+//     }
+// });
 
 
 
