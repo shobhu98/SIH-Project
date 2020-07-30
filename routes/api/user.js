@@ -14,7 +14,7 @@ const User=require('../../models/Users');
 
 router.get('/', async function (req,res){
     res.send("Hello World");
-})
+});
 
 router.post('/',[
     //here we check whether details entered by the complainant are correct or not
