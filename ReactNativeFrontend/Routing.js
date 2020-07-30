@@ -242,12 +242,18 @@ const AppNavigator = createStackNavigator({
           headerShown: false,
       }
     },
-    PickImage: {
-        screen: PickImage,
+    // PickImage: {
+    //     screen: PickImage,
+    //     navigationOptions: {
+    //         headerShown: false,
+    //     }
+    //   },
+    GetHelp: {
+        screen: CallForHelp,
         navigationOptions: {
             headerShown: false,
         }
-      },
+    },
   });
 
 export default createAppContainer(AppNavigator);

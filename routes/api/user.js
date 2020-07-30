@@ -56,7 +56,7 @@ router.post('/',[
 
 });
 router.post('/save',async function (req,res) {
- const {number,password,code}=req.body;
+ const {number,password,code,name}=req.body;
 //  const number="8920862975";
 //  const name="St";
 //  const password="123456";
@@ -72,8 +72,8 @@ router.post('/save',async function (req,res) {
            }
         });
     let    user=new User({
-            // name,number,password
-            number,password
+            name,number,password
+            // number,password
         });
         // encrypting the password using bcrypt(SHA-256 Algorithm)
         const  salt=await  bcrypt.genSalt(10);
