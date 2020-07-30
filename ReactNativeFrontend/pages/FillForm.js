@@ -53,8 +53,15 @@ export default class FillForm extends React.Component {
             selected2: undefined,
             date:"22-07-2020",
             optionsj:optionsj,
-            nationality: undefined
+            nationality: undefined,
+            name:"",
+            address:"",
+            mobile:"",
+            email:"",
+            country:"",
+            ppnum:""
         };   
+        this.proceedbutton=this.proceedbutton.bind(this);
     }
     onValueChange2(value) {
         this.setState({
@@ -67,6 +74,41 @@ export default class FillForm extends React.Component {
           nationality: value
         });
     }
+
+    proceedbutton(){
+        // if(this.state.name.length===0)
+        //     alert('Please Enter Name');
+        // else if(this.state.address.length===0)
+        //     alert('Please Enter Address');
+        // else if(this.state.mobile.length!=10)
+        //     alert('Please enter valid mobile number');
+        // else if(this.state.email.length===0)
+        //     alert('Please Enter Email');
+        // else if(this.state.nationality){
+        //     if(this.state.country.length===0)
+        //         alert('Please Enter Country Name');
+        //     else if(this.state.ppnum.length===0)
+        //         alert('Please Enter Passport Number');
+        // }  
+        // else{
+        //     if(this.state.country.length===0){
+        //         this.setState({country:"India"});
+        //         console.log("HEJHCKJN")
+        //     }
+                
+        //     console.log("Name "+this.state.name);
+        //     console.log("Addr "+this.state.address);
+        //     console.log("Dis "+this.state.selected2);
+        //     console.log("Mob "+this.state.mobile);
+        //     console.log("Email "+this.state.email);
+        //     console.log("Nationality "+this.state.nationality);
+        //     console.log("Country "+this.state.country);
+        //     console.log("PP "+this.state.ppnum);
+        //     console.log("DOB "+this.state.date);
+            
+        // }
+        this.props.navigation.navigate('FillCaseDetails');
+    }
     
     render(){
         return(
@@ -78,10 +120,10 @@ export default class FillForm extends React.Component {
                 <Divider style={styles.divider} />
                 <Text style={styles.text}>Complainant's Name</Text>
                 <Item regular>
-                    <Input placeholder='Name' />
+                    <Input placeholder='Name' onChangeText={text => this.setState({name:text})} />
                 </Item>
                 <Text style={styles.text}>Complainant's Address</Text>
-                <Textarea rowSpan={4} bordered placeholder="Address" />
+                <Textarea rowSpan={4} bordered placeholder="Address" onChangeText={text => this.setState({address:text})}/>
                 <Text style={styles.text}>District</Text>
                 <Item picker>
                 <Picker
@@ -95,17 +137,17 @@ export default class FillForm extends React.Component {
                     onValueChange={this.onValueChange2.bind(this)}
                 >
                     {this.state.optionsj.map((option, index) => (
-                        <Picker.Item label={option.name} value={option.key} />
+                        <Picker.Item label={option.name} value={option.name} />
                     ))}
                 </Picker>
                 </Item>
                 <Text style={styles.text}>Complainant's Mobile Number</Text>
                 <Item regular>
-                    <Input placeholder='Mobile Number' />
+                    <Input keyboardType={'numeric'} placeholder='Mobile Number' onChangeText={text => this.setState({mobile:text})}/>
                 </Item>
                 <Text style={styles.text}>Complainant's Email ID</Text>
                 <Item regular>
-                    <Input placeholder='Email ID' />
+                    <Input placeholder='Email ID' onChangeText={text => this.setState({email:text})} />
                 </Item>
                 <Text style={styles.text}>Complainant's Nationality</Text>
                 <Item picker>
@@ -127,11 +169,11 @@ export default class FillForm extends React.Component {
                 {this.state.nationality && <View>
                     <Text style={styles.text}>Complainant's Country</Text>
                     <Item regular>
-                        <Input placeholder='Country'/>
+                        <Input placeholder='Country' onChangeText={text => this.setState({country:text})}/>
                     </Item>
                     <Text style={styles.text}>Complainant's Passport Number</Text>
                     <Item regular>
-                        <Input placeholder='Passport Number'/>
+                        <Input placeholder='Passport Number' onChangeText={text => this.setState({ppnum:text})}/>
                     </Item>
                 </View>}
                 <Text style={styles.text}>Complainant's Date Of Birth</Text>
@@ -160,7 +202,7 @@ export default class FillForm extends React.Component {
                     onDateChange={(date) => {this.setState({date: date})}}
                 />
                 <PaperProvider theme={theme}>
-                    <Button mode="contained" style={styles.proceedButton}  onPress={() => this.props.navigation.navigate('FillCaseDetails')} >Proceed</Button>
+                    <Button mode="contained" style={styles.proceedButton}  onPress={this.proceedbutton } >Proceed</Button>
                 </PaperProvider>
                 
             </Content>

@@ -1,3 +1,4 @@
+  
 import React from 'react';
 import { Container, Header,  Title, StyleProvider, Content, Form, Item, Input, Label } from 'native-base';
 import getTheme from '../native-base-theme/components';
@@ -8,6 +9,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Dimensions } from "react-native";
 import NamasteMale from "./animation_components/male/NamasteMale";
 import NamasteFemale from "./animation_components/female/NamasteFemale";
+import { StackActions, NavigationActions } from 'react-navigation';
 
 const theme = {
     ...DefaultTheme,
@@ -89,7 +91,12 @@ export default class Login extends React.Component {
     }
 
     login(){
-
+        //check login here
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'MainPage' })],
+        });
+        this.props.navigation.dispatch(resetAction)
     }
 
     render(){
@@ -103,8 +110,8 @@ export default class Login extends React.Component {
                         <NamasteMale/>
                         <NamasteFemale style={{left:250}}/>
                     </View>
-                    <View>
-                        <View style={styles.blueview}>
+                    <View style={styles.blueview}>
+                        <View style={{alignItems:'center', marginBottom:10}}>
                             <Label style={styles.label}>Virtual Police Station</Label>
                         </View>
                     </View>
@@ -112,7 +119,7 @@ export default class Login extends React.Component {
                         <Content padder>
                             <Form style={styles.form}>
                                 <Item regular style={styles.input}>
-                                    <Input placeholder="Phone Number" onChangeText={text => this.setState({phone:text})}/>
+                                    <Input keyboardType={'numeric'} placeholder="Phone Number" onChangeText={text => this.setState({phone:text})}/>
                                 </Item>
                                 {/* {this.state.phoneErr && <Label style={styles.errortext}>Please enter correct phone number of 10 digits</Label>}
                                 <Button mode="contained" onPress={this.sendOTP} style={styles.button}>
@@ -120,9 +127,9 @@ export default class Login extends React.Component {
                                 </Button> */}
                                 
                                 <Item regular style={styles.input}>
-                                    <Input placeholder="Password" onChangeText={text => this.setState({password:text})}/>
+                                    <Input secureTextEntry={true} placeholder="Password" onChangeText={text => this.setState({password:text})}/>
                                 </Item>
-                                <Button mode="contained" onPress={() => this.props.navigation.navigate('MainPage')} style={styles.button}>
+                                <Button mode="contained" onPress={this.login} style={styles.button}>
                                     Log in
                                 </Button>
                                 {/* <Button mode="contained" onPress={() => this.props.navigation.navigate('PickImage')} style={styles.button}>
@@ -147,3 +154,22 @@ export default class Login extends React.Component {
         );
     }
 }
+
+
+
+// login(){
+//     //check login here
+//     const resetAction = StackActions.reset({
+//         index: 0,
+//         actions: [NavigationActions.navigate({ routeName: 'MainPage' })],
+//     });
+//     this.props.navigation.dispatch(resetAction)
+// }
+
+{/* <Item regular style={styles.input}>
+                                    <Input secureTextEntry={true} placeholder="Password" onChangeText={text => this.setState({password:text})}/>
+                                </Item> */}
+
+                                // <Item regular style={styles.input}>
+                                //     <Input placeholder="Phone Number" keyboardType={'numeric'} onChangeText={text => this.setState({phone:text})}/>
+                                // </Item>

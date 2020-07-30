@@ -133,6 +133,22 @@ export default class Login extends React.Component {
         console.log(this.state.phone);
         console.log(this.state.password);
         console.log(this.state.otp);
+        fetch('http://192.168.1.10:7000/api/user/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                number:this.state.phone, 
+                password:this.state.password,
+                code:this.state.otp,
+                name:"Ankita"
+            })
+        }).then(function(res){
+            console.log(res)
+        }).catch (function (error){
+            console.log(error);
+        })
     }
 
     render(){
