@@ -54,6 +54,7 @@ export default class PendingFir extends Component {
       { title: "FIR id", field: "firid" },
       { title: "Complainant Name", field: "name" },
       { title: "Status", field: "status" },
+      { title: "Date", field: "date"}
     ],
 
     data: [],
@@ -67,8 +68,8 @@ export default class PendingFir extends Component {
         icon: () => <WarningIcon />,
         tooltip: "Request more information",
         onClick: (event, rowData) =>
-          alert("More infromation requested for " + rowData.firid),
-        disabled: (event, rowData) => this.moreInfo(event, rowData),
+        this.moreInfo(event, rowData),
+        disabled: rowData.status === "More information requested"
       }),
     ],
     open: false,
@@ -77,7 +78,7 @@ export default class PendingFir extends Component {
   };
 
   accept = (event,rowData) => {
-    alert(rowData.firid)
+    this.acceptFIR(rowData.firid)
     this.setState({
       openSignaturePad: true,
       firid: rowData.firid,
@@ -88,10 +89,44 @@ export default class PendingFir extends Component {
 
   }
 
+  firIdFinder(firid){
+    var id;
+    this.state.data.forEach(element => {
+      if(firid === element._id){
+
+      }
+    });
+    return id;
+  }
+
   handleRowClick = (event, rowData) => {
     //alert("Downloading: "+rowData.firid);
-    console.log(rowData.firid);
 
+    //var id = this.firIdFinder(rowData.firid)
+
+    fetch("http://localhost:7000/api/admin_side/"+rowData.firid, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+    }).then((response) => {
+      response.json().then((result) => {
+        //console.log(result.errors[0].msg);
+        console.log(response.status);
+        if (response.status === 200) {
+          console.log(result);
+          
+        } else {
+          var error = new Error(response.statusText);
+          error.response = response;
+          throw error;
+        }
+      });
+    })
+    .catch((err) => {
+      alert(err);
+    });
     this.setState({
       open: true,
       firid: rowData.firid,
@@ -109,18 +144,28 @@ export default class PendingFir extends Component {
     });
   };
   acceptFIR(firid) {
-    fetch("http://localhost:7000/api/admin_side?id=" + { firid }, {
-      method: "GET",
+    var check="d";
+    var sign="ss";
+    var body = {acceptance:"1", type_of_crime:check, signature:sign};
+
+    fetch("http://localhost:7000/api/admin_side/" + firid , {
+      method: "POST",
       headers: {
         "content-type": "application/json",
         "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
       },
+      body: JSON.stringify(body)
     }).then((response) => {
       response.json().then((result) => {
         //console.log(result.errors[0].msg);
         console.log(response.status);
         if (response.status === 200) {
           console.log(result);
+          alert(firid+" has been accepted");
+          this.setState({
+            data:[]
+          },() =>this.fetchFIRList())
+        
           
         } else {
           var error = new Error(response.statusText);
@@ -163,13 +208,40 @@ export default class PendingFir extends Component {
               if (element.acceptance === 0) {
                 var temp = {
                   name: element.name,
-                  firid: element.FIRNUM,
+                  firid: element._id,
                   status: "Pending",
+                  date: element.date
                 };
+              
                 this.setState({
                   data: [...this.state.data, temp],
                 });
               }
+              else if(element.acceptance === 2) {
+                var temp = {
+                  name: element.name,
+                  firid: element._id,
+                  status: "More information requested",
+                  date: element.date
+                };
+              
+                this.setState({
+                  data: [...this.state.data, temp],
+                });
+              }
+              else if(element.acceptance === 3) {
+                var temp = {
+                  name: element.name,
+                  firid: element._id,
+                  status: "Complainant has updated",
+                  date: element.date
+                };
+              
+                this.setState({
+                  data: [...this.state.data, temp],
+                });
+              }
+              
             });
           } else {
             var error = new Error(response.statusText);

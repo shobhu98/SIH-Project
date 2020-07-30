@@ -65,6 +65,8 @@ router.post('/:id',auth,[
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});
     }
+    console.log(req.body);
+    console.log(req.params);
     const {acceptance,type_of_crime,signature}=req.body;
 
     try {
