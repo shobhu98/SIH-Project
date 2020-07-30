@@ -110,6 +110,13 @@ router.get('/save',async function (req,res) {
     const password = "1234568";
 }
 
+// router.get('/save',async function (req,res) {
+//     const {code} = req.body;
+//     const number = "8920862975";
+//     const name = "Shobhit";
+//     const password = "1234568";
+// }
+
 router.post('/save',async function (req,res) {
  const {number,password,code}=req.body;
 //  const number="8920862975";
