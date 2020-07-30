@@ -14,7 +14,7 @@ const User=require('../../models/Users');
 
 router.get('/', async function (req,res){
     res.send("Hello World");
-})
+});
 
 router.post('/',[
     //here we check whether details entered by the complainant are correct or not
@@ -30,7 +30,7 @@ router.post('/',[
     // details destructured from the body
     const {number,password}=req.body;
     try{
-        let user=await User.findOne({number});
+        let user=await User.findOne({number:number});
         if(user){
             res.status(400).json({errors:[{msg:'User already exist'}]});
 
@@ -55,11 +55,19 @@ router.post('/',[
     }
 
 });
-router.post('/save',async function (req,res) {
- const {number,password,code}=req.body;
+
+router.post('/save',[
+    check('number','number should exist and length should be 10').isLength({min:10}),
+    check('name','name should exist ').exists(),
+    check('code','enter the 6 digit code ').isLength({min:6}),
+    check('password','please enter minimum 6 digit password ').isLength({min:6}),
+],async function (req,res) {
+
+ const {number,password,code,name}=req.body;
 //  const number="8920862975";
 //  const name="St";
 //  const password="123456";
+
 
     try {
         twilio.verify.services(twilio_credentials.servideID).verificationChecks.create({
@@ -73,7 +81,7 @@ router.post('/save',async function (req,res) {
         });
     let    user=new User({
             // name,number,password
-            number,password
+            number,password,name
         });
         // encrypting the password using bcrypt(SHA-256 Algorithm)
         const  salt=await  bcrypt.genSalt(10);
@@ -106,44 +114,44 @@ router.post('/save',async function (req,res) {
 
 
 
-// router.get('/save/:number/:name/:password',async function (req,res) {
-//     // Registering the new user using the User Model-> models/User.js
-//     const name=req.params.name;
-//     const number=req.params.number;
-//     const password=req.params.password;
-//     try{
-//         user=new User({
-//             name,number,password
-//         });
-//         // encrypting the password using bcrypt(SHA-256 Algorithm)
-//         const  salt=await  bcrypt.genSalt(10);
-//         user.password=await bcrypt.hash(password,salt);
-//
-//         // Saving the user in mongoDB database
-//         await  user.save();
-//         // creating a code for unique session
-//         const payload={
-//             user:{
-//                 id:user.id
-//             }
-//         };
-//         // encrypting the above code using JWT authentication
-//         jwt.sign(payload,
-//             config.get('jwtSecret'),
-//             {expiresIn:360000},
-//             function (err,token) {
-//                 if(err){
-//                     throw err;
-//                 }
-//                 res.json({token});
-//
-//             });
-//     }catch (err) {
-//         console.error(err.message);
-//         res.status(500).send("Server Error");
-//     }
-//
-// });
+router.get('/save/:number/:name/:password',async function (req,res) {
+    // Registering the new user using the User Model-> models/User.js
+    const name=req.params.name;
+    const number=req.params.number;
+    const password=req.params.password;
+    try{
+        user=new User({
+            name,number,password
+        });
+        // encrypting the password using bcrypt(SHA-256 Algorithm)
+        const  salt=await  bcrypt.genSalt(10);
+        user.password=await bcrypt.hash(password,salt);
+
+        // Saving the user in mongoDB database
+        await  user.save();
+        // creating a code for unique session
+        const payload={
+            user:{
+                id:user.id
+            }
+        };
+        // encrypting the above code using JWT authentication
+        jwt.sign(payload,
+            config.get('jwtSecret'),
+            {expiresIn:360000},
+            function (err,token) {
+                if(err){
+                    throw err;
+                }
+                res.json({token});
+
+            });
+    }catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+
+});
 
 
 
