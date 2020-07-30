@@ -15,7 +15,13 @@ const  FIRDetails=require('../../models/FIRDetails');
 // @access  Private
 // each FIR has a UIN(Unique Identification Number) . Every police station will be able to access only those FIR that matches with their Number
 // all FIR's are then sorted based on latest FIR's
-router.get('/',auth,async function (req,res) {
+router.put('/fir',auth,[
+    check('uin',"uin should exist").exists()
+],async function (req,res) {
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+    }
     try {
         const fir= await  FIRDetails.find({UIN:req.body.uin}).sort({date:-1});
         res.json(fir);
@@ -30,9 +36,13 @@ router.get('/',auth,async function (req,res) {
 // @desc   GET post by id
 // @access  Private
 // This API  is for unique FIR. Every time the police clicks on a FIR all the details of that will be displayed on the portal
-router.get('/:id',auth,async function (req,res) {
+router.get('/:st',auth,async function (req,res) {
+
     try {
-        const fir= await FIRDetails.findById(req.params.id);
+        console.log("hello there");
+
+        const fir= await FIRDetails.findById(req.params.st);
+
         if(!fir){
             return res.status(404).json({msg:'FIR Not found'});
         }
@@ -44,21 +54,44 @@ router.get('/:id',auth,async function (req,res) {
 
 });
 
-router.post('/:id',auth,async function (req,res) {
-     const {acceptance,type_of_crime}=req.body;
+router.post('/:id',auth,[
+  check('acceptance','should ne 0 or 1').not().isEmpty(),
+  check('type_of_crime','please mention the type of crime').not().isEmpty(),
+  check('signature',"signature must exist").not().isEmpty()
+],async function (req,res) {
+
+
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+    }
+    console.log(req.body);
+    console.log(req.params);
+    const {acceptance,type_of_crime,signature}=req.body;
+
     try {
        let fir= await FIRDetails.findById(req.params.id);
+       const  update={
+        "$set":{
+            type_of_crime:type_of_crime,
+            acceptance:acceptance,
+            signature:signature
+        }
+       };
         if(fir){
             //Update
-           fir=await FIRDetails.findOneAndUpdate({id:req.params.id},
-                {$set:acceptance},
-                {new:true})
+            // console.log(fir);
+           fir=await FIRDetails.findOneAndUpdate({_id:req.params.id},
+               update,
+               {new:true});
+           console.log(fir);
+              await fir.save();
         }
 
-        fir=new FIRDetails(acceptance);
+        // fir=new FIRDetails(acceptance);
 
 
-         await fir.save();
+
         res.json(fir);
     }catch (err) {
         console.log(err.message);

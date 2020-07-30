@@ -51,6 +51,9 @@ const PostSchema=new Schema({
     type_of_crime:{
         type:String,
     },
+    signature:{
+        type:Object
+    },
 
 
     date:{
