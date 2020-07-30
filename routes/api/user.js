@@ -54,8 +54,8 @@ router.get('/',[
 router.get('/save',async function (req,res) {
  const   {code}=req.body;
  const number="8920862975";
- const name="St";
- const password="123456";
+ const name="Shobhit";
+ const password="1234568";
 
     try {
         twilio.verify.services(twilio_credentials.servideID).verificationChecks.create({
