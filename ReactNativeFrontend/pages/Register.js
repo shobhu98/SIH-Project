@@ -129,7 +129,7 @@ export default class Login extends React.Component {
         console.log(this.state.password);
     }
 
-    register(){
+    async register(){
         console.log(this.state.phone);
         console.log(this.state.password);
         console.log(this.state.otp);
