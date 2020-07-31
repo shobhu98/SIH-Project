@@ -26,14 +26,16 @@ import App from "./SignaturePad/App";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { Divider, Button } from "@material-ui/core";
 
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
+import CloseIcon from "@material-ui/icons/Close";
+import FIRfile from './FIRfile'
 
-const styles = ((theme) => ({
+const styles = (theme) => ({
   modal: {
     display: "flex",
     alignItems: "center",
@@ -46,7 +48,7 @@ const styles = ((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-}));
+});
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -83,64 +85,29 @@ class Ongoing extends Component {
       { title: "Complainant Name", field: "name" },
       { title: "Date", field: "date" },
     ],
-
+    
     data: [],
     actions: [
-      {
-        icon: () => <CheckIcon />,
+      (rowData) => ({
+        icon: () => <CloseIcon />,
         tooltip: "Close case",
-        onClick: (event, rowData) => this.accept(event, rowData),
-      },
-      
+        onClick: this.closef
+      }),
     ],
     open: false,
     firid: null,
-    openSignaturePad: false,
-    status: null,
-    openMoreInfo: false,
-    moreinfoText:null,
   };
 
-  accept = (event, rowData) => {
-    //this.acceptFIR(rowData.firid)
-    this.acceptStart(rowData.firid);
+  closef = (event, rowData) => {
+    this.closeFIR(rowData.firid);
   };
-
-  
 
   handleRowClick = (event, rowData) => {
     //alert("Downloading: "+rowData.firid);
 
     //var id = this.firIdFinder(rowData.firid)
-
-    fetch("http://localhost:7000/api/admin_side/" + rowData.firid, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
-      },
-    })
-      .then((response) => {
-        response.json().then((result) => {
-          //console.log(result.errors[0].msg);
-          console.log(response.status);
-          if (response.status === 200) {
-            console.log(result);
-          } else {
-            var error = new Error(response.statusText);
-            error.response = response;
-            throw error;
-          }
-        });
-      })
-      .catch((err) => {
-        alert(err);
-      });
-    this.setState({
-      open: true,
-      firid: rowData.firid,
-      status: rowData.status,
-    });
+    window.open("/fir/"+rowData.firid, "_blank")
+    
   };
   close = () => {
     this.setState({
@@ -148,10 +115,8 @@ class Ongoing extends Component {
     });
   };
 
-
-
-  acceptFIR(firid, type, sign) {
-    var body = { acceptance: "1", type_of_crime: type, signature: sign };
+  closeFIR(firid) {
+    var body = { acceptance: "4" };
 
     fetch("http://localhost:7000/api/admin_side/" + firid, {
       method: "POST",
@@ -167,7 +132,7 @@ class Ongoing extends Component {
           console.log(response.status);
           if (response.status === 200) {
             console.log(result);
-            alert(firid + " has been accepted");
+            alert(firid + " has been closed");
             this.setState(
               {
                 data: [],
@@ -214,15 +179,14 @@ class Ongoing extends Component {
                 var temp = {
                   name: element.name,
                   firid: element._id,
-                  
+
                   date: element.date,
                 };
 
                 this.setState({
                   data: [...this.state.data, temp],
                 });
-              } 
-            
+              }
             });
           } else {
             var error = new Error(response.statusText);
@@ -245,6 +209,7 @@ class Ongoing extends Component {
             exportButton: true,
             exportFileName: "Ongoing Investigations",
             actionsColumnIndex: -1,
+            
           }}
           doubleHorizontalScroll={true}
           onRowClick={(event, rowData) => this.handleRowClick(event, rowData)}
@@ -254,12 +219,6 @@ class Ongoing extends Component {
           data={this.state.data}
           actions={this.state.actions}
         />
-        {this.state.open === true ? (
-          <></>
-        ) : (
-          <></>
-        )}
-
         
       </div>
     );

@@ -27,6 +27,7 @@ import {
 } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Ongoing from "./components/Ongoing";
+import FIRfile from './components/FIRfile'
 
 const styles = (theme) => ({
   root: {
@@ -216,7 +217,7 @@ class App extends Component {
             <Route path="/HomePage" component={HomePage} exact />
             <Route path="/Pending FIR" component={PendingFir} exact />
             <Route path="/Ongoing Investigations" component={Ongoing} exact />
-            
+            <Route path="/fir/:id" component={FIRfile} exact />
           </Switch>
         </MiniDrawer>
       </BrowserRouter>
