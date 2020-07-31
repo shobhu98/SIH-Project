@@ -261,6 +261,12 @@ const AppNavigator = createStackNavigator({
             headerShown: false,
         }
     },
+    Language:{
+        screen: Language,
+        navigationOptions: {
+            headerShown: false,
+        }
+    }
   });
 
 export default createAppContainer(AppNavigator);

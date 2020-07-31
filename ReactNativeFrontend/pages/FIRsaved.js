@@ -4,6 +4,7 @@ import React from 'react';
 import {View,Image,Text, TouchableOpacity} from 'react-native';
 import FadeInView from 'react-native-fade-in-view';
 import {NavigationActions} from 'react-navigation';  
+import AsyncStorage from '@react-native-community/async-storage';
 
  
 class GeneralStarExample extends React.Component {

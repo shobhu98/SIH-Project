@@ -5,7 +5,8 @@ import { ActivityIndicator, Title, Card, Subheading } from 'react-native-paper';
 import { Modal, Portal} from 'react-native-paper';
 import {Content} from 'native-base'
 import Lan from "./LanguageStrings";
-import lan from "./global";
+// import lan from "./global";
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const theme = {
@@ -76,8 +77,10 @@ export default class Signature extends React.Component {
         this.state = {
             showmodal: false,
             call:true,
-            card:false
+            card:false,
+            lan:""
         };  
+        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value}));
         this.showModal = this.showModal.bind(this);
     }
 
@@ -101,7 +104,7 @@ export default class Signature extends React.Component {
             <PaperProvider theme={theme} style={styles.bg}>
                 {this.state.call && 
                 <View style={styles.view} visible={this.state.call}>
-                    <Button mode="contained" style={styles.button} onPress={this.showModal} >{Lan.PressForVolunteerButton[lan]}</Button>
+                    <Button mode="contained" style={styles.button} onPress={this.showModal} >{Lan.PressForVolunteerButton[this.state.lan]}</Button>
                 </View>}
                 
                 <Portal>
@@ -113,13 +116,13 @@ export default class Signature extends React.Component {
                 {this.state.card &&
                 <Content padder>
                     <View style={styles.textview}>
-                        <Title>{Lan.VolunteerText1[lan]}</Title>
-                        <Subheading>{Lan.VolunteerText2[lan]}</Subheading>
+                        <Title>{Lan.VolunteerText1[this.state.lan]}</Title>
+                        <Subheading>{Lan.VolunteerText2[this.state.lan]}</Subheading>
                     </View>
                     
                     <Card style={styles.card} visible={this.state.card}>
                         <Card.Title
-                            title={Lan.DummyVolunteerName[lan]}
+                            title={Lan.DummyVolunteerName[this.state.lan]}
                             subtitle="+91 7042183975"
                             right={(props) => <Image style={styles.tinyLogo} source={require('../assets/man.png')} resizeMethod="scale"/>}
                             theme={theme}

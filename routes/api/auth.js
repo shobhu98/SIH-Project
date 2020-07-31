@@ -75,7 +75,9 @@ router.post('/',[
                 if(err){
                     throw err;
                 }
+                // console.log({token});
                 res.json({token});
+                // res.send({token});
 
             });
 

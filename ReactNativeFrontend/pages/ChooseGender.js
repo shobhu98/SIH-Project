@@ -2,7 +2,8 @@ import React from 'react';
 import {StyleSheet, Image, StatusBar} from 'react-native';
 import {Content} from 'native-base';
 import { Button, Provider as PaperProvider, DefaultTheme, Title } from 'react-native-paper';
-import lan from './global.js'
+// import lan from './global.js'
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const theme = {
@@ -44,7 +45,7 @@ export default class ChooseGender extends React.Component {
         const Lan = {
             Male: {
                 en: "Male",
-                hi: "नर"
+                hi: "पुस्र्ष"
             },
             Female: {
                 en: "Female",
@@ -53,9 +54,10 @@ export default class ChooseGender extends React.Component {
 
         };
         this.state = {
-            titles: Lan
+            titles: Lan,
+            lan:""
         };
-        console.log(lan);
+        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value}));
     }
     render(){
         return(
@@ -63,8 +65,8 @@ export default class ChooseGender extends React.Component {
                 <StatusBar backgroundColor="#16335C"/>
                 <PaperProvider theme={theme}>
                     {/* <Title>Choose gender of officer</Title> */}
-                    <Button mode="outlined" style={styles.englishButton} labelStyle={styles.labelstyle} icon="gender-male" onPress={() => this.props.navigation.navigate('MAnimationStack')} >{this.state.titles.Male[lan]}</Button>
-                    <Button mode="outlined" style={styles.hindiButton} labelStyle={styles.labelstyle} icon="gender-female" onPress={() => this.props.navigation.navigate('FAnimationStack')}>{this.state.titles.Female[lan]}</Button>
+                    <Button mode="outlined" style={styles.englishButton} labelStyle={styles.labelstyle} icon="gender-male" onPress={() => this.props.navigation.navigate('MAnimationStack')} >{this.state.titles.Male[this.state.lan]}</Button>
+                    <Button mode="outlined" style={styles.hindiButton} labelStyle={styles.labelstyle} icon="gender-female" onPress={() => this.props.navigation.navigate('FAnimationStack')}>{this.state.titles.Female[this.state.lan]}</Button>
                 </PaperProvider>
             </Content>
         );

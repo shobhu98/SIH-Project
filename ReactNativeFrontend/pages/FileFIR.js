@@ -4,7 +4,8 @@ import {Content} from 'native-base';
 import {StyleSheet, Image, StatusBar} from 'react-native';
 import {StyleProvider, Header, Title} from 'native-base';
 import { Button, Provider as PaperProvider } from 'react-native-paper';
-import lan from './global.js'
+// import lan from './global.js'
+import AsyncStorage from '@react-native-community/async-storage';
 
 const theme = {
     ...DefaultTheme,
@@ -43,6 +44,8 @@ const styles = StyleSheet.create({
 export default class FileFIR extends React.Component {
     constructor(props){
         super(props);
+        const { navigation } = this.props;
+        // console.log(navigation.getParam('lang'));
         const Lan = {
             Title1: {
                 en: "Talk to Virtual Officer",
@@ -74,8 +77,15 @@ export default class FileFIR extends React.Component {
             }
         };
         this.state = {
-            titles: Lan
+            titles: Lan,
+            lan:""
         };
+        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value}));
+        // try {
+        //         AsyncStorage.getItem('@auth', (err, item) => console.log(item));
+        //       } catch(e) {
+        //         console.log(e);
+        //       }
     }
     render(){
         return(
@@ -84,37 +94,37 @@ export default class FileFIR extends React.Component {
                 <PaperProvider theme={theme}>
                     <Card style={styles.card}>
                         <Card.Title
-                            title={this.state.titles.Title1[lan]}
-                            subtitle={this.state.titles.Subtitle1[lan]}
+                            title={this.state.titles.Title1[this.state.lan]}
+                            subtitle={this.state.titles.Subtitle1[this.state.lan]}
                             right={(props) => <Image style={styles.tinyLogo} source={require('../assets/policeman.png')} resizeMethod="scale"/>}
                             theme={theme}
                         />
                         <Card.Actions style={styles.cardcontent}>
-                            <Button mode="contained" onPress={() => this.props.navigation.navigate('ChooseGender')}>{this.state.titles.BUTTON[lan]}</Button>
+                            <Button mode="contained" onPress={() => this.props.navigation.navigate('ChooseGender')}>{this.state.titles.BUTTON[this.state.lan]}</Button>
                         </Card.Actions>
                     </Card>
 
                     <Card style={styles.card}>
                         <Card.Title
-                            title={this.state.titles.Title2[lan]}
-                            subtitle={this.state.titles.Subtitle2[lan]}
+                            title={this.state.titles.Title2[this.state.lan]}
+                            subtitle={this.state.titles.Subtitle2[this.state.lan]}
                             right={(props) => <Image style={styles.tinyLogo} source={require('../assets/form.png')} resizeMethod="scale"/>}
                             theme={theme}
                         />
                         <Card.Actions style={styles.cardcontent}>
-                            <Button mode="contained" onPress={() => this.props.navigation.navigate('CallForHelp')}>{this.state.titles.BUTTON[lan]}</Button>
+                            <Button mode="contained" onPress={() => this.props.navigation.navigate('CallForHelp')}>{this.state.titles.BUTTON[this.state.lan]}</Button>
                         </Card.Actions>
                     </Card>
                     
                     <Card style={styles.card}>
                         <Card.Title
-                            title={this.state.titles.Title3[lan]}
-                            subtitle={this.state.titles.Subtitle3[lan]}
+                            title={this.state.titles.Title3[this.state.lan]}
+                            subtitle={this.state.titles.Subtitle3[this.state.lan]}
                             right={(props) => <Image style={styles.tinyLogo} source={require('../assets/form.png')} resizeMethod="scale"/>}
                             theme={theme}
                         />
                         <Card.Actions style={styles.cardcontent}>
-                            <Button mode="contained" onPress={() => this.props.navigation.navigate('FillForm')}>{this.state.titles.BUTTON[lan]}</Button>
+                            <Button mode="contained" onPress={() => this.props.navigation.navigate('FillForm')}>{this.state.titles.BUTTON[this.state.lan]}</Button>
                         </Card.Actions>
                     </Card>
                     

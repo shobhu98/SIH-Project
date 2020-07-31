@@ -65,40 +65,6 @@ export default class FillCaseDetails extends React.Component {
             nationality: undefined,
             uriList:[]
         };
-
-            const Lan = {
-                Title1: {
-                    en: "Talk to Virtual Officer",
-                    hi: "वर्चुअल ऑफिसर से बात करें"
-                },
-                Subtitle1: {
-                    en: "Interactive Police Officer",
-                    hi: "इंटरैक्टिव पुलिस अधिकारी"
-                },
-                BUTTON: {
-                    en: "PROCEED",
-                    hi: "बढ़ना"
-                },
-                Title2: {
-                    en: "Call For Volunteer's Help",
-                    hi: "स्वयंसेवक की मदद के लिए पूछें"
-                },
-                Subtitle2: {
-                    en: "Professional Help will come your way",
-                    hi: "प्रोफेशनल हेल्प आपके रास्ते आएगी"
-                },
-                Title3:{
-                    en: "Fill Manually",
-                    hi: "FIR स्वयं भरें"
-                },
-                Subtitle3: {
-                    hi: "पुराने ढंग का",
-                    en: "The old fashioned way"
-                }
-            };
-            this.state = {
-                titles: Lan
-            };
     }
     
     onValueChange2(value) {

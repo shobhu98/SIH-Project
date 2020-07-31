@@ -2,7 +2,8 @@ import * as React from 'react';
 import {Text} from 'react-native-paper';
 import {Linking, View, StyleSheet} from 'react-native'
 import {Button, Provider as PaperProvider, DefaultTheme, Title} from 'react-native-paper';
-import lan from './global.js'
+// import lan from './global.js'
+import AsyncStorage from '@react-native-community/async-storage';
 
 const styles = StyleSheet.create({
     view: {
@@ -55,8 +56,10 @@ export default class MedicalHelp extends React.Component {
         };
 
         this.state = {
-            titles: Lan
+            titles: Lan,
+            lan:""
         }
+        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
     }
 
     render() {
@@ -64,28 +67,28 @@ export default class MedicalHelp extends React.Component {
             <View style={styles.view}>
                 <Button color="#16335C" style={styles.button} mode="contained" onPress={() => {
                     Linking.openURL('tel:112');
-                }}>{this.state.titles.NationalEmergencyNumber[lan]}</Button>
+                }}>{this.state.titles.NationalEmergencyNumber[this.state.lan]}</Button>
                 <Button color="#16335C" style={styles.button} mode="contained" onPress={() => {
                     Linking.openURL('tel:100');
-                }}>{this.state.titles.Police[lan]}</Button>
+                }}>{this.state.titles.Police[this.state.lan]}</Button>
                 <Button color="#16335C" style={styles.button} mode="contained" onPress={() => {
                     Linking.openURL('tel:101');
-                }}>{this.state.titles.Fire[lan]}</Button>
+                }}>{this.state.titles.Fire[this.state.lan]}</Button>
                 <Button color="#16335C" style={styles.button} mode="contained" onPress={() => {
                     Linking.openURL('tel:102');
-                }}>{this.state.titles.Ambulance[lan]}</Button>
+                }}>{this.state.titles.Ambulance[this.state.lan]}</Button>
                 <Button color="#16335C" style={styles.button} mode="contained" onPress={() => {
                     Linking.openURL('tel:1091');
-                }}>{this.state.titles.WomenHelpline[lan]}</Button>
+                }}>{this.state.titles.WomenHelpline[this.state.lan]}</Button>
                 <Button color="#16335C" style={styles.button} mode="contained" onPress={() => {
                     Linking.openURL('tel:181');
-                }}>{this.state.titles.WomenHelplineDomestic[lan]}</Button>
+                }}>{this.state.titles.WomenHelplineDomestic[this.state.lan]}</Button>
                 <Button color="#16335C" style={styles.button} mode="contained" onPress={() => {
                     Linking.openURL('tel:1073');
-                }}>{this.state.titles.RoadAccident[lan]}</Button>
+                }}>{this.state.titles.RoadAccident[this.state.lan]}</Button>
                 <Button color="#16335C" style={styles.button} mode="contained" onPress={() => {
                     Linking.openURL('tel:1363');
-                }}>{this.state.titles.TouristHelpline[lan]}</Button>
+                }}>{this.state.titles.TouristHelpline[this.state.lan]}</Button>
             </View>
         );
     }

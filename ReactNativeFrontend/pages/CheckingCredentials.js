@@ -5,7 +5,7 @@ export default class FileFIR extends React.Component{
     constructor(props){
         super(props);
         //handle login stuff here
-        this.props.navigation.replace('Login');
+        this.props.navigation.replace('Language');
     }
     render(){
         return(<Text>wait</Text>);

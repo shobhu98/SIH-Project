@@ -3,15 +3,17 @@ import {AppLoading} from 'expo';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
 import Routing from './Routing';
-import {createStore, StoreProvider, action} from 'easy-peasy';
+import { store,view} from '@risingstack/react-easy-state';
 
 const colorScheme = {
     primaryColor: "#16335C",
     secondaryColor: "#FF4B63"
 };
 
+const lan = store({ lang: 'en' });
 
-export default class App extends React.Component {
+
+class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,3 +40,5 @@ export default class App extends React.Component {
         );
     }
 }
+
+export default view(App);

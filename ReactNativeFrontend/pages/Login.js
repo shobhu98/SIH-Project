@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Container, Header,  Title, StyleProvider, Content, Form, Item, Input, Label } from 'native-base';
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/variables';
@@ -11,7 +11,8 @@ import NamasteFemale from "./animation_components/female/NamasteFemale";
 import { StackActions, NavigationActions } from 'react-navigation';
 import { useStoreState } from 'easy-peasy';
 import lan from './global.js'
-import {NavigationActions, StackActions} from "react-navigation";
+// import Lan from './global.js';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const theme = {
     ...DefaultTheme,
@@ -76,16 +77,18 @@ const styles = StyleSheet.create({
 });
 
 
+// export default function ProductsInBasket() {
+//   const count = useStoreState(state => state.basket.productIds.length);
+//   console.log(count);
+//   return(<Login />); 
+// }
 
-export default function ProductsInBasket() {
-  const count = useStoreState(state => state.basket.productIds.length);
-  console.log(count);
-  return(<Login />); 
-}
 
-class Login extends React.Component {
+export default class Login extends React.Component {
     constructor(props){
         super(props);
+        const { navigation } = this.props;
+        this.login=this.login.bind(this);
         const Lan = {
             PhoneNumber: {
                 en: "Phone Number",
@@ -104,8 +107,8 @@ class Login extends React.Component {
                 hi: "वर्चुअल पुलिस स्टेशन"
             },
             HaventRegistered:{
-                en:"Haven't Registered yet?",
-                hi: "अभी तक पंजीकृत नहीं है?"
+                en:"Haven't Registered yet? ",
+                hi: "अभी तक पंजीकृत नहीं है? "
             },
             RegisterNow:{
                 en: "Register Now!",
@@ -116,29 +119,65 @@ class Login extends React.Component {
                 hi: "मदद लें"
             }
         };
-        this.sendOTP=this.sendOTP.bind(this);
-        this.login=this.login.bind(this);
         this.state={
             titles: Lan,
             phone:"",
             password:"",
             err:false,
-            otpErr:false
+            otpErr:false,
+            lan:''
         }
-        console.log(ProductsInBasket());
+        // try {
+        //         AsyncStorage.getItem('@lan', (err, itemm) => console.log("blah blah "+JSON.parse(itemm)));
+        //     } catch(e) {
+        //     console.log(e);
+        //     }
+        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value}));
+        //console.log(this.state.lan);
     }
 
-    sendOTP(){
-        console.log(this.state.phone);
-    }
+    
 
     login(){
         //check login here
-        const resetAction = StackActions.reset({
-            index: 0,
-            actions: [NavigationActions.navigate({ routeName: 'MainPage' })],
-        });
-        this.props.navigation.dispatch(resetAction)
+        
+        
+
+        //this.props.navigation.navigate('MainPage',{lang:this.state.lan} )
+        console.log(this.state.phone);
+        console.log(this.state.password);
+        fetch('http://192.168.1.10:7000/api/auth', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                number:this.state.phone, 
+                password:this.state.password
+            })
+        }).then((response) => response.json())
+        .then((responseData) => {
+            console.log(responseData.token);
+            try {
+                AsyncStorage.setItem('@auth', responseData.token);
+                console.log("daal diya");
+            } catch (e) {
+                console.log(e);
+            }
+            // try {
+            //     AsyncStorage.getItem('@auth', (err, item) => console.log(item));
+            // } catch(e) {
+            // console.log(e);
+            // }
+            const resetAction = StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: 'MainPage',lang:this.state.lan } )],
+            });
+            this.props.navigation.dispatch(resetAction);
+            
+        }).catch (function (error){
+            console.log(error);
+        })
     }
 
     render(){
@@ -154,7 +193,7 @@ class Login extends React.Component {
                     </View>
                     <View style={styles.blueview}>
                         <View style={{alignItems:'center', marginBottom:10}}>
-                            <Label style={styles.label}>{this.state.titles.AppName[lan]}</Label>
+                            <Label style={styles.label}>{this.state.titles.AppName[this.state.lan]}</Label>
                         </View>
                     </View>
                     <PaperProvider theme={theme}>
@@ -162,7 +201,7 @@ class Login extends React.Component {
                             <Form style={styles.form}>
                                 {/* <Label>{this.props.lang}</Label> */}
                                 <Item regular style={styles.input}>
-                                    <Input keyboardType={'numeric'}  placeholder={this.state.titles.PhoneNumber[lan]} onChangeText={text => this.setState({phone:text})}/>
+                                    <Input keyboardType={'numeric'}  placeholder={this.state.titles.PhoneNumber[this.state.lan]} onChangeText={text => this.setState({phone:text})}/>
                                 </Item>
                                 {/* {this.state.phoneErr && <Label style={styles.errortext}>Please enter correct phone number of 10 digits</Label>}
                                 <Button mode="contained" onPress={this.sendOTP} style={styles.button}>
@@ -170,23 +209,23 @@ class Login extends React.Component {
                                 </Button> */}
                                 
                                 <Item regular style={styles.input}>
-                                    <Input secureTextEntry={true} placeholder={this.state.titles.Password[lan]}  onChangeText={text => this.setState({password:text})}/>
+                                    <Input secureTextEntry={true} placeholder={this.state.titles.Password[this.state.lan]}  onChangeText={text => this.setState({password:text})}/>
                                 </Item>
                                 <Button mode="contained" onPress={this.login} style={styles.button}>
-                                    {this.state.titles.LogIn[lan]}
+                                    {this.state.titles.LogIn[this.state.lan]}
                                 </Button>
                                 {/* <Button mode="contained" onPress={() => this.props.navigation.navigate('PickImage')} style={styles.button}>
                                     Camera
                                 </Button> */}
                                 <Divider style={styles.divider} theme={theme}/>
                                 <View style={styles.view}>
-                                    <Text>{this.state.titles.HaventRegistered[lan]}</Text>
+                                    <Text>{this.state.titles.HaventRegistered[this.state.lan]}</Text>
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
-                                        <Text style={styles.text}>{this.state.titles.RegisterNow[lan]}</Text>
+                                        <Text style={styles.text}>{this.state.titles.RegisterNow[this.state.lan]}</Text>
                                     </TouchableOpacity>
                                 </View>
                                 <Button mode="outlined" onPress={() => console.log('Pressed')} style={styles.getHelp}>
-                                    {this.state.titles.GetHelp[lan]}
+                                    {this.state.titles.GetHelp[this.state.lan]}
                                 </Button>
                             </Form>
                         </Content>
