@@ -11,10 +11,6 @@ const PostSchema=new Schema({
         type: String,
         required:true
     },
-    email:{
-        type:String,
-        required:true
-    },
     fathersName:{
         type:String,
         required:false,
@@ -22,28 +18,49 @@ const PostSchema=new Schema({
     DOB:{
         type:Date,
         required:false,
-
     },
     mobile:{
         type:Number,
         required:true,
-
+    },
+    aadhar:{
+        type:String
+    },
+    address:{
+        type:String
+    },
+    email:{
+        type:String
+    },
+    country:{
+        type:String
+    },
+    passport:{
+        type:String
+    },
+    district:{
+        type:String
     },
     incident:{
         type:String,
         required:true
-
     },
     FIRNUM:{
       type:String,
-
     },
-
     UIN:{
         type:String,
         required:true,
     },
-
+    addrOfCrime:{
+        type:String
+    },
+    delay:{
+        type:String
+    },
+    suspects:{
+        type:String
+    },
     acceptance:{
         type:Number,
         default: 0,
@@ -54,6 +71,21 @@ const PostSchema=new Schema({
     signature:{
         type:Object
     },
+    spam:{
+        type:Number,
+        default:0,
+    },
+
+    case_Details:[
+        {
+            name:'String',
+            img:{
+                data:Buffer,
+                contentType:String
+            }
+
+        }
+    ],
 
 
     date:{

@@ -336,6 +336,13 @@ class PendingFir extends Component {
             exportButton: true,
             exportFileName: "Pending_FIRs",
             actionsColumnIndex: -1,
+            rowStyle: rowData => ({
+              borderLeft: (rowData.spam === 1) ?  '6px solid yellow' : null,
+              borderLeft: ("More information requested" === rowData.status && rowData.spam === 0)  ? '6px solid yellow' : '6px solid green',
+              
+
+              
+            })
           }}
           doubleHorizontalScroll={true}
           onRowClick={(event, rowData) => this.handleRowClick(event, rowData)}
@@ -344,6 +351,7 @@ class PendingFir extends Component {
           columns={this.state.columns}
           data={this.state.data}
           actions={this.state.actions}
+          
         />
         {this.state.open === true ? (
           <FIRModal

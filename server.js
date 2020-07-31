@@ -4,17 +4,17 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT || 7000;
 const app = express();
-const connectDB = require("./config/db");
-var cors = require("cors");
-
-// Mongodb connection is called from config/db.js
-connectDB();
-
+let cors=require('cors');
+const  connectDB=require('./config/db');
 app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// Mongodb connection is called from config/db.js
+ connectDB();
+
+
 
 //Various apis are called here from routes/api
 app.use("/api/user", require("./routes/api/user"));
@@ -25,6 +25,8 @@ app.use("/api/admin_side", require("./routes/api/admin_side"));
 app.use("/api/dialogflow", require("./routes/api/dialogflow"));
 app.use("/api/pdfGenerate", require("./routes/api/pdfGenerator"));
 app.use("/api/lodgeFIR", require("./routes/api/lodgeFIR"));
+app.use("/api/upload_files",require('./routes/api/upload_files'));
+app.use("/api/profile",require('./routes/api/profile'));
 
 //running on PORT code
 app.listen(PORT, function () {
