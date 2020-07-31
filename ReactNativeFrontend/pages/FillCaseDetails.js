@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import lan from './global.js'
+import Lan from "./LanguageStrings";
 
 
 const theme = {
@@ -50,7 +51,7 @@ export default class FillCaseDetails extends React.Component {
     
     constructor(props) {
         super(props);
-        var options=["Agar Malwa","Alirajpur","Annupur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Hoshangabad","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Mandla","Mandsaur","Morena","Narsinghpur","Neemuch","Niwari","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umari","Vidisha"];
+        var options=Lan.DistrictOptions[lan];
         var optionsj=[];
         for(var i=0;i<options.length;i++){
             optionsj.push({
@@ -85,7 +86,7 @@ export default class FillCaseDetails extends React.Component {
         if (Constants.platform.ios) {
           const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
           if (status !== 'granted') {
-            alert('Sorry, we need camera roll permissions to make this work!');
+            alert(Lan.CameraPrompt[lan]);
           }
         }
     };
@@ -116,7 +117,7 @@ export default class FillCaseDetails extends React.Component {
                     <Divider style={styles.divider} />
                     <Text style={styles.text}>Place of Occurence</Text>
                     <Item regular>
-                        <Input placeholder='Place' />
+                        <Input placeholder={Lan.PlaceHolderPlace[lan]} />
                     </Item>
                     <Text style={styles.text}>District where incident occured</Text>
                     <Item picker>

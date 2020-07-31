@@ -3,8 +3,9 @@ import StarRating from 'react-native-star-rating';
 import React from 'react';
 import {View,Image,Text, TouchableOpacity} from 'react-native';
 import FadeInView from 'react-native-fade-in-view';
-import {NavigationActions} from 'react-navigation';  
-import AsyncStorage from '@react-native-community/async-storage';
+import {NavigationActions} from 'react-navigation';
+import Lan from "./LanguageStrings";
+import lan from "./global";
 
  
 class GeneralStarExample extends React.Component {
@@ -42,13 +43,13 @@ class GeneralStarExample extends React.Component {
             <View style={{justifyContent: 'center',alignItems: 'center', marginTop:200, }}>
             
                 <Image style={{width: 100, height: 100}} source={require('../assets/green-arrow.png')} resizeMethod="scale"/>
-                <Subheading style={{color:'#16335C', fontSize:20,marginTop:5}}>You have successfully filed the FIR</Subheading>
+                <Subheading style={{color:'#16335C', fontSize:20,marginTop:5}}>{Lan.SuccessfulSubmissionPrompt[lan]}</Subheading>
                 
                 {this.state.showRating && <FadeInView
                     duration={750}
                     style={{ alignItems: 'center' }}
                 >   
-                    <Subheading style={{color:'#16335C', fontSize:18,marginTop:30}}>Please rate us!</Subheading>
+                    <Subheading style={{color:'#16335C', fontSize:18,marginTop:30}}>{Lan.PleaseRateUsPrompt[lan]}</Subheading>
                     <StarRating
                         // disabled={false}
                         maxStars={5}
@@ -59,9 +60,6 @@ class GeneralStarExample extends React.Component {
                         <Text style={{color:'#16335C', fontSize:16,marginTop:10, textDecorationLine: 'underline'}}>Go back</Text>
                     </TouchableOpacity>
                 </FadeInView>}
-                
-
-
             </View>
             
         </View>
