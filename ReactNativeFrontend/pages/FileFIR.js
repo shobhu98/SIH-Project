@@ -6,6 +6,7 @@ import {StyleProvider, Header, Title} from 'native-base';
 import { Button, Provider as PaperProvider } from 'react-native-paper';
 // import lan from './global.js'
 import AsyncStorage from '@react-native-community/async-storage';
+import { NavigationEvents } from 'react-navigation';
 
 const theme = {
     ...DefaultTheme,
@@ -90,6 +91,11 @@ export default class FileFIR extends React.Component {
     render(){
         return(
             <Content style={styles.content}>
+                <NavigationEvents
+                    onWillFocus={() => {
+                        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
+                    }}
+                />
                 <StatusBar backgroundColor="#16335C"/>
                 <PaperProvider theme={theme}>
                     <Card style={styles.card}>

@@ -4,6 +4,7 @@ import {StyleSheet, View} from 'react-native';
 import {Button,DefaultTheme , Provider as PaperProvider, Divider} from 'react-native-paper';
 import Lan from "./LanguageStrings";
 import lan from "./global";
+// import { NavigationEvents } from 'react-navigation';
 
 const theme = {
   ...DefaultTheme,
@@ -102,6 +103,11 @@ export default class TrackStatus extends React.Component {
   render(){
     return(
       <Content padder>
+        {/* <NavigationEvents
+          onWillFocus={() => {
+              AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
+          }}
+        /> */}
         {this.state.cases}
       </Content>
       

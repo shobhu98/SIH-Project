@@ -4,6 +4,7 @@ import {Linking, View, StyleSheet} from 'react-native'
 import {Button, Provider as PaperProvider, DefaultTheme, Title} from 'react-native-paper';
 // import lan from './global.js'
 import AsyncStorage from '@react-native-community/async-storage';
+import { NavigationEvents } from 'react-navigation';
 
 const styles = StyleSheet.create({
     view: {
@@ -65,6 +66,11 @@ export default class MedicalHelp extends React.Component {
     render() {
         return (
             <View style={styles.view}>
+                <NavigationEvents
+                    onWillFocus={() => {
+                        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
+                    }}
+                />
                 <Button color="#16335C" style={styles.button} mode="contained" onPress={() => {
                     Linking.openURL('tel:112');
                 }}>{this.state.titles.NationalEmergencyNumber[this.state.lan]}</Button>
