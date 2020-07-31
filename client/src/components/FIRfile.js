@@ -43,9 +43,7 @@ export default class FIRfile extends Component {
     return (
       <div>
        {this.props.match.params.id}
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
+        
       </div>
     );
   }
