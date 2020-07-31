@@ -59,6 +59,17 @@ const PostSchema=new Schema({
         default:0,
     },
 
+    case_Details:[
+        {
+            name:'String',
+            img:{
+                data:Buffer,
+                contentType:String
+        }
+
+}
+    ],
+
 
     date:{
         type:Date,
