@@ -36,6 +36,8 @@ import NotingDetailsMale from './pages/animation_components/male/NotingDetailsMa
 import RequestingDetailsMale from "./pages/animation_components/male/RequestingDetailsMale";
 import NotingDetailsFemale from "./pages/animation_components/female/NotingDetailsFemale";
 import RequestingDetailsFemale from "./pages/animation_components/female/RequestingDetailsFemale";
+import Lan from "./pages/LanguageStrings";
+import lan from "./pages/global";
 // import PoliceWoman from "./pages/animation_components/female/PoliceWoman";
 
 
@@ -169,20 +171,25 @@ const TabNavigator = createBottomTabNavigator({
     FileFIRStack:{
         screen:FileFIRStack,
         navigationOptions: {
-            tabBarLabel: 'File FIR'
+            tabBarLabel: Lan.FileFIRTabName[lan]
         }
     },
     TrackStatus: {
         screen:TrackStatusStack,
         navigationOptions: {
-            tabBarLabel: 'Track Status'
+            tabBarLabel: Lan.TrackStatusTabNam[lan]
         }
     },
-    Profile: ProfileStack,
+    Profile: {
+        screen:ProfileStack,
+        navigationOptions: {
+            tabBarLabel: Lan.ProfileTabName[lan]
+        }
+    },
     MedicalHelp: {
         screen:MedicalHelp,
         navigationOptions: {
-            tabBarLabel: 'Medical Help'
+            tabBarLabel: Lan.MedicalHelpTabNam[lan]
         }
     },
   },
@@ -254,6 +261,12 @@ const AppNavigator = createStackNavigator({
             headerShown: false,
         }
     },
+    Language:{
+        screen: Language,
+        navigationOptions: {
+            headerShown: false,
+        }
+    }
   });
 
 export default createAppContainer(AppNavigator);

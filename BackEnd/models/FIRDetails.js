@@ -11,10 +11,10 @@ const PostSchema=new Schema({
         type: String,
         required:true
     },
-    email:{
-        type:String,
-        required:true
-    },
+    // email:{
+    //     type:String,
+    //     required:true
+    // },
     fathersName:{
         type:String,
         required:false,

@@ -17,16 +17,16 @@ const config=require('config');
 // authenticating a user  immediately  after registration on the portal
 
 // for auth check middleware/auth
-router.get('/',auth,async function (req,res) {
-    try {
-        const user= await User.findById(req.user.id).select('-password');
-        res.json(user);
-    }catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server Error");
-    }
-
-});
+// router.get('/',auth,async function (req,res) {
+//     try {
+//         const user= await User.findById(req.user.id).select('-password');
+//         res.json(user);
+//     }catch (err) {
+//         console.error(err.message);
+//         res.status(500).send("Server Error");
+//     }
+//
+// });
 
 
 //@route POST api/auth
@@ -36,7 +36,7 @@ router.get('/',auth,async function (req,res) {
 router.post('/',[
     // checking whether
     check('number',"Please include a valid number").isLength({min:10}),
-    check('password','Password required').exists(),
+    check('password','Password required').isLength({min:6}),
 ],async function (req,res) {
     const errors=validationResult(req);
     if(!errors.isEmpty()){
@@ -75,7 +75,9 @@ router.post('/',[
                 if(err){
                     throw err;
                 }
+                // console.log({token});
                 res.json({token});
+                // res.send({token});
 
             });
 

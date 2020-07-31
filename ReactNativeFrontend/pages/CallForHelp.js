@@ -4,6 +4,9 @@ import {View, StyleSheet,Text,Image,Alert} from 'react-native';
 import { ActivityIndicator, Title, Card, Subheading } from 'react-native-paper';
 import { Modal, Portal} from 'react-native-paper';
 import {Content} from 'native-base'
+import Lan from "./LanguageStrings";
+// import lan from "./global";
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const theme = {
@@ -74,8 +77,10 @@ export default class Signature extends React.Component {
         this.state = {
             showmodal: false,
             call:true,
-            card:false
+            card:false,
+            lan:""
         };  
+        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value}));
         this.showModal = this.showModal.bind(this);
     }
 
@@ -99,7 +104,7 @@ export default class Signature extends React.Component {
             <PaperProvider theme={theme} style={styles.bg}>
                 {this.state.call && 
                 <View style={styles.view} visible={this.state.call}>
-                    <Button mode="contained" style={styles.button} onPress={this.showModal} >Press for a volunteer</Button>
+                    <Button mode="contained" style={styles.button} onPress={this.showModal} >{Lan.PressForVolunteerButton[this.state.lan]}</Button>
                 </View>}
                 
                 <Portal>
@@ -111,13 +116,13 @@ export default class Signature extends React.Component {
                 {this.state.card &&
                 <Content padder>
                     <View style={styles.textview}>
-                        <Title>Your volunteer will reach out to you in a few minutes!</Title>
-                        <Subheading>If they do not, find the details below to reach out to them</Subheading>
+                        <Title>{Lan.VolunteerText1[this.state.lan]}</Title>
+                        <Subheading>{Lan.VolunteerText2[this.state.lan]}</Subheading>
                     </View>
                     
                     <Card style={styles.card} visible={this.state.card}>
                         <Card.Title
-                            title="Ram Madhan"
+                            title={Lan.DummyVolunteerName[this.state.lan]}
                             subtitle="+91 7042183975"
                             right={(props) => <Image style={styles.tinyLogo} source={require('../assets/man.png')} resizeMethod="scale"/>}
                             theme={theme}

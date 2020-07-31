@@ -5,6 +5,8 @@ import DatePicker from 'react-native-datepicker'
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/textjs';
 import {StyleSheet, View} from 'react-native';
+import lan from './global.js'
+import Lan from './LanguageStrings'
 
 const theme = {
     ...DefaultTheme,
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
 export default class FillForm extends React.Component {
     constructor(props) {
         super(props);
-        var options=["Agar Malwa","Alirajpur","Annupur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Hoshangabad","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Mandla","Mandsaur","Morena","Narsinghpur","Neemuch","Niwari","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umari","Vidisha"];
+        var options= Lan.DistrictOptions[lan];
         var optionsj=[];
         for(var i=0;i<options.length;i++){
             optionsj.push({
@@ -89,13 +91,13 @@ export default class FillForm extends React.Component {
         //         alert('Please Enter Country Name');
         //     else if(this.state.ppnum.length===0)
         //         alert('Please Enter Passport Number');
-        // }  
+        // }
         // else{
         //     if(this.state.country.length===0){
         //         this.setState({country:"India"});
         //         console.log("HEJHCKJN")
         //     }
-                
+
         //     console.log("Name "+this.state.name);
         //     console.log("Addr "+this.state.address);
         //     console.log("Dis "+this.state.selected2);
@@ -105,26 +107,26 @@ export default class FillForm extends React.Component {
         //     console.log("Country "+this.state.country);
         //     console.log("PP "+this.state.ppnum);
         //     console.log("DOB "+this.state.date);
-            
+
         // }
         this.props.navigation.navigate('FillCaseDetails');
     }
-    
+
     render(){
         return(
             <StyleProvider style={getTheme(material)}>
 
             
             <Content padder style={styles.bg}>
-                <H2 style={styles.h2}>Personal Details</H2>
+                <H2 style={styles.h2}>{Lan.PersonalDetails[lan]}</H2>
                 <Divider style={styles.divider} />
-                <Text style={styles.text}>Complainant's Name</Text>
+                <Text style={styles.text}>{Lan.ComplainantsName[lan]}</Text>
                 <Item regular>
-                    <Input placeholder='Name' onChangeText={text => this.setState({name:text})} />
+                    <Input placeholder={Lan.PlaceHolderName[lan]} onChangeText={text => this.setState({name:text})} />
                 </Item>
-                <Text style={styles.text}>Complainant's Address</Text>
-                <Textarea rowSpan={4} bordered placeholder="Address" onChangeText={text => this.setState({address:text})}/>
-                <Text style={styles.text}>District</Text>
+                <Text style={styles.text}>{Lan.Address[lan]}</Text>
+                <Textarea rowSpan={4} bordered placeholder= {Lan.PlaceHolderAddress[lan]}onChangeText={text => this.setState({address:text})}/>
+                <Text style={styles.text}>{Lan.District[lan]}</Text>
                 <Item picker>
                 <Picker
                     mode="dropdown"
@@ -141,21 +143,21 @@ export default class FillForm extends React.Component {
                     ))}
                 </Picker>
                 </Item>
-                <Text style={styles.text}>Complainant's Mobile Number</Text>
+                <Text style={styles.text}>{Lan.PhoneNumber[lan]}</Text>
                 <Item regular>
-                    <Input keyboardType={'numeric'} placeholder='Mobile Number' onChangeText={text => this.setState({mobile:text})}/>
+                    <Input placeholder={Lan.PhoneNumberPlaceHolder[lan]} onChangeText={text => this.setState({mobile:text})}/>
                 </Item>
-                <Text style={styles.text}>Complainant's Email ID</Text>
+                <Text style={styles.text}>{Lan.Email[lan]}</Text>
                 <Item regular>
-                    <Input placeholder='Email ID' onChangeText={text => this.setState({email:text})} />
+                    <Input placeholder={Lan.PlaceHolderEmail[lan]}  onChangeText={text => this.setState({email:text})} />
                 </Item>
-                <Text style={styles.text}>Complainant's Nationality</Text>
+                <Text style={styles.text}>{Lan.Nationality[lan]}</Text>
                 <Item picker>
                     <Picker
                         mode="dropdown"
                         iosIcon={<Icon name="arrow-down" />}
                         style={{ width: undefined }}
-                        placeholder="Select nationality"
+                        placeholder={Lan.NationalityPlaceHolder[lan]}
                         placeholderStyle={{ color: "#bfc6ea" }}
                         placeholderIconColor="#007aff"
                         selectedValue={this.state.nationality}
@@ -169,11 +171,11 @@ export default class FillForm extends React.Component {
                 {this.state.nationality && <View>
                     <Text style={styles.text}>Complainant's Country</Text>
                     <Item regular>
-                        <Input placeholder='Country' onChangeText={text => this.setState({country:text})}/>
+                        <Input placeholder={Lan.Country[lan]} onChangeText={text => this.setState({country:text})}/>
                     </Item>
                     <Text style={styles.text}>Complainant's Passport Number</Text>
                     <Item regular>
-                        <Input placeholder='Passport Number' onChangeText={text => this.setState({ppnum:text})}/>
+                        <Input placeholder={Lan.PassportNumberPlaceHolder[lan]} onChangeText={text => this.setState({ppnum:text})}/>
                     </Item>
                 </View>}
                 <Text style={styles.text}>Complainant's Date Of Birth</Text>
@@ -202,7 +204,7 @@ export default class FillForm extends React.Component {
                     onDateChange={(date) => {this.setState({date: date})}}
                 />
                 <PaperProvider theme={theme}>
-                    <Button mode="contained" style={styles.proceedButton}  onPress={this.proceedbutton } >Proceed</Button>
+                    <Button mode="contained" style={styles.proceedButton}  onPress={() => this.props.navigation.navigate('FillCaseDetails')} >{Lan.ProceedButton[lan]}</Button>
                 </PaperProvider>
                 
             </Content>
