@@ -8,6 +8,8 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Dimensions } from "react-native";
 import NamasteMale from "./animation_components/male/NamasteMale";
 import NamasteFemale from "./animation_components/female/NamasteFemale";
+import { StackActions, NavigationActions } from 'react-navigation';
+import { useStoreState } from 'easy-peasy';
 import lan from './global.js'
 import {NavigationActions, StackActions} from "react-navigation";
 
@@ -74,7 +76,14 @@ const styles = StyleSheet.create({
 });
 
 
-export default class Login extends React.Component {
+
+export default function ProductsInBasket() {
+  const count = useStoreState(state => state.basket.productIds.length);
+  console.log(count);
+  return(<Login />); 
+}
+
+class Login extends React.Component {
     constructor(props){
         super(props);
         const Lan = {
@@ -116,6 +125,7 @@ export default class Login extends React.Component {
             err:false,
             otpErr:false
         }
+        console.log(ProductsInBasket());
     }
 
     sendOTP(){
@@ -150,6 +160,7 @@ export default class Login extends React.Component {
                     <PaperProvider theme={theme}>
                         <Content padder>
                             <Form style={styles.form}>
+                                {/* <Label>{this.props.lang}</Label> */}
                                 <Item regular style={styles.input}>
                                     <Input keyboardType={'numeric'}  placeholder={this.state.titles.PhoneNumber[lan]} onChangeText={text => this.setState({phone:text})}/>
                                 </Item>
