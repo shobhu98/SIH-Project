@@ -6,6 +6,9 @@ import { Button } from 'react-native-paper';
 import { DefaultTheme, Provider as PaperProvider, Divider } from 'react-native-paper';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import axios from 'axios';
+import Lan from "./LanguageStrings";
+import lan from "./global";
+
 
 const theme = {
     ...DefaultTheme,
@@ -162,7 +165,7 @@ export default class Login extends React.Component {
                         <Content padder>
                             <Form style={styles.form}>
                                 <Item regular style={styles.input}>
-                                    <Input placeholder="Enter Phone Number" onChangeText={text => this.setState({phone:text})}/>
+                                    <Input placeholder={Lan.EnterPhoneNumberPrompt[lan]} onChangeText={text => this.setState({phone:text})}/>
                                 </Item>
                                 {/* {this.state.phoneErr && <Label style={styles.errortext}>Please enter correct phone number of 10 digits</Label>}
                                 <Button mode="contained" onPress={this.sendOTP} style={styles.button}>
@@ -170,7 +173,7 @@ export default class Login extends React.Component {
                                 </Button> */}
                                 
                                 <Item regular style={styles.input}>
-                                    <Input placeholder="Enter Password" onChangeText={text => this.setState({password:text})}/>
+                                    <Input placeholder={Lan.EnterPasswordPrompt[lan]} onChangeText={text => this.setState({password:text})}/>
                                 </Item>
                                 <Button mode="contained" onPress={this.sendOTP} style={styles.button}>
                                     Send OTP
@@ -180,7 +183,7 @@ export default class Login extends React.Component {
                                 {this.state.otpshow && 
                                     <View>
                                     <Item regular style={styles.input}>
-                                        <Input placeholder="Enter OTP" onChangeText={text => this.setState({otp:text})}/>
+                                        <Input placeholder={Lan.SendOTPButton[lan]} onChangeText={text => this.setState({otp:text})}/>
                                     </Item>
                                     <Button mode="contained" onPress={this.register} style={styles.button}>
                                         Register

@@ -4,6 +4,8 @@ import ExpoPixi from 'expo-pixi'
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import {Dimensions } from "react-native";
 import {Content, H2} from 'native-base';
+import Lan from "./LanguageStrings";
+import lan from "./global";
 
 
 const styles = StyleSheet.create({
@@ -53,7 +55,7 @@ export default class Signature extends React.Component {
   render() {
     return (
       <Content padder>
-        <H2 style={styles.h2}>Enter signature</H2>
+        <H2 style={styles.h2}>{Lan.EnterSignature[lan]}</H2>
         <ExpoPixi.Signature
         ref='signatureCanvas' //Important to be able to call this obj
         strokeWidth={3} // thickness of the brush
@@ -62,10 +64,10 @@ export default class Signature extends React.Component {
         />
         <View style={styles.view}>
           <TouchableOpacity onPress={this.clearCanvas} >
-            <Text style={styles.button}>Reset</Text>
+            <Text style={styles.button}>{Lan.ResetButton[lan]}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.saveCanvas} >
-            <Text style={styles.button}>Sign</Text>
+            <Text style={styles.button}>{Lan.SignButton[lan]}</Text>
           </TouchableOpacity>
         </View>
       </Content>

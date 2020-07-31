@@ -166,6 +166,46 @@ const Lan = {
     ProfileTabName:{
         en:"Profile",
         hi:"प्रोफ़ाइल"
+    },
+    EnterPhoneNumberPrompt:{
+        en:"Enter Phone Number",
+        hi:"फोन नंबर दर्ज करें"
+    },
+    EnterPasswordPrompt:{
+        en:"Enter Password",
+        hi:"पास वर्ड दर्ज करें"
+    },
+    SendOTPButton:{
+        en:"Send OTP",
+        hi:"OTP भेजें"
+    },
+    ResetButton:{
+        en:"Reset",
+        hi:"रीसेट"
+    },
+    SignButton:{
+        en:"Sign",
+        hi:"साइन करें"
+    },
+    EnterSignature:{
+        en:"Enter Signature",
+        hi:"हस्ताक्षर दर्ज करें"
+    },
+    SuccessfulSubmissionPrompt:{
+        en:"You have successfully filed the FIR",
+        hi:"आपने सफलतापूर्वक एफआईआर जमा कर दी है"
+    },
+    PleaseRateUsPrompt:{
+        en:"Please rate us!",
+        hi:"कृपया हमें रेट करें"
+    },
+    CameraPrompt:{
+        en:"Sorry, we need camera roll permissions to make this work!",
+        hi:"क्षमा करें, हमें यह काम करने के लिए कैमरा रोल की अनुमति चाहिए!"
+    },
+    PlaceHolderPlace:{
+        en:"Place",
+        hi:"जगह"
     }
 
 };
