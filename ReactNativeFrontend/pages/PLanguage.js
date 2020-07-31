@@ -6,6 +6,7 @@ import { Button } from 'react-native-paper';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import {StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 const theme = {
     ...DefaultTheme,
@@ -39,27 +40,35 @@ export default class Language extends React.Component{
         this.hindiButton=this.hindiButton.bind(this);
     }
     async engButton(){
-        // AsyncStorage.getAllKeys((err, keys) => {
-        //     AsyncStorage.multiGet(keys, (error, stores) => {
-        //       stores.map((result, i, store) => {
-        //         console.log({ [store[i][0]]: store[i][1] });
-        //         return true;
-        //       });
-        //     });
-        //   });
+        
+        console.log("HBCJDKCTVJAWBHNSUYVGJHBDSN");
         try {
             await AsyncStorage.setItem('@lang', "en");
             console.log("set");
-            this.props.navigation.navigate('Login');
+            AsyncStorage.getAllKeys((err, keys) => {
+                AsyncStorage.multiGet(keys, (error, stores) => {
+                  stores.map((result, i, store) => {
+                    console.log({ [store[i][0]]: store[i][1] });
+                    return true;
+                  });
+                });
+              });
+            this.props.navigation.navigate('Profile');
+            // const resetAction = StackActions.reset({
+            //     index: 0,
+            //     actions: [NavigationActions.navigate({ routeName: 'Profile' } )],
+            // });
+            // this.props.navigation.dispatch(resetAction);
         } catch (e) {
             console.log(e);
         }
         
     }
-    async hindiButton(){
+    hindiButton(){
+        console.log("LALALALALALALALALAL");
         try {
-            await AsyncStorage.setItem('@lang', "hi");
-            this.props.navigation.navigate('Login');
+            AsyncStorage.setItem('@lang', "hi");
+            this.props.navigation.navigate('Profile');
 
         } catch (e) {
             console.log(e);

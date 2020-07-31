@@ -23,6 +23,30 @@ import WarningIcon from "@material-ui/icons/Warning";
 
 import FIRModal from "./FIRModal";
 import App from "./SignaturePad/App";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import { Divider, Button } from "@material-ui/core";
+
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+
+import { makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = ((theme) => ({
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 125,
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -48,12 +72,17 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default class PendingFir extends Component {
+class PendingFir extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     columns: [
       { title: "FIR id", field: "firid" },
       { title: "Complainant Name", field: "name" },
       { title: "Status", field: "status" },
+      { title: "Date", field: "date" },
     ],
 
     data: [],
@@ -61,40 +90,119 @@ export default class PendingFir extends Component {
       {
         icon: () => <CheckIcon />,
         tooltip: "Accept FIR",
-        onClick:  (event, rowData) => this.accept(event, rowData),
+        onClick: (event, rowData) => this.accept(event, rowData),
       },
       (rowData) => ({
         icon: () => <WarningIcon />,
         tooltip: "Request more information",
-        onClick: (event, rowData) =>
-          alert("More infromation requested for " + rowData.firid),
-        disabled: (event, rowData) => this.moreInfo(event, rowData),
+        onClick: (event, rowData) => this.moreInfo(event, rowData),
+        disabled: rowData.status === "More information requested",
       }),
     ],
     open: false,
     firid: null,
-    openSignaturePad: true,
+    openSignaturePad: false,
+    status: null,
+    openMoreInfo: false,
+    moreinfoText:null,
   };
 
-  accept = (event,rowData) => {
-    alert(rowData.firid)
+  accept = (event, rowData) => {
+    //this.acceptFIR(rowData.firid)
+    this.acceptStart(rowData.firid);
+  };
+  acceptStart = (firid) => {
     this.setState({
       openSignaturePad: true,
+      firid: firid,
+    });
+  };
+  moreInfo = (event, rowData) => {
+    //this.moreInfoStart(rowData.firid);
+    this.setState({
+      moreInfoStart: true,
       firid: rowData.firid,
     });
-  }
-  moreInfo = (event,rowData) => {
-    alert(rowData.firid)
+    //alert("set open");
+  };
+  moreInfoStart = (firid, data) => {
+    //alert("clicked");
+    var body = { acceptance: "2", moreinfo: data };
+    fetch("http://localhost:7000/api/admin_side/" + firid, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(result);
+            alert("More information has been requested for " + firid);
+            this.setState(
+              {
+                data: [],
+              },
+              () => this.fetchFIRList()
+            );
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
 
-  }
+  // firIdFinder(firid){
+  //   var id;
+  //   this.state.data.forEach(element => {
+  //     if(firid === element._id){
+
+  //     }
+  //   });
+  //   return id;
+  // }
 
   handleRowClick = (event, rowData) => {
     //alert("Downloading: "+rowData.firid);
-    console.log(rowData.firid);
 
+    //var id = this.firIdFinder(rowData.firid)
+
+    fetch("http://localhost:7000/api/admin_side/" + rowData.firid, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(result);
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
     this.setState({
       open: true,
       firid: rowData.firid,
+      status: rowData.status,
     });
   };
   close = () => {
@@ -105,36 +213,48 @@ export default class PendingFir extends Component {
 
   closeSignaturePad = () => {
     this.setState({
-      open: false,
+      openSignaturePad: false,
     });
   };
-  acceptFIR(firid) {
-    fetch("http://localhost:7000/api/admin_side?id=" + { firid }, {
-      method: "GET",
+  rec = (sign, type) => {
+    console.log(this.state.firid + "  " + type + "  " + sign);
+    this.acceptFIR(this.state.firid, type, sign);
+  };
+  acceptFIR(firid, type, sign) {
+    var body = { acceptance: "1", type_of_crime: type, signature: sign };
+
+    fetch("http://localhost:7000/api/admin_side/" + firid, {
+      method: "POST",
       headers: {
         "content-type": "application/json",
         "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
       },
-    }).then((response) => {
-      response.json().then((result) => {
-        //console.log(result.errors[0].msg);
-        console.log(response.status);
-        if (response.status === 200) {
-          console.log(result);
-          
-        } else {
-          var error = new Error(response.statusText);
-          error.response = response;
-          throw error;
-        }
-      });
+      body: JSON.stringify(body),
     })
-    .catch((err) => {
-      alert(err);
-    });
-
-    }
-
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(result);
+            alert(firid + " has been accepted");
+            this.setState(
+              {
+                data: [],
+              },
+              () => this.fetchFIRList()
+            );
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
 
   async componentWillMount() {
     //API Call to fetch pending FIR list
@@ -143,7 +263,7 @@ export default class PendingFir extends Component {
   }
   fetchFIRList() {
     //console.log("http://localhost:7000/api/admin_side?uin="+JSON.parse(localStorage.getItem("login")).uin)
-    fetch("http://localhost:7000/api/admin_side/fir", {
+    fetch("http://192.168.43.195:7000/api/admin_side/fir", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -163,9 +283,33 @@ export default class PendingFir extends Component {
               if (element.acceptance === 0) {
                 var temp = {
                   name: element.name,
-                  firid: element.FIRNUM,
+                  firid: element._id,
                   status: "Pending",
+                  date: element.date,
                 };
+
+                this.setState({
+                  data: [...this.state.data, temp],
+                });
+              } else if (element.acceptance === 2) {
+                var temp = {
+                  name: element.name,
+                  firid: element._id,
+                  status: "More information requested",
+                  date: element.date,
+                };
+
+                this.setState({
+                  data: [...this.state.data, temp],
+                });
+              } else if (element.acceptance === 3) {
+                var temp = {
+                  name: element.name,
+                  firid: element._id,
+                  status: "Complainant has updated",
+                  date: element.date,
+                };
+
                 this.setState({
                   data: [...this.state.data, temp],
                 });
@@ -184,6 +328,7 @@ export default class PendingFir extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <MaterialTable
@@ -192,6 +337,7 @@ export default class PendingFir extends Component {
             exportFileName: "Pending_FIRs",
             actionsColumnIndex: -1,
           }}
+          doubleHorizontalScroll={true}
           onRowClick={(event, rowData) => this.handleRowClick(event, rowData)}
           icons={tableIcons}
           title="Pending FIR"
@@ -200,13 +346,66 @@ export default class PendingFir extends Component {
           actions={this.state.actions}
         />
         {this.state.open === true ? (
-          <FIRModal data={this.state.firid} close={this.close} accept={this.accept} moreInfo={this.moreinfo}/>
+          <FIRModal
+            firid={this.state.firid}
+            status={this.state.status}
+            moreinfo={this.moreInfoStart}
+            close={this.close}
+            accept={this.acceptStart}
+            moreInfo={this.moreinfo}
+          />
         ) : (
           <></>
         )}
 
         {this.state.openSignaturePad === true ? (
-          <App data={this.state.firid} closeSignaturePad={this.closeSignaturePad} />
+          <App
+            data={this.state.firid}
+            closeSignaturePad={this.closeSignaturePad}
+            rec={this.rec}
+            open={this.state.openSignaturePad}
+          />
+        ) : (
+          <></>
+        )}
+
+        {this.state.moreInfoStart === true ? (
+          
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            
+            open={true}
+            className={classes.modal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={true}>
+              <div className={classes.paper}>
+                <h2 id="transition-modal-title">Request more information for FIR:<br></br> {this.state.firid}</h2>
+                <p id="transition-modal-description">
+                  <TextareaAutosize
+                    aria-label="minimum height"
+                    rowsMin={5}
+                    fullWidth={true}
+                    tyle ={{width: '100%'}}
+                    placeholder="Please type in the issues here"
+                    onChange={(event) => {
+                      this.setState({ moreinfoText: event.target.value }
+                      );
+                    }}
+                  />
+                  <Divider/>
+                  <Button color="primary" onClick={() => {this.moreInfoStart(this.state.firid, this.state.moreinfoText); this.setState({moreInfoStart:false})}}>Submit</Button>
+                  <Button onClick={() => { this.setState({moreInfoStart:false})}}>Close</Button>
+                
+                </p>
+              </div>
+            </Fade>
+          </Modal>
         ) : (
           <></>
         )}
@@ -214,3 +413,5 @@ export default class PendingFir extends Component {
     );
   }
 }
+
+export default withStyles(styles, { withTheme: true })(PendingFir);

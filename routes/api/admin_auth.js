@@ -27,7 +27,8 @@ router.post('/',[
         return res.status(400).json({errors:errors.array()});
     }
     const {email,password}=req.body;
-
+    //email="admin101@gmail.com";
+    //password="admin101";
 
     try {
         //See if User exists
@@ -57,6 +58,7 @@ router.post('/',[
             {expiresIn:360000},
             function (err,token) {
                 if(err){
+                    console.log(err)
                     throw err;
                 }
                 res.json({token});

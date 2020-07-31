@@ -2,6 +2,9 @@ import * as React from 'react';
 import {Content, H2, Text} from 'native-base';
 import {StyleSheet, View} from 'react-native';
 import {Button,DefaultTheme , Provider as PaperProvider, Divider} from 'react-native-paper';
+import Lan from "./LanguageStrings";
+import lan from "./global";
+// import { NavigationEvents } from 'react-navigation';
 
 const theme = {
   ...DefaultTheme,
@@ -70,7 +73,7 @@ export default class TrackStatus extends React.Component {
         viewbutton:false,
         editbutton:true
       }
-    }
+    };
     var i=0;
     var component=[];
     while(caseJSON[i]){
@@ -85,8 +88,8 @@ export default class TrackStatus extends React.Component {
           </View>
           {/* <Text >Hello World</Text> */}
           <Text style={styles.btext}>{caseJSON[i].status}</Text>
-          {caseJSON[i].viewbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('ViewFIR',{name:name,status:status, id:id})}>View report</Button></PaperProvider>}
-          {caseJSON[i].editbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('EditFIR',{name:caseJSON[i].name,status:caseJSON[i].status})}>Edit report</Button></PaperProvider>}
+          {caseJSON[i].viewbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('ViewFIR',{name:name,status:status, id:id})}>{Lan.ViewReportButton[lan]}</Button></PaperProvider>}
+          {caseJSON[i].editbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('EditFIR',{name:caseJSON[i].name,status:caseJSON[i].status})}>{Lan.EditReportButton[lan]}</Button></PaperProvider>}
           <Divider style={styles.divider}></Divider>
         </View>
         );
@@ -100,6 +103,11 @@ export default class TrackStatus extends React.Component {
   render(){
     return(
       <Content padder>
+        {/* <NavigationEvents
+          onWillFocus={() => {
+              AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
+          }}
+        /> */}
         {this.state.cases}
       </Content>
       

@@ -26,16 +26,29 @@ const PostSchema=new Schema({
 
     },
 
-   facilitatorsNumber:{
-        type:Number,
+//    facilitatorsNumber:{
+//         type:Number,
 
-   },
-    facilitatorsEmail:{
-        type:email,
+//    },
+//     facilitatorsEmail:{
+//         type:email,
 
+//     },
+    aadhar:{
+        type:String
     },
-
-
+    address:{
+        type:String
+    },
+    email:{
+        type:String
+    },
+    country:{
+        type:String
+    },
+    passport:{
+        type:String
+    },
     date:{
         type:Date,
         default: Date.now

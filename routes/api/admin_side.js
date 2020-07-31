@@ -55,9 +55,9 @@ router.get('/:st',auth,async function (req,res) {
 });
 
 router.post('/:id',auth,[
-  check('acceptance','should ne 0 or 1').not().isEmpty(),
-  check('type_of_crime','please mention the type of crime').not().isEmpty(),
-  check('signature',"signature must exist").not().isEmpty()
+//   check('acceptance','should be 0 or 1').not().isEmpty(),
+//   check('type_of_crime','please mention the type of crime').not().isEmpty(),
+//   check('signature',"signature must exist").not().isEmpty()
 ],async function (req,res) {
 
 
@@ -65,6 +65,8 @@ router.post('/:id',auth,[
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});
     }
+    console.log(req.body);
+    console.log(req.params);
     const {acceptance,type_of_crime,signature}=req.body;
 
     try {

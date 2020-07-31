@@ -56,13 +56,6 @@ router.post('/',[
 
 });
 
-// router.get('/save',async function (req,res) {
-//     const {code} = req.body;
-//     const number = "8920862975";
-//     const name = "Shobhit";
-//     const password = "1234568";
-// }
-
 router.post('/save',[
     check('number','number should exist and length should be 10').isLength({min:10}),
     check('name','name should exist ').exists(),
