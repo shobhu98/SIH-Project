@@ -48,7 +48,7 @@ router.post('/',[auth,
 
 router.get('/',auth,async function (req,res) {
     try {
-        const posts= await FIRDetails.find().sort({date:-1});
+        const posts= await FIRDetails.find({}).sort({date:-1});
         res.json(posts);
     }catch (err) {
         console.error(err.message);
