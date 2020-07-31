@@ -26,6 +26,7 @@ import {
   MuiThemeProvider,
 } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
+import Ongoing from "./components/Ongoing";
 
 const styles = (theme) => ({
   root: {
@@ -104,11 +105,12 @@ class App extends Component {
   login() {
     console.log(JSON.stringify(this.state));
 
-    fetch("http://localhost:7000/api/admin_auth", {
+    fetch("http://localhost:7000/api/admin_auth/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state),
-      
+     
+      mode: 'cors'
     })
       .then((response) => {
         response.json().then((result) => {
@@ -132,6 +134,12 @@ class App extends Component {
       })
       .catch((err) => {
         alert(err);
+          localStorage.setItem('login',JSON.stringify({
+            login: true,
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxZTZhMmRhYTc2MjE1ZWM4MmRjMTkyIn0sImlhdCI6MTU5NjE0MjA3MiwiZXhwIjoxNTk2NTAyMDcyfQ.h9_PbLCHGk-uFMUeeCyO5MPTYhsSao7yWLtFY_95Pbw",
+            uin: this.state.uin
+            })
+          );
       });
   }
 
@@ -187,9 +195,7 @@ class App extends Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={() => {
-                  this.login();
-                }}
+                onClick={this.login}
               >
                 Sign In
               </Button>
@@ -209,6 +215,8 @@ class App extends Component {
             <Route path="/" component={PendingFir} exact />
             <Route path="/HomePage" component={HomePage} exact />
             <Route path="/Pending FIR" component={PendingFir} exact />
+            <Route path="/Ongoing Investigations" component={Ongoing} exact />
+            
           </Switch>
         </MiniDrawer>
       </BrowserRouter>

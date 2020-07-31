@@ -59,7 +59,7 @@ export default function TransitionsModal({ close, firid, accept,moreinfo,status 
         <Fade in={open}>
           <div className={classes.paper}>
             <Typography variant="h4" id="transition-modal-title">
-              FIR id :{status}
+              FIR id :{firid}
             </Typography>
             <br></br>
             <Divider />
