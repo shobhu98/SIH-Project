@@ -71,6 +71,23 @@ const PostSchema=new Schema({
     signature:{
         type:Object
     },
+    spam:{
+        type:Number,
+        default:0,
+    },
+
+    case_Details:[
+        {
+            name:'String',
+            img:{
+                data:Buffer,
+                contentType:String
+            }
+
+        }
+    ],
+
+
     date:{
         type:Date,
         default: Date.now
