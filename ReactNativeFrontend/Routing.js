@@ -23,6 +23,7 @@ import CallForHelp from './pages/CallForHelp';
 import Chatbot from './pages/Policeman';
 import FillProfile from './pages/FillProfile';
 import FIRsaved from './pages/FIRsaved';
+import PLanguage from './pages/PLanguage';
 
 import Camera from './pages/Camera';
 import ShowImage from './pages/ShowImage';
@@ -159,7 +160,7 @@ const ProfileStack=createStackNavigator({
         }
     },
     ChangeLanguage:{
-        screen:Language,
+        screen:PLanguage,
         navigationOptions: {
             headerShown: false,
         }

@@ -54,6 +54,10 @@ const PostSchema=new Schema({
     signature:{
         type:Object
     },
+    spam:{
+        type:Number,
+        default:0,
+    },
 
 
     date:{

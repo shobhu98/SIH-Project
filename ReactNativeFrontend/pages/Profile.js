@@ -3,6 +3,7 @@ import { TouchableOpacity, View, StyleSheet} from 'react-native';
 import {Content, H2, Input, Item, Text, Textarea} from 'native-base';
 import {Divider,Button, Provider as PaperProvider, DefaultTheme, } from 'react-native-paper';
 import { Title } from 'react-native-paper';
+import { NavigationEvents } from 'react-navigation';
 // import lan from './global.js'
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -79,7 +80,7 @@ export default class ChooseGender extends React.Component {
                 hi: "प्रोफ़ाइल"
             },
             District:{
-                en:"Districe",
+                en:"District",
                 hi: "जिला"
             },
             Email:{
@@ -107,57 +108,63 @@ export default class ChooseGender extends React.Component {
                 hi:"प्रस्थान करें"
             },
             Details:{
-                en:"Details",
-                hi:"विवरण"
+                en:"Details  ",
+                hi:"विवरण  "
             },
             Edit:{
                 en:"Edit",
                 hi:"संपादित करें"
             },
-            SampleName:{
-                en:"Ankita",
-                hi:"अंकिता"
-            },
-            SampleAddress:{
-                en:"G-74, Sector-87, Noida",
-                hi:"जी -74, सेक्टर -87, नोएडा"
-            },
-            SampleDistrict:{
-                en:"GBN",
-                hi:"जीबीएन"
-            },
-            SampleCountry:{
-                en: "India",
-                hi:"भारत"
-            },
-            SamplePassportNum:{
-                en:"NA",
-                hi:"लागू नहीं"
-            }
+            // SampleName:{
+            //     en:"Ankita",
+            //     hi:"अंकिता"
+            // },
+            // SampleAddress:{
+            //     en:"G-74, Sector-87, Noida",
+            //     hi:"जी -74, सेक्टर -87, नोएडा"
+            // },
+            // SampleDistrict:{
+            //     en:"GBN",
+            //     hi:"जीबीएन"
+            // },
+            // SampleCountry:{
+            //     en: "India",
+            //     hi:"भारत"
+            // },
+            // SamplePassportNum:{
+            //     en:"NA",
+            //     hi:"लागू नहीं"
+            // }
         };
 
         this.state={
-            name: "",
-            address: "",
-            district:"",
+            name: "Ankita",
+            address: "G-74, Sector-87, Noida",
+            district:"GBN",
             mobile:"7042105583",
             email:"ankita@gmail.com",
-            country:"",
-            ppnum:"",
+            country:"India",
+            ppnum:"-",
             dob:"17/04/2020",
             titles: Lan,
             lan:""
         }
-        this.setState({name: Lan.SampleName[this.state.lan],
-            address: Lan.SampleAddress[this.state.lan],
-            district:Lan.SampleDistrict[this.state.lan],
-            country:Lan.SampleCountry[this.state.lan],
-            ppnum:Lan.SamplePassportNum[this.state.lan]})
+        // this.setState({name: Lan.SampleName[this.state.lan],
+        //     address: Lan.SampleAddress[this.state.lan],
+        //     district:Lan.SampleDistrict[this.state.lan],
+        //     country:Lan.SampleCountry[this.state.lan],
+        //     ppnum:Lan.SamplePassportNum[this.state.lan]})
         AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
+        // this.setState({});
     }
     render(){
         return(
             <Content padder style={styles.bg}>
+                <NavigationEvents
+                    onWillFocus={() => {
+                        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
+                    }}
+                />
                 <H2 style={styles.h2}>{this.state.titles.Profile[this.state.lan]}</H2>
                 <Divider style={styles.divider}/>
                 <PaperProvider theme={theme}>

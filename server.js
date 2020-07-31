@@ -4,17 +4,17 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT || 7000;
 const app = express();
-const connectDB = require("./config/db");
-var cors = require("cors");
 
-// Mongodb connection is called from config/db.js
-connectDB();
 
 app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// Mongodb connection is called from config/db.js
+ connectDB();
+
+
 
 //Various apis are called here from routes/api
 app.use("/api/user", require("./routes/api/user"));
