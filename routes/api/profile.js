@@ -40,20 +40,23 @@ router.post('/',[
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});
     }
-    const {name,mobile,DOB,facilitatorsNumber, facilitatorsEmail,fathersName
+    const {name,mobile,DOB,fathersName,aadhar,address,email,country,passport
     }=req.body;
 
     //Build profile object
     const profileFields={};
     profileFields.user=req.user.id;
-
     profileFields.name=name;
     profileFields.mobile=mobile;
     profileFields.DOB=DOB;
-    profileFields.facilitatorsNumber=facilitatorsNumber;
-    profileFields.facilitatorsEmail=facilitatorsEmail;
+    // profileFields.facilitatorsNumber=facilitatorsNumber;
+    // profileFields.facilitatorsEmail=facilitatorsEmail;
     profileFields.fathersName=fathersName;
-
+    profileFields.aadhar=aadhar;
+    profileFields.address=address;
+    profileFields.email=email;
+    profileFields.country=country;
+    profileFields.passport=passport;
 
 
     try {

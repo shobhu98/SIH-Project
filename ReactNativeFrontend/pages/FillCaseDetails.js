@@ -63,7 +63,11 @@ export default class FillCaseDetails extends React.Component {
             selected2: undefined,
             date:"22-07-2020",
             optionsj:optionsj,
-            nationality: undefined,
+            // nationality: undefined,
+            place:"",
+            incident:"",
+            suspects:"",
+            delay:"",
             uriList:[]
         };
     }
@@ -153,7 +157,7 @@ export default class FillCaseDetails extends React.Component {
                             ))}
                         </Picker>
                     </Item>
-                    <Text style={styles.text}>Type of incident</Text>
+                    {/* <Text style={styles.text}>Type of incident</Text>
                     <Item picker>
                         <Picker
                             mode="dropdown"
@@ -169,11 +173,13 @@ export default class FillCaseDetails extends React.Component {
                                 <Picker.Item label={option.name} value={option.key} />
                             ))}
                         </Picker>
-                    </Item>
+                    </Item> */}
                     <Text style={styles.text}>Brief description of incident</Text>
                     <Textarea rowSpan={4} bordered placeholder="Description" />
                     <Text style={styles.text}>Details of Suspects (if any)</Text>
                     <Textarea rowSpan={4} bordered placeholder="Name and phone number of suspects" />
+                    <Text style={styles.text}>Reason for delay (if any)</Text>
+                    <Textarea rowSpan={4} bordered placeholder="Reason" />
                     <Text style={styles.text}>Date of Incident</Text>
                     <DatePicker
                         style={{width: 200}}
