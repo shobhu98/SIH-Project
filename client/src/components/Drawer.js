@@ -164,7 +164,7 @@ export default function MiniDrawer(props) {
               size="large"
               style={{ color: purple[50] }}
             >
-              Toggle Dark Mode
+              
             </Button>
             <Button
               startIcon={<ExitToAppIcon />}
@@ -176,7 +176,7 @@ export default function MiniDrawer(props) {
               }}
               
             >
-              Logout
+             
             </Button>
           </Toolbar>
         </AppBar>

@@ -28,6 +28,7 @@ import {
 import { createMuiTheme } from "@material-ui/core/styles";
 import Ongoing from "./components/Ongoing";
 import FIRfile from './components/FIRfile'
+//import AddToHomescreen from 'react-add-to-homescreen';
 
 const styles = (theme) => ({
   root: {
@@ -106,7 +107,7 @@ class App extends Component {
   login() {
     console.log(JSON.stringify(this.state));
 
-    fetch("http://localhost:7000/api/admin_auth/", {
+    fetch("http://192.168.43.195/api/admin_auth/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state),
@@ -135,25 +136,24 @@ class App extends Component {
       })
       .catch((err) => {
         alert(err);
-          localStorage.setItem('login',JSON.stringify({
-            login: true,
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxZTZhMmRhYTc2MjE1ZWM4MmRjMTkyIn0sImlhdCI6MTU5NjE0MjA3MiwiZXhwIjoxNTk2NTAyMDcyfQ.h9_PbLCHGk-uFMUeeCyO5MPTYhsSao7yWLtFY_95Pbw",
-            uin: this.state.uin
-            })
-          );
       });
   }
+
 
   SignInSide() {
     const { classes } = this.props;
 
     return (
+      
       <MuiThemeProvider theme={theme}>
+
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
+
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
+
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
@@ -171,7 +171,7 @@ class App extends Component {
                 autoComplete="email"
                 autoFocus
                 onChange={(event) => {
-                  this.setState({ email: event.target.value });
+                  this.setState({ email: event.target.value },()=>{console.log(this.state)});
                 }}
               />
 
@@ -186,17 +186,17 @@ class App extends Component {
                 
                 onChange={(event) => {
                   this.setState({ password: event.target.value }
-                  );
+                  ,() => {console.log(this.state)});
                 }}
               />
               
               <Button
-                type="submit"
+                
                 fullWidth
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={this.login}
+                onClick={()=>this.login()}
               >
                 Sign In
               </Button>
