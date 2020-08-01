@@ -33,6 +33,7 @@ import Fade from "@material-ui/core/Fade";
 import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import InfoIcon from "@material-ui/icons/Info";
 
 const styles = (theme) => ({
   modal: {
@@ -94,7 +95,7 @@ class PendingFir extends Component {
         onClick: (event, rowData) => this.accept(event, rowData),
       },
       (rowData) => ({
-        icon: () => <WarningIcon />,
+        icon: () => <InfoIcon />,
         tooltip: "Request more information",
         onClick: (event, rowData) => this.moreInfo(event, rowData),
         disabled: rowData.status === "More information requested",
@@ -103,7 +104,6 @@ class PendingFir extends Component {
         icon: () => <WarningIcon />,
         tooltip: "Toggle Spam",
         onClick: (event, rowData) => this.spam(event, rowData),
-        
       }),
     ],
     open: false,
@@ -115,8 +115,47 @@ class PendingFir extends Component {
   };
 
   spam = (event, rowData) => {
-    
-  }
+    //alert("clicked");
+    var spam=0
+    rowData.spam===1?spam=0:spam=1;
+    var body = { spam:spam+"" };
+    fetch("http://localhost:7000/api/admin_side/" + rowData.firid, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(result);
+           if(result.spam===1){
+             alert("Marked as Spam");
+           }
+           else{
+             alert("Unmarked as Spam");
+           }
+            this.setState(
+              {
+                data: [],
+              },
+              () => this.fetchFIRList()
+            );
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
 
   accept = (event, rowData) => {
     //this.acceptFIR(rowData.firid)
@@ -297,7 +336,7 @@ class PendingFir extends Component {
                   firid: element._id,
                   status: "Pending",
                   date: element.date,
-                  spam: element.spam
+                  spam: element.spam,
                 };
 
                 this.setState({
@@ -309,7 +348,7 @@ class PendingFir extends Component {
                   firid: element._id,
                   status: "More information requested",
                   date: element.date,
-                  spam: element.spam
+                  spam: element.spam,
                 };
 
                 this.setState({
@@ -321,7 +360,7 @@ class PendingFir extends Component {
                   firid: element._id,
                   status: "Complainant has updated",
                   date: element.date,
-                  spam:element.spam
+                  spam: element.spam,
                 };
 
                 this.setState({
