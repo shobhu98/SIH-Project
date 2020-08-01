@@ -140,9 +140,6 @@ export default class Login extends React.Component {
 
     login(){
         //check login here
-        
-        
-
         //this.props.navigation.navigate('MainPage',{lang:this.state.lan} )
         console.log(this.state.phone);
         console.log(this.state.password);
@@ -178,6 +175,7 @@ export default class Login extends React.Component {
         }).catch (function (error){
             console.log(error);
         })
+
     }
 
     render(){
