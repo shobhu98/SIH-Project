@@ -455,17 +455,17 @@ class PendingFir extends Component {
                     <p id="transition-modal-description">
                       <TextareaAutosize
                         aria-label="minimum height"
-                        rowsMin={5}
+                        rowsMin={10}
                         fullWidth={true}
-                        tyle={{ width: "100%" }}
-                        placeholder="Please type in the issues here"
+                        style={{ width: "100%" }}
+                        placeholder="Please type your question here"
                         onChange={(event) => {
                           this.setState({ moreinfoText: event.target.value });
                         }}
                       />
                       <Divider />
                       <Button
-                        color="primary"
+                        
                         onClick={() => {
                           this.moreInfoStart(
                             this.state.firid,

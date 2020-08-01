@@ -10,6 +10,7 @@ import {
   Grid,
   Paper,
   Box,
+  TextareaAutosize,
 } from "@material-ui/core";
 import "./modal.css";
 import FIRModalOngoing from "./FIRModalOngoing";
@@ -100,8 +101,8 @@ export default class FIRfile extends Component {
   render() {
     return (
       <div>
-        <Grid container spacing={3} >
-          <Grid item xs={4} md={2} >
+        <Grid container spacing={2}>
+          <Grid item xs={4} md={2}>
             <Button variant="outlined" onClick={this.originalFIR}>
               Original FIR
             </Button>
@@ -128,31 +129,79 @@ export default class FIRfile extends Component {
           ) : (
             <></>
           )}
-          <Grid item xs={12} md={6}>
-            {this.state.caseAssets === true ? (
-              <Paper>
-                <Box m={2} p={3}>
-                  <Typography variant="h4">Assets</Typography>
+          {this.state.caseNotes === true ? (
+            <Grid item xs={12} md={6}>
+              {this.state.caseAssets === true ? (
+                <Paper>
+                  <Box m={2} p={3}>
+                    <Typography variant="h4">Assets</Typography>
 
-                  <Button type="file"></Button>
-                </Box>
-              </Paper>
-            ) : (
-              <></>
-            )}
-          </Grid>
-          <Grid item xs={12} md={6}>
-            {this.state.caseNotes === true ? (
-              <Paper>
-                <Box m={2} p={3}>
-                  <Typography variant="h4">Notes</Typography>
+                    <Button type="file"></Button>
+                  </Box>
+                </Paper>
+              ) : (
+                <></>
+              )}
+            </Grid>
+          ) : (
+            <Grid item xs={12} md={12}>
+              {this.state.caseAssets === true ? (
+                <Paper>
+                  <Box m={2} p={3}>
+                    <Typography variant="h4">Assets</Typography>
 
-                </Box>
-              </Paper>
-            ) : (
-              <></>
-            )}
-          </Grid>
+                    <Button type="file"></Button>
+                  </Box>
+                </Paper>
+              ) : (
+                <></>
+              )}
+            </Grid>
+          )}
+
+          {this.state.caseAssets === true ? (
+            <Grid item xs={12} md={6}>
+              {this.state.caseNotes === true ? (
+                <Paper>
+                  <Box m={2} p={3}>
+                    <Typography variant="h4">Notes</Typography>
+                    <TextareaAutosize
+                      aria-label="minimum height"
+                      rowsMin={20}
+                      fullWidth={true}
+                      style={{ width: "100%" }}
+                    ></TextareaAutosize>
+                    <Button variant="outlined" style={{ width: "100%" }}>
+                      Save
+                    </Button>
+                  </Box>
+                </Paper>
+              ) : (
+                <></>
+              )}
+            </Grid>
+          ) : (
+            <Grid item xs={12} md={12}>
+              {this.state.caseNotes === true ? (
+                <Paper>
+                  <Box m={2} p={3}>
+                    <Typography variant="h4">Notes</Typography>
+                    <TextareaAutosize
+                      aria-label="minimum height"
+                      rowsMin={20}
+                      fullWidth={true}
+                      style={{ width: "100%" }}
+                    ></TextareaAutosize>
+                    <Button variant="outlined" style={{ width: "100%" }}>
+                      Save
+                    </Button>
+                  </Box>
+                </Paper>
+              ) : (
+                <></>
+              )}
+            </Grid>
+          )}
         </Grid>
       </div>
     );
