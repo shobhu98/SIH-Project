@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 
 //Various apis are called here from routes/api
-app.use("/api/user", require("../ms336/routes/api/user"));
+app.use("/api/user", require("./routes/api/user"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/admin_auth", require("./routes/api/admin_auth"));
 app.use("/api/admin_register", require("./routes/api/admin_register"));
