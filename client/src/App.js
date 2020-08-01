@@ -36,7 +36,8 @@ const styles = (theme) => ({
   },
   image: {
     backgroundImage: "url(" + Background + ")",
-    backgroundRepeat: "no-repeat",
+    backgroundRepeat: "contain",
+    height: '100%',
     backgroundColor:
       theme.palette.type === "light"
         ? theme.palette.grey[50]
