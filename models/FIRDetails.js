@@ -84,6 +84,9 @@ const PostSchema=new Schema({
 
         }
     ],
+    more_info:{
+        type:String
+    },
 
 
     date:{
