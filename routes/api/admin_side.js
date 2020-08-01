@@ -71,16 +71,8 @@ router.post('/:id',auth,[
 
     try {
        let fir= await FIRDetails.findById(req.params.id);
-       if(spam===0){
-           const  update={
 
-               "$set":{
-
-
-               }
-           };
-       }
-       else {
+       
            const  update={
 
                "$set":{
@@ -91,8 +83,7 @@ router.post('/:id',auth,[
                }
        }
 
-       }
-       ;
+   
         if(fir){
             //Update
             // console.log(fir);
