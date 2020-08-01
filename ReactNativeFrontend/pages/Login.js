@@ -186,8 +186,8 @@ export default class Login extends React.Component {
                         <Title>Virtual Police Station</Title>
                     </Header> */}
                     <View style={{flexDirection:'row', position:'absolute'}}>
-                        <NamasteMale/>
-                        <NamasteFemale style={{left:250}}/>
+                        {/* <NamasteMale/>
+                        <NamasteFemale style={{left:250}}/> */}
                     </View>
                     <View style={styles.blueview}>
                         <View style={{alignItems:'center', marginBottom:10}}>
@@ -219,6 +219,7 @@ export default class Login extends React.Component {
                                 <View style={styles.view}>
                                     <Text>{this.state.titles.HaventRegistered[this.state.lan]}</Text>
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+                                    {/* <TouchableOpacity> */}
                                         <Text style={styles.text}>{this.state.titles.RegisterNow[this.state.lan]}</Text>
                                     </TouchableOpacity>
                                 </View>

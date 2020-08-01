@@ -49,7 +49,7 @@ export default class FillForm extends React.Component {
             selected2: undefined,
             date:"07/22/2020",
             nationality: false,
-            name:"",
+            name:"Ankita",
             address:"",
             mobile:"",
             email:"",
@@ -57,10 +57,34 @@ export default class FillForm extends React.Component {
             ppnum:"",
             fathersname:"",
             aadhar:"",
-            auth:""
+            auth:"",
+            // dname:"",
+            // daddress:"",
+            // demail:"",
+            // dcountry:"",
+            // dppnum:"",
+            // dfathersname:"",
+            // daadhar:"",
         };   
         AsyncStorage.getItem('@auth', (err, item) => this.setState({auth:item}));
         this.proceedbutton=this.proceedbutton.bind(this);
+        const { navigation } = this.props;
+        //console.log(navigation.getParam('authToken'));
+        fetch('http://192.168.1.10:7000/api/profile/me', {
+            method: 'GET',
+            headers: {
+                // Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'x-auth-token':navigation.getParam('authToken')
+            }
+        }).then((response) => response.json())
+        .then((responseData) => {
+            this.setState({name:responseData.name,address:responseData.address,email:responseData.email,country:responseData.country,ppnum:responseData.passport,fathersname:responseData.fathersName,aadhar:responseData.aadhar}, () => {
+                console.log(this.state)
+            });
+        }).catch (function (error){
+            console.log(error);
+        })
     }
     onValueChange2(value) {
         this.setState({
@@ -157,11 +181,11 @@ export default class FillForm extends React.Component {
                 <Divider style={styles.divider} />
                 <Text style={styles.text}>{Lan.ComplainantsName[lan]}</Text>
                 <Item regular>
-                    <Input onChangeText={text => this.setState({name:text})} />
+                    <Input defaultValue={this.state.name}  onChangeText={text => this.setState({name:text})} />
                 </Item>
                 <Text style={styles.text}>Father's Name</Text>
                 <Item regular>
-                    <Input onChangeText={text => this.setState({fathersname:text})} />
+                    <Input defaultValue={this.state.fathersname}  onChangeText={text => this.setState({fathersname:text})} />
                 </Item>
                 <Text style={styles.text}>Complainant's Date Of Birth</Text>
                 <DatePicker
@@ -190,10 +214,10 @@ export default class FillForm extends React.Component {
                 />
                 <Text style={styles.text}>Aadhar Card</Text>
                 <Item regular>
-                    <Input onChangeText={text => this.setState({aadhar:text})} />
+                    <Input defaultValue={this.state.aadhar}   onChangeText={text => this.setState({aadhar:text})} />
                 </Item>
                 <Text style={styles.text}>{Lan.Address[lan]}</Text>
-                <Textarea rowSpan={4} bordered onChangeText={text => this.setState({address:text})}/>
+                <Textarea defaultValue={this.state.address}  rowSpan={4} bordered onChangeText={text => this.setState({address:text})}/>
                 
                 <Text style={styles.text}>{Lan.PhoneNumber[lan]}</Text>
                 <Item regular>
@@ -201,7 +225,7 @@ export default class FillForm extends React.Component {
                 </Item>
                 <Text style={styles.text}>{Lan.Email[lan]}</Text>
                 <Item regular>
-                    <Input onChangeText={text => this.setState({email:text})} />
+                    <Input defaultValue={this.state.email} onChangeText={text => this.setState({email:text})} />
                 </Item>
                 <Text style={styles.text}>{Lan.Nationality[lan]}</Text>
                 <Item picker>
@@ -223,11 +247,11 @@ export default class FillForm extends React.Component {
                 {this.state.nationality && <View>
                     <Text style={styles.text}>Complainant's Country</Text>
                     <Item regular>
-                        <Input onChangeText={text => this.setState({country:text})}/>
+                        <Input defaultValue={this.state.country} onChangeText={text => this.setState({country:text})}/>
                     </Item>
                     <Text style={styles.text}>Complainant's Passport Number</Text>
                     <Item regular>
-                        <Input onChangeText={text => this.setState({ppnum:text})}/>
+                        <Input defaultValue={this.state.ppnum} onChangeText={text => this.setState({ppnum:text})}/>
                     </Item>
                 </View>}
                 
