@@ -50,9 +50,11 @@ const PostSchema=new Schema({
     },
     type_of_crime:{
         type:String,
+        default:"",
     },
     signature:{
-        type:Object
+        type:Object,
+        default:""
     },
     spam:{
         type:Number,

@@ -48,7 +48,7 @@ router.post('/',[auth,
 
 router.get('/',auth,async function (req,res) {
     try {
-        const posts= await FIRDetails.find({}).sort({date:-1});
+        const posts= await FIRDetails.find({user:req.user.id}).sort({date:-1});
         res.json(posts);
     }catch (err) {
         console.error(err.message);
@@ -63,11 +63,25 @@ router.get('/',auth,async function (req,res) {
 
 router.get('/:id',auth,async function (req,res) {
     try {
-        const posts= await Post.findById(req.params.id);
-        if(!posts){
+        const fir= await FIRDetails.findById(req.params.id);
+        if(!fir){
             return res.status(404).json({msg:'Post Not found'});
         }
-        res.json(posts);
+
+        else{
+
+            if(fir.acceptance===1){
+                let msg="your fir has been accepted click to download the pdf";
+                res.json({fir,msg});
+            }
+            else if(fir.acceptance===2){
+                res.json("information incomplete more info required");
+            }
+            else{
+                res.json("waiting for the SHO response ");
+            }
+        }
+
     }catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
