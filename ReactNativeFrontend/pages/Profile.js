@@ -114,48 +114,56 @@ export default class ChooseGender extends React.Component {
             Edit:{
                 en:"Edit",
                 hi:"संपादित करें"
-            },
-            // SampleName:{
-            //     en:"Ankita",
-            //     hi:"अंकिता"
-            // },
-            // SampleAddress:{
-            //     en:"G-74, Sector-87, Noida",
-            //     hi:"जी -74, सेक्टर -87, नोएडा"
-            // },
-            // SampleDistrict:{
-            //     en:"GBN",
-            //     hi:"जीबीएन"
-            // },
-            // SampleCountry:{
-            //     en: "India",
-            //     hi:"भारत"
-            // },
-            // SamplePassportNum:{
-            //     en:"NA",
-            //     hi:"लागू नहीं"
-            // }
+            }
         };
 
         this.state={
             name: "Ankita",
             address: "G-74, Sector-87, Noida",
-            district:"GBN",
             mobile:"7042105583",
             email:"ankita@gmail.com",
             country:"India",
             ppnum:"-",
             dob:"17/04/2020",
             titles: Lan,
-            lan:""
+            lan:"",
+            fathername:"",
+            aadhar:"",
+            auth:""
         }
+
+        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
+        AsyncStorage.getItem("@auth").then((value)=>this.setState({ auth: value }, () => {
+            console.log(this.state.auth, 'value');
+            this.apicall();
+        }) );
+        //console.log("AUTH "+this.state.auth);
+        
+
+        
         // this.setState({name: Lan.SampleName[this.state.lan],
         //     address: Lan.SampleAddress[this.state.lan],
         //     district:Lan.SampleDistrict[this.state.lan],
         //     country:Lan.SampleCountry[this.state.lan],
         //     ppnum:Lan.SamplePassportNum[this.state.lan]})
-        AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
+        
         // this.setState({});
+    }
+
+    apicall(){
+        fetch('http://192.168.1.10:7000/api/profile/me', {
+            method: 'GET',
+            headers: {
+                // Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'x-auth-token':this.state.auth
+            }
+        }).then((response) => response.json())
+        .then((responseData) => {
+            console.log(responseData);
+        }).catch (function (error){
+            console.log(error);
+        })
     }
     render(){
         return(
@@ -184,12 +192,20 @@ export default class ChooseGender extends React.Component {
                     <Item regular>
                         <Input disabled placeholder={this.state.name} />
                     </Item>
+                    <Text style={styles.text}>Father's Name</Text>
+                    <Item regular>
+                        <Input disabled placeholder={this.state.fathername} />
+                    </Item>
+                    <Text style={styles.text}>{this.state.titles.DOB[this.state.lan]}</Text>
+                    <Item regular>
+                        <Input disabled placeholder={this.state.dob} />
+                    </Item>
+                    <Text style={styles.text}>Aadhar Card</Text>
+                    <Item regular>
+                        <Input disabled placeholder={this.state.aadhar} />
+                    </Item>
                     <Text style={styles.text}>{this.state.titles.Address[this.state.lan]}</Text>
                     <Textarea disabled rowSpan={4} bordered placeholder={this.state.address}/>
-                    <Text style={styles.text}>{this.state.titles.District[this.state.lan]}</Text>
-                    <Item regular>
-                        <Input disabled placeholder={this.state.district} />
-                    </Item>
                     <Text style={styles.text}>{this.state.titles.PhoneNumber[this.state.lan]}</Text>
                     <Item regular>
                         <Input disabled placeholder={this.state.mobile} />
@@ -206,10 +222,7 @@ export default class ChooseGender extends React.Component {
                     <Item regular>
                         <Input disabled placeholder={this.state.ppnum} />
                     </Item>
-                    <Text style={styles.text}>{this.state.titles.DOB[this.state.lan]}</Text>
-                    <Item regular>
-                        <Input disabled placeholder={this.state.dob} />
-                    </Item>
+                    
                 </View>
             </Content>
         );

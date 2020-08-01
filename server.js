@@ -26,6 +26,7 @@ app.use("/api/dialogflow", require("./routes/api/dialogflow"));
 app.use("/api/pdfGenerate", require("./routes/api/pdfGenerator"));
 app.use("/api/lodgeFIR", require("./routes/api/lodgeFIR"));
 app.use("/api/upload_files",require('./routes/api/upload_files'));
+app.use("/api/profile",require('./routes/api/profile'));
 
 //running on PORT code
 app.listen(PORT, function () {

@@ -37,6 +37,7 @@
     "react-instantsearch-native": "^6.7.0",
     "react-native-chatbot": "0.0.1-alpha.12",
     "react-native-datepicker": "^1.7.2",
+    "react-native-dialogflow": "^3.2.2",
     "react-native-elements": "^2.0.4",
     "react-native-fade-in-view": "^1.1.0",
     "react-native-gesture-handler": "~1.6.0",

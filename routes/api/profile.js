@@ -10,8 +10,7 @@ const {check,validationResult}=require('express-validator');
 router.get('/me',auth,async function (req,res) {
 
     try {
-        const profile=await Profile.findOne({user:req.user.id}).populate('user',['name',
-            'mobile']);
+        const profile=await Profile.findOne({user:req.user.id}).populate();
         if(!profile){
             return res.status(400).json({msg:'There is no profile for this user'});
         }
@@ -40,20 +39,23 @@ router.post('/',[
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});
     }
-    const {name,mobile,DOB,facilitatorsNumber, facilitatorsEmail,fathersName
+    const {name,fathersName,DOB,aadhar,address,mobile,email,country,passport
     }=req.body;
 
     //Build profile object
     const profileFields={};
     profileFields.user=req.user.id;
-
     profileFields.name=name;
     profileFields.mobile=mobile;
     profileFields.DOB=DOB;
-    profileFields.facilitatorsNumber=facilitatorsNumber;
-    profileFields.facilitatorsEmail=facilitatorsEmail;
+    // profileFields.facilitatorsNumber=facilitatorsNumber;
+    // profileFields.facilitatorsEmail=facilitatorsEmail;
     profileFields.fathersName=fathersName;
-
+    profileFields.aadhar=aadhar;
+    profileFields.address=address;
+    profileFields.email=email;
+    profileFields.country=country;
+    profileFields.passport=passport;
 
 
     try {

@@ -130,7 +130,7 @@ export default class FileFIR extends React.Component {
                             theme={theme}
                         />
                         <Card.Actions style={styles.cardcontent}>
-                            <Button mode="contained" onPress={() => this.props.navigation.navigate('FillForm')}>{this.state.titles.BUTTON[this.state.lan]}</Button>
+                            <Button mode="contained" onPress={() => this.props.navigation.navigate('PromptProfile')}>{this.state.titles.BUTTON[this.state.lan]}</Button>
                         </Card.Actions>
                     </Card>
                     
