@@ -118,7 +118,7 @@ class PendingFir extends Component {
     //alert("clicked");
     var spam=0
     rowData.spam===1?spam=0:spam=1;
-    var body = { spam:spam+"" };
+    var body = { spam:spam+"", acceptance: "0"};
     fetch("http://localhost:7000/api/admin_side/" + rowData.firid, {
       method: "POST",
       headers: {

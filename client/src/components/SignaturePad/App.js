@@ -67,7 +67,7 @@ const classes = styles();
       <Grid>
       <Popup
         modal
-        trigger={<button>Open Signature Pad</button>}
+        
         on="focus"
         open={open}
         //onClose={closeSignaturePad()}

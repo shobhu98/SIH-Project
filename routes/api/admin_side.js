@@ -67,7 +67,7 @@ router.post('/:id',auth,[
     }
     console.log(req.body);
     console.log(req.params);
-    const {acceptance,type_of_crime,signature}=req.body;
+    const {acceptance,type_of_crime,signature,spam}=req.body;
 
     try {
        let fir= await FIRDetails.findById(req.params.id);
@@ -75,9 +75,40 @@ router.post('/:id',auth,[
         "$set":{
             type_of_crime:type_of_crime,
             acceptance:acceptance,
-            signature:signature
+            signature:signature,
+            spam:spam
         }
        };
+       /*
+       if(type_of_crime!=null){
+        var  update={
+            "$set":{
+                type_of_crime:type_of_crime,
+                
+            }
+       }
+       if(acceptance!=null){
+        var  update={
+            "$set":{
+                acceptance:acceptance,
+                
+            }
+       }
+       if(signature!=null){
+        var  update={
+            "$set":{
+                signature:signature,
+                
+            }
+       }
+       if(spam!=null){
+        var  update={
+            "$set":{
+                spam:spam,
+                
+            }
+       }
+       */
         if(fir){
             //Update
             // console.log(fir);

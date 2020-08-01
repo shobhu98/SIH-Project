@@ -108,7 +108,7 @@ class App extends Component {
   login() {
     console.log(JSON.stringify(this.state));
 
-    fetch("http://192.168.43.195/api/admin_auth/", {
+    fetch("http://localhost:7000/api/admin_auth/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state),
@@ -120,7 +120,7 @@ class App extends Component {
           //console.log(result.errors[0].msg);
           console.log(response.status);
           if (response.status === 200 && result.token) {
-            alert(result);
+            //alert(result);
             localStorage.setItem('login',JSON.stringify({
                 login: true,
                 token: result.token,
