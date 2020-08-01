@@ -7,6 +7,7 @@ import material from '../native-base-theme/variables/textjs';
 import {StyleSheet, View} from 'react-native';
 import lan from './global.js'
 import Lan from './LanguageStrings'
+import AsyncStorage from '@react-native-community/async-storage';
 
 const theme = {
     ...DefaultTheme,
@@ -46,15 +47,19 @@ export default class FillForm extends React.Component {
         
         this.state = {
             selected2: undefined,
-            date:"22-07-2020",
+            date:"07/22/2020",
             nationality: false,
             name:"",
             address:"",
             mobile:"",
             email:"",
             country:"",
-            ppnum:""
+            ppnum:"",
+            fathersname:"",
+            aadhar:"",
+            auth:""
         };   
+        AsyncStorage.getItem('@auth', (err, item) => this.setState({auth:item}));
         this.proceedbutton=this.proceedbutton.bind(this);
     }
     onValueChange2(value) {
@@ -104,14 +109,42 @@ export default class FillForm extends React.Component {
         //this.props.navigation.navigate('FillCaseDetails');
         
         console.log("Name "+this.state.name);
+        console.log("Papa Name "+this.state.fathersname);
+        console.log("DOB "+this.state.date);
+        console.log("Aadhar "+this.state.aadhar);
         console.log("Addr "+this.state.address);
-        console.log("Dis "+this.state.selected2);
         console.log("Mob "+this.state.mobile);
         console.log("Email "+this.state.email);
         console.log("Nationality "+this.state.nationality);
         console.log("Country "+this.state.country);
         console.log("PP "+this.state.ppnum);
-        console.log("DOB "+this.state.date);
+
+        fetch('http://192.168.1.10:7000/api/profile', {
+            method: 'POST',
+            headers: {
+                // Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'x-auth-token':this.state.auth
+            },
+            body:JSON.stringify({
+                name:this.state.name,
+                fathersName:this.state.fathersname,
+                DOB:Date.parse(this.state.date),
+                aadhar:this.state.aadhar,
+                address:this.state.address,
+                mobile:this.state.mobile,
+                email:this.state.email,
+                country:this.state.country,
+                passport:this.state.ppnum
+            })
+        }).then((response) => response.json())
+        .then((responseData) => {
+            console.log(responseData);
+            this.props.navigation.navigate('Profile');
+        }).catch (function (error){
+            console.log(error);
+        })
+        
     }
 
     render(){
@@ -125,6 +158,39 @@ export default class FillForm extends React.Component {
                 <Text style={styles.text}>{Lan.ComplainantsName[lan]}</Text>
                 <Item regular>
                     <Input onChangeText={text => this.setState({name:text})} />
+                </Item>
+                <Text style={styles.text}>Father's Name</Text>
+                <Item regular>
+                    <Input onChangeText={text => this.setState({fathersname:text})} />
+                </Item>
+                <Text style={styles.text}>Complainant's Date Of Birth</Text>
+                <DatePicker
+                    style={{width: 200}}
+                    date={this.state.date}
+                    mode="date"
+                    placeholder="select date"
+                    format="MM/DD/YYYY"
+                    minDate="01/05/1947"
+                    maxDate="08/01/2020"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                    dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0
+                    },
+                    dateInput: {
+                        marginLeft: 36
+                    }
+                    // ... You can check the source to find the other keys.
+                    }}
+                    onDateChange={(date) => {this.setState({date: date})}}
+                />
+                <Text style={styles.text}>Aadhar Card</Text>
+                <Item regular>
+                    <Input onChangeText={text => this.setState({aadhar:text})} />
                 </Item>
                 <Text style={styles.text}>{Lan.Address[lan]}</Text>
                 <Textarea rowSpan={4} bordered onChangeText={text => this.setState({address:text})}/>
@@ -164,31 +230,7 @@ export default class FillForm extends React.Component {
                         <Input onChangeText={text => this.setState({ppnum:text})}/>
                     </Item>
                 </View>}
-                <Text style={styles.text}>Complainant's Date Of Birth</Text>
-                <DatePicker
-                    style={{width: 200}}
-                    date={this.state.date}
-                    mode="date"
-                    placeholder="select date"
-                    format="DD-MM-YYYY"
-                    minDate="01-05-1947"
-                    maxDate="22-07-2020"
-                    confirmBtnText="Confirm"
-                    cancelBtnText="Cancel"
-                    customStyles={{
-                    dateIcon: {
-                        position: 'absolute',
-                        left: 0,
-                        top: 4,
-                        marginLeft: 0
-                    },
-                    dateInput: {
-                        marginLeft: 36
-                    }
-                    // ... You can check the source to find the other keys.
-                    }}
-                    onDateChange={(date) => {this.setState({date: date})}}
-                />
+                
                 <PaperProvider theme={theme}>
                     <Button mode="contained" style={styles.proceedButton}  onPress={this.proceedbutton} >{Lan.ProceedButton[lan]}</Button>
                 </PaperProvider>

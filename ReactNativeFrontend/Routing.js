@@ -24,6 +24,7 @@ import Chatbot from './pages/Policeman';
 import FillProfile from './pages/FillProfile';
 import FIRsaved from './pages/FIRsaved';
 import PLanguage from './pages/PLanguage';
+import PromptProfile from './pages/PromptProfile';
 
 import Camera from './pages/Camera';
 import ShowImage from './pages/ShowImage';
@@ -119,6 +120,12 @@ const FileFIRStack= createStackNavigator({
     },
     ClickCamera:{
         screen: PhotoStack,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    PromptProfile:{
+        screen: PromptProfile,
         navigationOptions: {
             headerShown: false,
         }

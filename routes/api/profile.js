@@ -40,7 +40,7 @@ router.post('/',[
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});
     }
-    const {name,mobile,DOB,fathersName,aadhar,address,email,country,passport
+    const {name,fathersName,DOB,aadhar,address,mobile,email,country,passport
     }=req.body;
 
     //Build profile object
