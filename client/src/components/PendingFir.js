@@ -26,14 +26,15 @@ import App from "./SignaturePad/App";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { Divider, Button } from "@material-ui/core";
 
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 
-const styles = ((theme) => ({
+const styles = (theme) => ({
   modal: {
     display: "flex",
     alignItems: "center",
@@ -46,7 +47,7 @@ const styles = ((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-}));
+});
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -98,14 +99,24 @@ class PendingFir extends Component {
         onClick: (event, rowData) => this.moreInfo(event, rowData),
         disabled: rowData.status === "More information requested",
       }),
+      (rowData) => ({
+        icon: () => <WarningIcon />,
+        tooltip: "Toggle Spam",
+        onClick: (event, rowData) => this.spam(event, rowData),
+        
+      }),
     ],
     open: false,
     firid: null,
     openSignaturePad: false,
     status: null,
     openMoreInfo: false,
-    moreinfoText:null,
+    moreinfoText: null,
   };
+
+  spam = (event, rowData) => {
+    
+  }
 
   accept = (event, rowData) => {
     //this.acceptFIR(rowData.firid)
@@ -286,6 +297,7 @@ class PendingFir extends Component {
                   firid: element._id,
                   status: "Pending",
                   date: element.date,
+                  spam: element.spam
                 };
 
                 this.setState({
@@ -297,6 +309,7 @@ class PendingFir extends Component {
                   firid: element._id,
                   status: "More information requested",
                   date: element.date,
+                  spam: element.spam
                 };
 
                 this.setState({
@@ -308,6 +321,7 @@ class PendingFir extends Component {
                   firid: element._id,
                   status: "Complainant has updated",
                   date: element.date,
+                  spam:element.spam
                 };
 
                 this.setState({
@@ -331,92 +345,114 @@ class PendingFir extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <MaterialTable
-          options={{
-            exportButton: true,
-            exportFileName: "Pending_FIRs",
-            actionsColumnIndex: -1,
-            rowStyle: rowData => ({
-              borderLeft: (rowData.spam === 1) ?  '6px solid yellow' : null,
-              borderLeft: ("More information requested" === rowData.status && rowData.spam === 0)  ? '6px solid yellow' : '6px solid green',
-              
+        <Grid container>
+          <Grid item xs={12}>
+            <MaterialTable
+              options={{
+                exportButton: true,
+                exportFileName: "Pending_FIRs",
+                actionsColumnIndex: -1,
+                rowStyle: (rowData) => ({
+                  borderLeft:
+                    rowData.spam === 1
+                      ? "6px solid red"
+                      : "More information requested" === rowData.status
+                      ? "6px solid yellow"
+                      : "6px solid green",
+                }),
+              }}
+              doubleHorizontalScroll={true}
+              onRowClick={(event, rowData) =>
+                this.handleRowClick(event, rowData)
+              }
+              icons={tableIcons}
+              title="Pending FIR"
+              columns={this.state.columns}
+              data={this.state.data}
+              actions={this.state.actions}
+            />
+            {this.state.open === true ? (
+              <FIRModal
+                firid={this.state.firid}
+                status={this.state.status}
+                moreinfo={this.moreInfoStart}
+                close={this.close}
+                accept={this.acceptStart}
+                moreInfo={this.moreinfo}
+              />
+            ) : (
+              <></>
+            )}
 
-              
-            })
-          }}
-          doubleHorizontalScroll={true}
-          onRowClick={(event, rowData) => this.handleRowClick(event, rowData)}
-          icons={tableIcons}
-          title="Pending FIR"
-          columns={this.state.columns}
-          data={this.state.data}
-          actions={this.state.actions}
-          
-        />
-        {this.state.open === true ? (
-          <FIRModal
-            firid={this.state.firid}
-            status={this.state.status}
-            moreinfo={this.moreInfoStart}
-            close={this.close}
-            accept={this.acceptStart}
-            moreInfo={this.moreinfo}
-          />
-        ) : (
-          <></>
-        )}
+            {this.state.openSignaturePad === true ? (
+              <App
+                data={this.state.firid}
+                closeSignaturePad={this.closeSignaturePad}
+                rec={this.rec}
+                open={this.state.openSignaturePad}
+              />
+            ) : (
+              <></>
+            )}
 
-        {this.state.openSignaturePad === true ? (
-          <App
-            data={this.state.firid}
-            closeSignaturePad={this.closeSignaturePad}
-            rec={this.rec}
-            open={this.state.openSignaturePad}
-          />
-        ) : (
-          <></>
-        )}
-
-        {this.state.moreInfoStart === true ? (
-          
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            
-            open={true}
-            className={classes.modal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Fade in={true}>
-              <div className={classes.paper}>
-                <h2 id="transition-modal-title">Request more information for FIR:<br></br> {this.state.firid}</h2>
-                <p id="transition-modal-description">
-                  <TextareaAutosize
-                    aria-label="minimum height"
-                    rowsMin={5}
-                    fullWidth={true}
-                    tyle ={{width: '100%'}}
-                    placeholder="Please type in the issues here"
-                    onChange={(event) => {
-                      this.setState({ moreinfoText: event.target.value }
-                      );
-                    }}
-                  />
-                  <Divider/>
-                  <Button color="primary" onClick={() => {this.moreInfoStart(this.state.firid, this.state.moreinfoText); this.setState({moreInfoStart:false})}}>Submit</Button>
-                  <Button onClick={() => { this.setState({moreInfoStart:false})}}>Close</Button>
-                
-                </p>
-              </div>
-            </Fade>
-          </Modal>
-        ) : (
-          <></>
-        )}
+            {this.state.moreInfoStart === true ? (
+              <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={true}
+                className={classes.modal}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+              >
+                <Fade in={true}>
+                  <div className={classes.paper}>
+                    <h2 id="transition-modal-title">
+                      Request more information for FIR:<br></br>{" "}
+                      {this.state.firid}
+                    </h2>
+                    <p id="transition-modal-description">
+                      <TextareaAutosize
+                        aria-label="minimum height"
+                        rowsMin={5}
+                        fullWidth={true}
+                        tyle={{ width: "100%" }}
+                        placeholder="Please type in the issues here"
+                        onChange={(event) => {
+                          this.setState({ moreinfoText: event.target.value });
+                        }}
+                      />
+                      <Divider />
+                      <Button
+                        color="primary"
+                        onClick={() => {
+                          this.moreInfoStart(
+                            this.state.firid,
+                            this.state.moreinfoText
+                          );
+                          this.setState({ moreInfoStart: false });
+                        }}
+                      >
+                        Submit
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          this.setState({ moreInfoStart: false });
+                        }}
+                      >
+                        Close
+                      </Button>
+                    </p>
+                  </div>
+                </Fade>
+              </Modal>
+            ) : (
+              <></>
+            )}
+          </Grid>
+        </Grid>
       </div>
     );
   }
