@@ -485,6 +485,8 @@ class PendingFir extends Component {
                       ? "6px solid red"
                       : "More information requested" === rowData.status
                       ? "6px solid yellow"
+                      :"Rejected" === rowData.status
+                      ? "6px solid gray"
                       : "6px solid green",
                 }),
               }}
