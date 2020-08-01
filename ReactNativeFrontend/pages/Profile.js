@@ -118,7 +118,7 @@ export default class ChooseGender extends React.Component {
         };
 
         this.state={
-            name: "Ankita",
+            name: "",
             address: "G-74, Sector-87, Noida",
             mobile:"7042105583",
             email:"ankita@gmail.com",
@@ -160,7 +160,11 @@ export default class ChooseGender extends React.Component {
             }
         }).then((response) => response.json())
         .then((responseData) => {
-            console.log(responseData);
+            this.setState({name:responseData.name,address:responseData.address,email:responseData.email,country:responseData.country,ppnum:responseData.passport,dob:responseData.DOB,fathername:responseData.fathersName,aadhar:responseData.aadhar}, () => {
+                console.log(this.state)
+            });
+            // this.setState({name:responseData.name,address:responseData.address,mobile:responseData.mobile,email:responseData.email,country:responseData.country,ppnum:responseData.passport,dob:responseData.DOB,fathername:responseData.fathersName,aadhar:responseData.aadhar})
+            //console.log(responseData);
         }).catch (function (error){
             console.log(error);
         })
@@ -171,6 +175,7 @@ export default class ChooseGender extends React.Component {
                 <NavigationEvents
                     onWillFocus={() => {
                         AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
+                        this.setState({});
                     }}
                 />
                 <H2 style={styles.h2}>{this.state.titles.Profile[this.state.lan]}</H2>
@@ -183,7 +188,7 @@ export default class ChooseGender extends React.Component {
                 </PaperProvider>
                 <View style={styles.view2}>
                     <Title>{this.state.titles.Details[this.state.lan]}</Title>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('FillProfile')} >
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('FillProfile',{authToken:this.state.auth})} >
                         <Title style={styles.edit}>{this.state.titles.Edit[this.state.lan]}</Title>
                     </TouchableOpacity>
                 </View>

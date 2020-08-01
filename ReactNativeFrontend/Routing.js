@@ -233,12 +233,12 @@ const TabNavigator = createBottomTabNavigator({
 );
 
 const AppNavigator = createStackNavigator({
-    CheckingCredentials: {
-        screen: CheckingCredentials,
-        navigationOptions: {
-            headerShown: false,
-        }
-      },
+    // CheckingCredentials: {
+    //     screen: CheckingCredentials,
+    //     navigationOptions: {
+    //         headerShown: false,
+    //     }
+    //   },
     Login: {
       screen: Login,
       navigationOptions: {
