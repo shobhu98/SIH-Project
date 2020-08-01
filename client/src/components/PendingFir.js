@@ -34,6 +34,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import InfoIcon from "@material-ui/icons/Info";
+import BlockIcon from '@material-ui/icons/Block';
 
 const styles = (theme) => ({
   modal: {
@@ -100,6 +101,11 @@ class PendingFir extends Component {
         onClick: (event, rowData) => this.moreInfo(event, rowData),
         disabled: rowData.status === "More information requested",
       }),
+      {
+        icon: () => <BlockIcon />,
+        tooltip: "Reject FIR",
+        onClick: (event, rowData) => this.reject(event, rowData),
+      },
       (rowData) => ({
         icon: () => <WarningIcon />,
         tooltip: "Toggle Spam",
@@ -112,6 +118,8 @@ class PendingFir extends Component {
     status: null,
     openMoreInfo: false,
     moreinfoText: null,
+    accorrej: null,
+
   };
 
   spam = (event, rowData) => {
@@ -165,8 +173,114 @@ class PendingFir extends Component {
     this.setState({
       openSignaturePad: true,
       firid: firid,
+      accorrej: "accept",
     });
   };
+  rec = (sign, type) => {
+    console.log(this.state.firid + "  " + type + "  " + sign);
+    this.state.accorej==="Accept"?this.acceptFIR(this.state.firid, type, sign):
+    this.rejectFIR(this.state.firid, type, sign);
+  };
+  acceptFIR(firid, type, sign) {
+    var body = { acceptance: "1", type_of_crime: type, signature: sign };
+
+    fetch("http://localhost:7000/api/admin_side/" + firid, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(result);
+            alert(firid + " has been accepted");
+            this.setState(
+              {
+                data: [],
+              },
+              () => this.fetchFIRList()
+            );
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
+
+
+
+
+
+
+
+
+  reject = (event, rowData) => {
+    //this.acceptFIR(rowData.firid)
+    this.rejectStart(rowData.firid);
+  };
+  rejectStart = (firid) => {
+    this.setState({
+      openSignaturePad: true,
+      firid: firid,
+      accorrej:"reject"
+    });
+  };
+  // rec = (sign, type) => {
+  //   console.log(this.state.firid + "  " + type + "  " + sign);
+  //   this.acceptFIR(this.state.firid, type, sign);
+  // };
+  rejectFIR(firid, type, sign) {
+    var body = { acceptance: "5", rejection_reason: type, signature: sign };
+
+    fetch("http://localhost:7000/api/admin_side/" + firid, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(result);
+            alert(firid + " has been rejected");
+            this.setState(
+              {
+                data: [],
+              },
+              () => this.fetchFIRList()
+            );
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
+
+
+
+
+  
   moreInfo = (event, rowData) => {
     //this.moreInfoStart(rowData.firid);
     this.setState({
@@ -266,45 +380,7 @@ class PendingFir extends Component {
       openSignaturePad: false,
     });
   };
-  rec = (sign, type) => {
-    console.log(this.state.firid + "  " + type + "  " + sign);
-    this.acceptFIR(this.state.firid, type, sign);
-  };
-  acceptFIR(firid, type, sign) {
-    var body = { acceptance: "1", type_of_crime: type, signature: sign };
-
-    fetch("http://localhost:7000/api/admin_side/" + firid, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
-      },
-      body: JSON.stringify(body),
-    })
-      .then((response) => {
-        response.json().then((result) => {
-          //console.log(result.errors[0].msg);
-          console.log(response.status);
-          if (response.status === 200) {
-            console.log(result);
-            alert(firid + " has been accepted");
-            this.setState(
-              {
-                data: [],
-              },
-              () => this.fetchFIRList()
-            );
-          } else {
-            var error = new Error(response.statusText);
-            error.response = response;
-            throw error;
-          }
-        });
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  }
+  
 
   async componentWillMount() {
     //API Call to fetch pending FIR list
@@ -361,7 +437,19 @@ class PendingFir extends Component {
                   status: "Complainant has updated",
                   date: element.date,
                   spam: element.spam,
-                };
+                } 
+
+                this.setState({
+                  data: [...this.state.data, temp],
+                });
+              } else if (element.acceptance === 5) {
+                var temp = {
+                  name: element.name,
+                  firid: element._id,
+                  status: "Rejected",
+                  date: element.date,
+                  spam: element.spam,
+                } 
 
                 this.setState({
                   data: [...this.state.data, temp],
@@ -418,6 +506,7 @@ class PendingFir extends Component {
                 close={this.close}
                 accept={this.acceptStart}
                 moreInfo={this.moreinfo}
+                accorrej={this.state.accorrej}
               />
             ) : (
               <></>

@@ -4,7 +4,7 @@ import SignaturePad from "react-signature-canvas";
 import "./sigCanvas.css";
 import { Button,TextField, makeStyles, MuiThemeProvider, createMuiTheme, ThemeProvider,Grid,Paper, Typography } from "@material-ui/core";
 
-function App({closeSignaturePad, rec, open}) {
+function App({closeSignaturePad, rec, open, accorrej}) {
   //closeSignaturePad = closeSignaturePad.bind(this);
   const [imageURL, setImageURL] = useState(null); // create a state that will contain our image url
   const [type, setType] = useState(null);
@@ -77,7 +77,7 @@ const classes = styles();
         {(close) => (
           
           <>
-          <Typography variant="subtitle1" className={classes.multilineColor}>Please Sign in the box below and enter the type of crime</Typography>
+          <Typography variant="subtitle1" className={classes.multilineColor}>Please Sign in the box below</Typography>
             <SignaturePad
               ref={sigCanvas}
               canvasProps={{
@@ -91,7 +91,7 @@ const classes = styles();
                 required
                 fullWidth
                 name="type"
-                label="Type of Crime"
+                label={accorrej==="accept"?"Type of Crime":"Reason for rejection"}
                 
                 autoFocus
                 onChange={(event) => {
