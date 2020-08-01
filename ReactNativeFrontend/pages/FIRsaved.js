@@ -48,7 +48,7 @@ class GeneralStarExample extends React.Component {
                 {this.state.showRating && <FadeInView
                     duration={750}
                     style={{ alignItems: 'center' }}
-                >   
+                >
                     <Subheading style={{color:'#16335C', fontSize:18,marginTop:30}}>{Lan.PleaseRateUsPrompt[lan]}</Subheading>
                     <StarRating
                         // disabled={false}
