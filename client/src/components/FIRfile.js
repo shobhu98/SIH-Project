@@ -3,18 +3,27 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import { Divider, Button, Typography, Grid } from "@material-ui/core";
+import {
+  Divider,
+  Button,
+  Typography,
+  Grid,
+  Paper,
+  Box,
+} from "@material-ui/core";
 import "./modal.css";
-import FIRModalOngoing from './FIRModalOngoing'
+import FIRModalOngoing from "./FIRModalOngoing";
 
 export default class FIRfile extends Component {
   constructor(props) {
     super(props);
   }
-  state={
-    originalFIR:false,
-    firid:this.props.match.params.id
-  }
+  state = {
+    originalFIR: false,
+    firid: this.props.match.params.id,
+    caseAssets: true,
+    caseNotes: true,
+  };
   componentWillMount() {
     this.fetch();
   }
@@ -48,44 +57,103 @@ export default class FIRfile extends Component {
       });
   }
   originalFIR = () => {
-    if(this.state.originalFIR===true){
+    if (this.state.originalFIR === true) {
       this.setState({
-        originalFIR:false
-      })
-    }else{
+        originalFIR: false,
+      });
+    } else {
       this.setState({
-        originalFIR:true
-      })
+        originalFIR: true,
+      });
     }
-  }
+  };
+
   closeOriginal = () => {
     this.setState({
-      originalFIR:false
-    })
-  }
+      originalFIR: false,
+    });
+  };
+
+  caseAssets = () => {
+    if (this.state.caseAssets === true) {
+      this.setState({
+        caseAssets: false,
+      });
+    } else {
+      this.setState({
+        caseAssets: true,
+      });
+    }
+  };
+  caseNotes = () => {
+    if (this.state.caseNotes === true) {
+      this.setState({
+        caseNotes: false,
+      });
+    } else {
+      this.setState({
+        caseNotes: true,
+      });
+    }
+  };
+
   render() {
     return (
       <div>
-        <Grid container>
-          <Grid item xs={3} md={6}>
-            <Button
-              variant="outlined"
-              onClick={this.originalFIR}
-            >
+        <Grid container spacing={3} >
+          <Grid item xs={4} md={2} >
+            <Button variant="outlined" onClick={this.originalFIR}>
               Original FIR
             </Button>
           </Grid>
-        </Grid>
 
-        {this.state.originalFIR === true ? (
-              <FIRModalOngoing
-                firid={this.state.firid}
-                close={this.closeOriginal}
-              />
+          <Grid item xs={4} md={2}>
+            <Button variant="outlined" onClick={this.caseAssets}>
+              Case Assets
+            </Button>
+          </Grid>
+
+          <Grid item xs={4} md={2}>
+            <Button variant="outlined" onClick={this.caseNotes}>
+              Case Notes
+            </Button>
+          </Grid>
+          <Grid item xs={0} md={6}></Grid>
+
+          {this.state.originalFIR === true ? (
+            <FIRModalOngoing
+              firid={this.state.firid}
+              close={this.closeOriginal}
+            />
+          ) : (
+            <></>
+          )}
+          <Grid item xs={12} md={6}>
+            {this.state.caseAssets === true ? (
+              <Paper>
+                <Box m={2} p={3}>
+                  <Typography variant="h4">Assets</Typography>
+
+                  <Button type="file"></Button>
+                </Box>
+              </Paper>
             ) : (
               <></>
             )}
+          </Grid>
+          <Grid item xs={12} md={6}>
+            {this.state.caseNotes === true ? (
+              <Paper>
+                <Box m={2} p={3}>
+                  <Typography variant="h4">Notes</Typography>
 
+                </Box>
+              </Paper>
+            ) : (
+              <></>
+            )}
+          </Grid>
+        </Grid>
       </div>
     );
   }
