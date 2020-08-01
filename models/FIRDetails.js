@@ -63,19 +63,15 @@ const PostSchema=new Schema({
     },
     acceptance:{
         type:Number,
-        default: 0,
     },
     type_of_crime:{
         type:String,
-        default:"",
     },
     signature:{
         type:Object,
-        default:""
     },
     spam:{
         type:Number,
-        default:0,
     },
 
     case_Details:[
