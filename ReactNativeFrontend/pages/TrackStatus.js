@@ -110,7 +110,7 @@ export default class TrackStatus extends React.Component {
   render(){
     return(
       <Content padder>
-        <Text>Blah blal</Text>
+        <Text>Track Status</Text>
         {/* <NavigationEvents
           onWillFocus={() => {
               AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
