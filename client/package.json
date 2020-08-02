@@ -14,7 +14,6 @@
     "bootstrap": "^4.5.0",
     "clsx": "^1.1.1",
     "material-table": "^1.66.0",
-    "material-ui-dropzone": "^3.3.1",
     "moment": "^2.27.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

@@ -72,7 +72,7 @@ router.post('/:id',auth,[
     try {
        let fir= await FIRDetails.findById(req.params.id);
 
-       
+
            const  update={
 
                "$set":{
@@ -81,9 +81,9 @@ router.post('/:id',auth,[
                    acceptance:acceptance,
                    signature:signature
                }
-       }
+       };
 
-   
+
         if(fir){
             //Update
             // console.log(fir);
@@ -94,7 +94,7 @@ router.post('/:id',auth,[
               await fir.save();
         }
 
-        // fir=new FIRDetails(acceptance);
+         fir=new FIRDetails(acceptance);
 
 
 
