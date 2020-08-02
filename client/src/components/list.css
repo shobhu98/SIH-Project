@@ -1,5 +1,5 @@
 .list {
-    max-height: calc(20vh);
+    max-height: calc(25vh);
     overflow-y: auto;
 }
 .zone {

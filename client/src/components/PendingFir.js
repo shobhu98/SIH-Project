@@ -101,11 +101,12 @@ class PendingFir extends Component {
         onClick: (event, rowData) => this.moreInfo(event, rowData),
         disabled: rowData.status === "More information requested",
       }),
-      {
+      (rowData) => ({
         icon: () => <BlockIcon />,
         tooltip: "Reject FIR",
         onClick: (event, rowData) => this.reject(event, rowData),
-      },
+        disabled: rowData.status === "Rejected",
+      }),
       (rowData) => ({
         icon: () => <WarningIcon />,
         tooltip: "Toggle Spam",

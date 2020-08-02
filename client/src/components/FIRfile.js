@@ -152,6 +152,11 @@ export default class FIRfile extends Component {
 
           if (response.status === 200) {
             console.log(result);
+            if(result.acceptance === 4){
+              this.setState({
+                status:"closed"
+              })
+            }
           } else {
             var error = new Error(response.statusText);
             error.response = response;
