@@ -27,6 +27,8 @@ export default class App extends React.Component {
       // }
     ]
   };
+
+
   onSend(messages) {
     this.setState({
       note:false,
@@ -35,14 +37,72 @@ export default class App extends React.Component {
     console.log("Messages");
     console.log(messages);
     if(this.state.append===1){
+      messages[0].text="fir types "+messages[0].text;
       this.setState({append:this.state.append+1})
+      
+      console.log("first one");
+      this.onSend2(messages);
     }else if(this.state.append===1){
-      messages[0].text=messages[0].text+"fir types"
+      this.onSend2(messages);
+    }
+    else if(this.state.append===2){
+      
     }
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages)
     }),()=>{
       fetch('http://192.168.1.10:7000/api/dialogflow/textquery', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        text: messages[0].text
+      })
+    }).then((response) => {
+      response.json().then((result) => {
+        if (response.status === 200) {
+          console.log(result.fulfillmentMessages[0].text.text[0]);
+          if(result.fulfillmentMessages[0].text.text[0].localeCompare("I have got your personal details. Are you ready to move on to incident details?")===0){
+            console.log("Changing here");
+            this.setState({append:this.state.append+1});
+          }
+          var js = {
+            _id: this.state.id,
+            text: result.fulfillmentMessages[0].text.text[0],
+            createdAt: new Date()
+          }
+          
+          this.setState(previousState => ({
+            messages: GiftedChat.append(previousState.messages, js),
+            id:previousState.id+1
+          //}), () => console.log(this.state.messages))
+          }))
+
+        } else {
+          var error = Error(reponse.statusText);
+          error.response = response;
+          throw error
+        }
+      })
+    }).catch(function (error) {
+      console.log(error)
+    })
+    })
+
+    this.setState({
+      note:true,
+      speak:false,
+    })
+
+
+  }
+
+  onSend2(messages){
+    this.setState(previousState => ({
+      messages: GiftedChat.append(previousState.messages, messages)
+    }),()=>{
+      fetch('http://192.168.1.10:7000/api/dialogflow/agent2', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -79,46 +139,6 @@ export default class App extends React.Component {
       console.log(error)
     })
     })
-
-    this.setState({
-      note:true,
-      speak:false,
-    })
-
-    //API call
-    // console.log(messages[0].text);
-    // fetch('http://192.168.1.10:7000/api/dialogflow/textquery', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     text: messages[0].text
-    //   })
-    // }).then((response) => {
-    //   response.json().then((result) => {
-    //     if (response.status === 200) {
-    //       console.log(result.fulfillmentMessages[0].text.text[0]);
-    //       var js = {
-    //         _id: 2,
-    //         text: result.fulfillmentMessages[0].text.text[0],
-    //         createdAt: new Date()
-    //       }
-    //       this.setState(previousState => ({
-    //         messages: GiftedChat.append(previousState.messages, js)
-    //       }), () => console.log(this.state.messages))
-
-    //     } else {
-    //       var error = Error(reponse.statusText);
-    //       error.response = response;
-    //       throw error
-    //     }
-    //   })
-    // }).catch(function (error) {
-    //   console.log(error);
-    // })
-
-
   }
 
   render() {

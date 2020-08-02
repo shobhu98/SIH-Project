@@ -10,7 +10,7 @@ export default class App extends React.Component {
     messages: [
       {
         _id: 2,
-        text: "Hello",
+        text: "नमस्ते!",
         createdAt: new Date(),
         // user: {
         //   _id: 2,
@@ -40,7 +40,7 @@ export default class App extends React.Component {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages)
     }),()=>{
-      fetch('http://192.168.1.10:7000/api/dialogflow/textquery', {
+      fetch('http://192.168.1.10:7000/api/dialogflow//hindi1', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
