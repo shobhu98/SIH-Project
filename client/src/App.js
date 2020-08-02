@@ -27,7 +27,8 @@ import {
 } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Ongoing from "./components/Ongoing";
-import FIRfile from './components/FIRfile'
+import FIRfile from './components/FIRfile';
+import Closed from './components/Closed'
 //import AddToHomescreen from 'react-add-to-homescreen';
 
 const styles = (theme) => ({
@@ -36,7 +37,8 @@ const styles = (theme) => ({
   },
   image: {
     backgroundImage: "url(" + Background + ")",
-    backgroundRepeat: "no-repeat",
+    backgroundRepeat: "contain",
+    height: '100%',
     backgroundColor:
       theme.palette.type === "light"
         ? theme.palette.grey[50]
@@ -107,7 +109,7 @@ class App extends Component {
   login() {
     console.log(JSON.stringify(this.state));
 
-    fetch("http://192.168.43.195/api/admin_auth/", {
+    fetch("http://localhost:7000/api/admin_auth/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state),
@@ -119,7 +121,7 @@ class App extends Component {
           //console.log(result.errors[0].msg);
           console.log(response.status);
           if (response.status === 200 && result.token) {
-            alert(result);
+            //alert(result);
             localStorage.setItem('login',JSON.stringify({
                 login: true,
                 token: result.token,
@@ -218,6 +220,7 @@ class App extends Component {
             <Route path="/Pending FIR" component={PendingFir} exact />
             <Route path="/Ongoing Investigations" component={Ongoing} exact />
             <Route path="/fir/:id" component={FIRfile} exact />
+            <Route path="/Closed Investigations" component={Closed} exact />
           </Switch>
         </MiniDrawer>
       </BrowserRouter>
