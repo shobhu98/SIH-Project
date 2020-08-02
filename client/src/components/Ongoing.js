@@ -34,6 +34,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import FIRfile from './FIRfile'
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 const styles = (theme) => ({
   modal: {
@@ -85,12 +86,12 @@ class Ongoing extends Component {
       { title: "Complainant Name", field: "name" },
       { title: "Date", field: "date" },
     ],
-    
+
     data: [],
     actions: [
       (rowData) => ({
-        icon: () => <CloseIcon />,
-        tooltip: "Close case",
+        icon: () => <AssignmentTurnedInIcon />,
+        tooltip: "Mark as completed",
         onClick: this.closef
       }),
     ],
@@ -107,7 +108,7 @@ class Ongoing extends Component {
 
     //var id = this.firIdFinder(rowData.firid)
     window.open("/fir/"+rowData.firid, "_blank")
-    
+
   };
   close = () => {
     this.setState({
@@ -158,7 +159,7 @@ class Ongoing extends Component {
   }
   fetchFIRList() {
     //console.log("http://localhost:7000/api/admin_side?uin="+JSON.parse(localStorage.getItem("login")).uin)
-    fetch("http://192.168.43.195:7000/api/admin_side/fir", {
+    fetch("http://localhost:7000/api/admin_side/fir", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -176,16 +177,31 @@ class Ongoing extends Component {
             console.log(result);
             result.forEach((element) => {
               if (element.acceptance === 1) {
-                var temp = {
-                  name: element.name,
-                  firid: element._id,
-
-                  date: element.date,
-                };
-
-                this.setState({
-                  data: [...this.state.data, temp],
-                });
+                if(JSON.parse(localStorage.getItem('login')).user==="IO" && element.officer === JSON.parse(localStorage.getItem('login')).email){
+                  var temp = {
+                    name: element.name,
+                    firid: element._id,
+  
+                    date: element.date,
+                  };
+  
+                  this.setState({
+                    data: [...this.state.data, temp],
+                  });
+                } 
+                else if(JSON.parse(localStorage.getItem('login')).user!="IO"){
+                  var temp = {
+                    name: element.name,
+                    firid: element._id,
+  
+                    date: element.date,
+                  };
+  
+                  this.setState({
+                    data: [...this.state.data, temp],
+                  });
+                }
+                
               }
             });
           } else {
@@ -209,7 +225,7 @@ class Ongoing extends Component {
             exportButton: true,
             exportFileName: "Ongoing Investigations",
             actionsColumnIndex: -1,
-            
+
           }}
           doubleHorizontalScroll={true}
           onRowClick={(event, rowData) => this.handleRowClick(event, rowData)}
@@ -219,7 +235,7 @@ class Ongoing extends Component {
           data={this.state.data}
           actions={this.state.actions}
         />
-        
+
       </div>
     );
   }

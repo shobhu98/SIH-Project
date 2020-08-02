@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal({ close, firid, accept,moreinfo,status }) {
+export default function TransitionsModal({ close, firid, accept,moreinfo,status,content }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
@@ -59,7 +59,7 @@ export default function TransitionsModal({ close, firid, accept,moreinfo,status 
         <Fade in={open}>
           <div className={classes.paper}>
             <Typography variant="h4" id="transition-modal-title">
-              FIR id :{firid}
+              FIR ID :{firid}
             </Typography>
             <br></br>
             <Divider />
@@ -68,93 +68,71 @@ export default function TransitionsModal({ close, firid, accept,moreinfo,status 
               <Typography id="transition-modal-description" className="modal-body">
                 <Grid spacing={3} container >
                   <Grid item xs={12}>
-                    <Typography variant="h6">Main FIR</Typography>
+                    <Typography variant="h6">AI IPC Sections: {content.ipc_sections.map((element,i) => {
+                      console.log(element)
+                      return element+", "
+                    })}</Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    Cornish rex. Ocicat persian so burmese for jaguar, or
-                    mouser. Puma cornish rex. American bobtail burmese, persian
-                    jaguar but singapura devonshire rex. Scottish fold bobcat
-                    bobcat munchkin maine coon or kitty american bobtail. Maine
-                    coon burmese american shorthair or tomcat, and american
-                    shorthair donskoy so cornish rex. Turkish angora lynx and
-                    himalayan. Lion leopard. Manx turkish angora burmese or tom,
-                    yet scottish fold. Grimalkin. Mouser havana brown but tomcat
-                    ocelot. Kitty russian blue. Balinese bobcat yet british
-                    shorthair birman or mouser siberian. Egyptian mau turkish
-                    angora burmese. American bobtail. Malkin bengal. Singapura
-                    cheetah cheetah munchkin birman but leopard so ocicat.
-                    Persian tom. Sphynx tomcat. Devonshire rex sphynx puma and
-                    savannah siberian tomcat. Birman kitten. Kitty tomcat
-                    panther so singapura. Bengal balinese birman grimalkin
-                    jaguar devonshire rex munchkin. Puma. Egyptian mau ocelot
-                    siberian for kitty tiger so burmese so tomcat.
+                    <Typography variant="h6">IPC Sections(As set by SHO): {content.type_of_crime}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Current Status: {content.name}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Name: {content.name}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Email: {content.email}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Father's Name: {content.fathersName}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                  <Typography variant="h6">DOB: {content.DOB}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Mobile number: {content.mobile}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Complainant's Resident Country: {content.country}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Incident District: {content.District}</Typography>
                   </Grid>
                   <br></br>
                   <Grid item xs={12}>
-                    <Typography variant="h6">How did it Happen</Typography>
+                    <Typography variant="h6">Incident</Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    British shorthair. Kitty bombay or tomcat russian blue
-                    tiger. Burmese jaguar. Donskoy maine coon ocicat or ragdoll.
-                    Cornish rex havana brown for himalayan singapura ragdoll
-                    american bobtail bobcat. Munchkin tabby ragdoll but cheetah
-                    or mouser. Persian tabby and bengal so lynx siamese. Cornish
-                    rex scottish fold american shorthair. Ragdoll munchkin kitty
-                    balinese . Cornish rex ragdoll savannah himalayan turkish
-                    angora. Kitty burmese panther, yet donskoy abyssinian .
-                    Egyptian mau. Persian bombay. Russian blue himalayan
-                    abyssinian turkish angora lion or siamese lion. Cougar
-                    abyssinian so tabby for savannah. Russian blue grimalkin.
+                    {content.incident}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Reason for Delay(if any)</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    {content.delay}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Possible Suspects</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    {content.suspects}
+                  </Grid>
+                  <br></br>
+                  <Grid item xs={12}>
+                  <Typography>SHO</Typography>
+                    <img
+                    src={content.signature}></img>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                  <Typography>Complainant</Typography>
+                    <img
+                    src={content.signature_user}></img>
                   </Grid>
                   
-                  <br></br>
-                  <Grid item xs={12}>
-                    <Typography variant="h6">Main FIR</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    Cornish rex. Ocicat persian so burmese for jaguar, or
-                    mouser. Puma cornish rex. American bobtail burmese, persian
-                    jaguar but singapura devonshire rex. Scottish fold bobcat
-                    bobcat munchkin maine coon or kitty american bobtail. Maine
-                    coon burmese american shorthair or tomcat, and american
-                    shorthair donskoy so cornish rex. Turkish angora lynx and
-                    himalayan. Lion leopard. Manx turkish angora burmese or tom,
-                    yet scottish fold. Grimalkin. Mouser havana brown but tomcat
-                    ocelot. Kitty russian blue. Balinese bobcat yet british
-                    shorthair birman or mouser siberian. Egyptian mau turkish
-                    angora burmese. American bobtail. Malkin bengal. Singapura
-                    cheetah cheetah munchkin birman but leopard so ocicat.
-                    Persian tom. Sphynx tomcat. Devonshire rex sphynx puma and
-                    savannah siberian tomcat. Birman kitten. Kitty tomcat
-                    panther so singapura. Bengal balinese birman grimalkin
-                    jaguar devonshire rex munchkin. Puma. Egyptian mau ocelot
-                    siberian for kitty tiger so burmese so tomcat.
-                  </Grid>
-                  <br></br>
-                  <Grid item xs={12}>
-                    <Typography variant="h6">How did it Happen</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    British shorthair. Kitty bombay or tomcat russian blue
-                    tiger. Burmese jaguar. Donskoy maine coon ocicat or ragdoll.
-                    Cornish rex havana brown for himalayan singapura ragdoll
-                    american bobtail bobcat. Munchkin tabby ragdoll but cheetah
-                    or mouser. Persian tabby and bengal so lynx siamese. Cornish
-                    rex scottish fold american shorthair. Ragdoll munchkin kitty
-                    balinese . Cornish rex ragdoll savannah himalayan turkish
-                    angora. Kitty burmese panther, yet donskoy abyssinian .
-                    Egyptian mau. Persian bombay. Russian blue himalayan
-                    abyssinian turkish angora lion or siamese lion. Cougar
-                    abyssinian so tabby for savannah. Russian blue grimalkin.
-                  </Grid>
                   
-                  <br></br>
-                  <Grid item xs={12}>
-                    <Typography variant="h6">Possible suspects</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    Hauzari Athva and Khunur Patel
-                  </Grid>
                 </Grid>
               </Typography>
               <br></br>

@@ -78,6 +78,9 @@ const PostSchema = new Schema({
   spam: {
     type: Number,
   },
+  officer: {
+      type: String
+  },
 
   case_Details: [
     {
