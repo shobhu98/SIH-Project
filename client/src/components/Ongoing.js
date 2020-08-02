@@ -159,7 +159,7 @@ class Ongoing extends Component {
   }
   fetchFIRList() {
     //console.log("http://localhost:7000/api/admin_side?uin="+JSON.parse(localStorage.getItem("login")).uin)
-    fetch("http://192.168.43.195:7000/api/admin_side/fir", {
+    fetch("http://localhost:7000/api/admin_side/fir", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
