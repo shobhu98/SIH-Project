@@ -239,6 +239,12 @@ const AppNavigator = createStackNavigator({
     //         headerShown: false,
     //     }
     //   },
+    MainPage: {
+        screen: TabNavigator,
+        navigationOptions: {
+            headerShown: false,
+        }
+      },
     Login: {
       screen: Login,
       navigationOptions: {
@@ -251,12 +257,7 @@ const AppNavigator = createStackNavigator({
             headerShown: false,
         }
       },
-    MainPage: {
-      screen: TabNavigator,
-      navigationOptions: {
-          headerShown: false,
-      }
-    },
+    
     // PickImage: {
     //     screen: PickImage,
     //     navigationOptions: {

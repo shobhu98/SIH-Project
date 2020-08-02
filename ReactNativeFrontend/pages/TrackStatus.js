@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {Content, H2, Text} from 'native-base';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, FlatList} from 'react-native';
 import {Button,DefaultTheme , Provider as PaperProvider, Divider} from 'react-native-paper';
 import Lan from "./LanguageStrings";
 import lan from "./global";
 // import { NavigationEvents } from 'react-navigation';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const theme = {
   ...DefaultTheme,
@@ -44,60 +45,52 @@ const styles = StyleSheet.create({
 export default class TrackStatus extends React.Component {
   constructor(props){
     super(props);
-    let caseJSON={
-      0:{
-        name:"Case name 1",
-        status:"Accepted",
-        date:"01/01/2020",
-        viewbutton:true,
-        editbutton:false
-      },
-      1:{
-        name:"Case name 2",
-        status:"Under Review",
-        date:"01/01/2020",
-        viewbutton:true,
-        editbutton:false
-      },
-      2:{
-        name:"Case name 3",
-        status:"Rejected",
-        date:"01/01/2020",
-        viewbutton:true,
-        editbutton:false
-      },
-      3:{
-        name:"Case name 4",
-        status:"More details required",
-        date:"01/01/2020",
-        viewbutton:false,
-        editbutton:true
-      }
-    };
-    var i=0;
-    var component=[];
-    while(caseJSON[i]){
-      var name=caseJSON[i].name;
-      var status=caseJSON[i].status;
-      var id=i;
-      component.push(
-        <View>
-          <View style={styles.view}>
-          <H2 style={styles.h2}>{caseJSON[i].name}</H2>
-          <Text style={styles.text}>{caseJSON[i].date}</Text>
-          </View>
-          {/* <Text >Hello World</Text> */}
-          <Text style={styles.btext}>{caseJSON[i].status}</Text>
-          {caseJSON[i].viewbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('ViewFIR',{name:name,status:status, id:id})}>{Lan.ViewReportButton[lan]}</Button></PaperProvider>}
-          {caseJSON[i].editbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('EditFIR',{name:caseJSON[i].name,status:caseJSON[i].status})}>{Lan.EditReportButton[lan]}</Button></PaperProvider>}
-          <Divider style={styles.divider}></Divider>
-        </View>
-        );
-      i++;
+    
+    this.state={
+      auth:"",
+      show:false
     }
-    this.state = {
-      cases:component
-    }; 
+
+    AsyncStorage.getItem("@auth").then((value)=>this.setState({ auth: value }, () => {
+        console.log(this.state.auth, 'value');
+        fetch('http://192.168.1.10:7000/api/lodgeFIR', {
+            method: 'GET',
+            headers: {
+                // Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'x-auth-token':this.state.auth
+            }
+        }).then((response) => response.json())
+        .then((responseData) => {
+          var caseJSON=[];
+          responseData.forEach(function(object){
+            var obj={
+              name:object.FIRNUM,
+              date:object.date,
+              status:object.acceptance
+            };
+            caseJSON.push(obj);
+          })
+          // var components=[];
+          // caseJSON.forEach(function(item){
+          //   components.push(
+          //     <Text>{item.name}</Text>
+          //   );
+          // });
+          this.state={
+            case:caseJSON,
+            show:true
+          }
+          // var components=caseJSON.map(item => <Text>{item.name}</Text>)
+          // this.state={
+          //   case:components
+          // }
+          // console.log(this.state.case);
+          
+        }).catch (function (error){
+            console.log(error);
+        })
+    }) );
 
   }
   render(){
@@ -108,7 +101,15 @@ export default class TrackStatus extends React.Component {
               AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
           }}
         /> */}
-        {this.state.cases}
+        {this.state.show && <FlatList 
+          data={this.state.case}
+          renderItem={({item})=>(
+            <Text>{item.name}</Text>
+          )}
+        />}
+        <Text>blah</Text>
+        
+        {/* {this.state.show && this.state.case.map(item => <Text>{item.name}</Text>)} */}
       </Content>
       
     );
