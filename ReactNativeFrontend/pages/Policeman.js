@@ -3,6 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import NotingDetailsMale from './animation_components/male/NotingDetailsMale';
 import RequestingDetailsMale from "./animation_components/male/RequestingDetailsMale";
+import * as Speech from 'expo-speech';
+
+
 export default class App extends React.Component {
   state = {
     note:true,
@@ -28,6 +31,18 @@ export default class App extends React.Component {
     ]
   };
 
+  checkBot(messages){
+    if(this.state.append===0){
+      this.onSend(messages);
+    }else if(this.state.append===1){
+      messages[0].text="fir types "+messages[0].text;
+      this.setState({append:this.state.append+1})
+      console.log("first one");
+      this.onSend2(messages);
+    }else if(this.state.append===2){
+      this.onSend2(messages);
+    }
+  }
 
   onSend(messages) {
     this.setState({
@@ -36,18 +51,18 @@ export default class App extends React.Component {
     })
     console.log("Messages");
     console.log(messages);
-    if(this.state.append===1){
-      messages[0].text="fir types "+messages[0].text;
-      this.setState({append:this.state.append+1})
+    // if(this.state.append===1){
+    //   messages[0].text="fir types "+messages[0].text;
+    //   this.setState({append:this.state.append+1})
       
-      console.log("first one");
-      this.onSend2(messages);
-    }else if(this.state.append===1){
-      this.onSend2(messages);
-    }
-    else if(this.state.append===2){
+    //   console.log("first one");
+    //   this.onSend2(messages);
+    // }else if(this.state.append===1){
+    //   this.onSend2(messages);
+    // }
+    // else if(this.state.append===2){
       
-    }
+    // }
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages)
     }),()=>{
@@ -78,6 +93,8 @@ export default class App extends React.Component {
             id:previousState.id+1
           //}), () => console.log(this.state.messages))
           }))
+
+          Speech.speak(result.fulfillmentMessages[0].text.text[0]);
 
         } else {
           var error = Error(reponse.statusText);
@@ -147,7 +164,7 @@ export default class App extends React.Component {
           {this.state.note && <NotingDetailsMale style={{position:'absolute'}}/>}
           {this.state.speak && <RequestingDetailsMale style={{position:'absolute'}}/>}
           <GiftedChat messages={this.state.messages}
-            onSend={messages => this.onSend(messages)}
+            onSend={messages => this.checkBot(messages)}
             user={{
             _id: 1
           }}
