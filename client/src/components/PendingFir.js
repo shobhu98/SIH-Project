@@ -171,8 +171,7 @@ class PendingFir extends Component {
     this.acceptStart(rowData.firid);
   };
   acceptStart = (firid) => {
-    this.setState({
-      
+    this.setState({ 
       accorrej: "accept",
     },()=>this.setState({
       openSignaturePad: true,
@@ -516,18 +515,19 @@ class PendingFir extends Component {
                 close={this.close}
                 accept={this.acceptStart}
                 moreInfo={this.moreinfo}
-                accorrej={this.state.accorrej}
+                
               />
             ) : (
               <></>
             )}
 
-            {this.state.openSignaturePad === true ? (
+            {this.state.openSignaturePad === true? (
               <App
                 data={this.state.firid}
                 closeSignaturePad={this.closeSignaturePad}
                 rec={this.rec}
                 open={this.state.openSignaturePad}
+                accorrej={this.state.accorrej}
               />
             ) : (
               <></>

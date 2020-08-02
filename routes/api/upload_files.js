@@ -63,7 +63,7 @@ router.post("/", [auth], async (req, res, next) => {
     firdetails.case_Details.unshift(obj);
     await firdetails.save();
     res.json(firdetails);
-    res.json(firdetails);
+    //res.json(firdetails);
   } catch (err) {
     console.log(err);
   }

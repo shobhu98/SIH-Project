@@ -4,6 +4,7 @@ import SignaturePad from "react-signature-canvas";
 import "./sigCanvas.css";
 import { Button,TextField, makeStyles, MuiThemeProvider, createMuiTheme, ThemeProvider,Grid,Paper, Typography } from "@material-ui/core";
 
+
 function App({closeSignaturePad, rec, open, accorrej}) {
   //closeSignaturePad = closeSignaturePad.bind(this);
   const [imageURL, setImageURL] = useState(null); // create a state that will contain our image url
@@ -92,7 +93,7 @@ const classes = styles();
                 required
                 fullWidth
                 name="type"
-                label={accorrej!="accept"?"Enter type/reason":"Reason for rejection"}
+                label={accorrej==="accept"?"Enter IPC Section code(s)":"Reason for rejection"}
                 
                 autoFocus
                 onChange={(event) => {

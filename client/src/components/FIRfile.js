@@ -282,7 +282,8 @@ export default class FIRfile extends Component {
                       onChange={(e) => {
                         this.setState({ user_status: e.target.value });
                       }}
-                      value={this.state.notes!=null?this.state.notes:null}
+                      key={this.state.user_status ? 'notLoadedYet' : 'loaded'}
+                      defaultValue={this.state.user_status!=null?this.state.user_status:null}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>

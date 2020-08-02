@@ -207,7 +207,7 @@ export default function MiniDrawer(props) {
             {[
               "Pending FIR",
               "Ongoing Investigations",
-              "Closed Investigations",
+              "Completed Investigations",
             ].map((text, index) => (
               <ListItem button key={text} component={Link} to={"/" + text}>
                 <ListItemIcon>

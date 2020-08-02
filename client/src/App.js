@@ -220,7 +220,7 @@ class App extends Component {
             <Route path="/Pending FIR" component={PendingFir} exact />
             <Route path="/Ongoing Investigations" component={Ongoing} exact />
             <Route path="/fir/:id" component={FIRfile} exact />
-            <Route path="/Closed Investigations" component={Closed} exact />
+            <Route path="/Completed Investigations" component={Closed} exact />
           </Switch>
         </MiniDrawer>
       </BrowserRouter>
