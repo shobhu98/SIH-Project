@@ -1,0 +1,11 @@
+.list {
+    max-height: calc(25vh);
+    overflow-y: auto;
+}
+.zone {
+    max-height: calc(10vh);
+}
+.notes {
+    max-height: calc(53vh);
+    overflow-y: auto;
+}

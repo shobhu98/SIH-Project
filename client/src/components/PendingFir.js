@@ -34,6 +34,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import InfoIcon from "@material-ui/icons/Info";
+import BlockIcon from '@material-ui/icons/Block';
 
 const styles = (theme) => ({
   modal: {
@@ -101,6 +102,12 @@ class PendingFir extends Component {
         disabled: rowData.status === "More information requested",
       }),
       (rowData) => ({
+        icon: () => <BlockIcon />,
+        tooltip: "Reject FIR",
+        onClick: (event, rowData) => this.reject(event, rowData),
+        disabled: rowData.status === "Rejected",
+      }),
+      (rowData) => ({
         icon: () => <WarningIcon />,
         tooltip: "Toggle Spam",
         onClick: (event, rowData) => this.spam(event, rowData),
@@ -112,13 +119,15 @@ class PendingFir extends Component {
     status: null,
     openMoreInfo: false,
     moreinfoText: null,
+    accorrej: null,
+
   };
 
   spam = (event, rowData) => {
     //alert("clicked");
     var spam=0
     rowData.spam===1?spam=0:spam=1;
-    var body = { spam:spam+"" };
+    var body = { spam:spam};
     fetch("http://localhost:7000/api/admin_side/" + rowData.firid, {
       method: "POST",
       headers: {
@@ -134,10 +143,10 @@ class PendingFir extends Component {
           if (response.status === 200) {
             console.log(result);
            if(result.spam===1){
-             alert("Marked as Spam");
+             alert("Unmarked as Spam");
            }
            else{
-             alert("Unmarked as Spam");
+             alert("Marked as Spam");
            }
             this.setState(
               {
@@ -163,10 +172,120 @@ class PendingFir extends Component {
   };
   acceptStart = (firid) => {
     this.setState({
+      
+      accorrej: "accept",
+    },()=>this.setState({
       openSignaturePad: true,
       firid: firid,
-    });
+    }));
   };
+  rec = (sign, type) => {
+    console.log(this.state.firid + "  " + type + "  " + sign);
+    this.state.accorrej==="accept"?this.acceptFIR(this.state.firid, type, sign):
+    this.rejectFIR(this.state.firid, type, sign);
+  };
+  acceptFIR(firid, type, sign) {
+    var body = { acceptance: "1", type_of_crime: type, signature: sign };
+
+    fetch("http://localhost:7000/api/admin_side/" + firid, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(result);
+            alert(firid + " has been accepted");
+            this.setState(
+              {
+                data: [],
+              },
+              () => this.fetchFIRList()
+            );
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
+
+
+
+
+
+
+
+
+  reject = (event, rowData) => {
+    //this.acceptFIR(rowData.firid)
+    this.rejectStart(rowData.firid);
+  };
+  rejectStart = (firid) => {
+    this.setState({
+      
+      accorrej:"reject"
+    },()=>this.setState({
+      openSignaturePad: true,
+      firid: firid,
+    }));
+  };
+  // rec = (sign, type) => {
+  //   console.log(this.state.firid + "  " + type + "  " + sign);
+  //   this.acceptFIR(this.state.firid, type, sign);
+  // };
+  rejectFIR(firid, type, sign) {
+    var body = { acceptance: "5", rejection_reason: type, signature: sign };
+
+    fetch("http://localhost:7000/api/admin_side/" + firid, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(result);
+            alert(firid + " has been rejected");
+            this.setState(
+              {
+                data: [],
+              },
+              () => this.fetchFIRList()
+            );
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
+
+
+
+
+  
   moreInfo = (event, rowData) => {
     //this.moreInfoStart(rowData.firid);
     this.setState({
@@ -177,7 +296,7 @@ class PendingFir extends Component {
   };
   moreInfoStart = (firid, data) => {
     //alert("clicked");
-    var body = { acceptance: "2", moreinfo: data };
+    var body = { acceptance: "2", more_info: data };
     fetch("http://localhost:7000/api/admin_side/" + firid, {
       method: "POST",
       headers: {
@@ -266,45 +385,7 @@ class PendingFir extends Component {
       openSignaturePad: false,
     });
   };
-  rec = (sign, type) => {
-    console.log(this.state.firid + "  " + type + "  " + sign);
-    this.acceptFIR(this.state.firid, type, sign);
-  };
-  acceptFIR(firid, type, sign) {
-    var body = { acceptance: "1", type_of_crime: type, signature: sign };
-
-    fetch("http://localhost:7000/api/admin_side/" + firid, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
-      },
-      body: JSON.stringify(body),
-    })
-      .then((response) => {
-        response.json().then((result) => {
-          //console.log(result.errors[0].msg);
-          console.log(response.status);
-          if (response.status === 200) {
-            console.log(result);
-            alert(firid + " has been accepted");
-            this.setState(
-              {
-                data: [],
-              },
-              () => this.fetchFIRList()
-            );
-          } else {
-            var error = new Error(response.statusText);
-            error.response = response;
-            throw error;
-          }
-        });
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  }
+  
 
   async componentWillMount() {
     //API Call to fetch pending FIR list
@@ -361,7 +442,19 @@ class PendingFir extends Component {
                   status: "Complainant has updated",
                   date: element.date,
                   spam: element.spam,
-                };
+                } 
+
+                this.setState({
+                  data: [...this.state.data, temp],
+                });
+              } else if (element.acceptance === 5) {
+                var temp = {
+                  name: element.name,
+                  firid: element._id,
+                  status: "Rejected",
+                  date: element.date,
+                  spam: element.spam,
+                } 
 
                 this.setState({
                   data: [...this.state.data, temp],
@@ -378,6 +471,9 @@ class PendingFir extends Component {
       .catch((err) => {
         alert(err);
       });
+  }
+  accorrej =()=>{
+    return(this.state.accorrej)
   }
 
   render() {
@@ -397,6 +493,8 @@ class PendingFir extends Component {
                       ? "6px solid red"
                       : "More information requested" === rowData.status
                       ? "6px solid yellow"
+                      :"Rejected" === rowData.status
+                      ? "6px solid gray"
                       : "6px solid green",
                 }),
               }}
@@ -418,6 +516,7 @@ class PendingFir extends Component {
                 close={this.close}
                 accept={this.acceptStart}
                 moreInfo={this.moreinfo}
+                accorrej={this.state.accorrej}
               />
             ) : (
               <></>

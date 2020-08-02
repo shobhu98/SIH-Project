@@ -4,13 +4,14 @@ import SignaturePad from "react-signature-canvas";
 import "./sigCanvas.css";
 import { Button,TextField, makeStyles, MuiThemeProvider, createMuiTheme, ThemeProvider,Grid,Paper, Typography } from "@material-ui/core";
 
-function App({closeSignaturePad, rec, open}) {
+function App({closeSignaturePad, rec, open, accorrej}) {
   //closeSignaturePad = closeSignaturePad.bind(this);
   const [imageURL, setImageURL] = useState(null); // create a state that will contain our image url
   const [type, setType] = useState(null);
   const [submit, setSubmit] = useState(null);
   //var type="Dowry";
   const sigCanvas = useRef({});
+  //const accorrej = accorrej()
 
   /* a function that uses the canvas ref to clear the canvas 
   via a method given by react-signature-canvas */
@@ -21,10 +22,10 @@ function App({closeSignaturePad, rec, open}) {
   then saves it in our state */
 
   React.useEffect(() => {
-    console.log("In use efffect")
+    //console.log(accorrej)
     if (imageURL && type && submit){
       rec(imageURL,type)
-      console.log("recced")
+      //console.log(accorrej)
       closeSignaturePad();
 
     }
@@ -67,7 +68,7 @@ const classes = styles();
       <Grid>
       <Popup
         modal
-        trigger={<button>Open Signature Pad</button>}
+        
         on="focus"
         open={open}
         //onClose={closeSignaturePad()}
@@ -77,7 +78,7 @@ const classes = styles();
         {(close) => (
           
           <>
-          <Typography variant="subtitle1" className={classes.multilineColor}>Please Sign in the box below and enter the type of crime</Typography>
+          <Typography variant="subtitle1" className={classes.multilineColor}>Please Sign in the box below</Typography>
             <SignaturePad
               ref={sigCanvas}
               canvasProps={{
@@ -91,7 +92,7 @@ const classes = styles();
                 required
                 fullWidth
                 name="type"
-                label="Type of Crime"
+                label={accorrej!="accept"?"Enter type/reason":"Reason for rejection"}
                 
                 autoFocus
                 onChange={(event) => {
