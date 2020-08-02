@@ -27,7 +27,8 @@ import {
 } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Ongoing from "./components/Ongoing";
-import FIRfile from './components/FIRfile'
+import FIRfile from './components/FIRfile';
+import Closed from './components/Closed'
 //import AddToHomescreen from 'react-add-to-homescreen';
 
 const styles = (theme) => ({
@@ -219,6 +220,7 @@ class App extends Component {
             <Route path="/Pending FIR" component={PendingFir} exact />
             <Route path="/Ongoing Investigations" component={Ongoing} exact />
             <Route path="/fir/:id" component={FIRfile} exact />
+            <Route path="/Closed Investigations" component={Closed} exact />
           </Switch>
         </MiniDrawer>
       </BrowserRouter>
