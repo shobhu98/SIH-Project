@@ -87,6 +87,7 @@ class App extends Component {
       uin: 103245,
       login: false,
       store: null,
+      user: "SHO"
     };
     
   }
@@ -101,13 +102,26 @@ class App extends Component {
     if(store && store.login){
       this.setState({
         login:true,
-        store:store.token
+        store:store.token,
+        user:store.user
       })
     }
   }
 
   login() {
     console.log(JSON.stringify(this.state));
+    if(this.state.email.substring(2,0).toLowerCase()==="sp")
+    {
+      this.setState({
+        user:"SP"
+      })
+    }
+    else
+    {
+      this.setState({
+        user:"SHO"
+      })
+    }
 
     fetch("http://localhost:7000/api/admin_auth/", {
       method: "POST",
@@ -125,7 +139,8 @@ class App extends Component {
             localStorage.setItem('login',JSON.stringify({
                 login: true,
                 token: result.token,
-                uin: this.state.uin
+                uin: this.state.uin,
+                user: this.state.email.substring(2,0).toLowerCase()==="sp"?"SP":"SHO"
               })
             );
             this.storeCollector();
@@ -213,7 +228,7 @@ class App extends Component {
   page() {
     return (
       <BrowserRouter>
-        <MiniDrawer>
+        <MiniDrawer user={this.state.user}>
           <Switch>
             <Route path="/" component={PendingFir} exact />
             <Route path="/HomePage" component={HomePage} exact />

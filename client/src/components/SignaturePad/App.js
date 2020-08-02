@@ -36,7 +36,7 @@ function App({ closeSignaturePad, rec, open, accorrej }) {
     //console.log(accorrej)
     if (imageURL && type && submit) {
 
-      rec(imageURL, type);
+      rec(imageURL, type, officer);
       //console.log(accorrej)
       closeSignaturePad();
     }

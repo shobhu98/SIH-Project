@@ -100,7 +100,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  
 }));
 
 export default function MiniDrawer(props) {
@@ -114,10 +113,10 @@ export default function MiniDrawer(props) {
     palette: {
       type: darkMode ? "dark" : "light",
       primary: {
-        main: "#673ab7",
+        main: props.user === "SHO" ? "#673ab7" : "#ff4081",
       },
       secondary: {
-        main: "#ff4081",
+        main: props.user != "SHO" ? "#673ab7" : "#ff4081",
         light: "#8748ae",
         dark: "#8748ae",
       },
@@ -131,6 +130,7 @@ export default function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  console.log(props.user);
 
   return (
     <div className={classes.root}>
@@ -143,19 +143,24 @@ export default function MiniDrawer(props) {
           })}
         >
           <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              className={clsx(classes.menuButton, {
-                [classes.hide]: open,
-              })}
-            >
-              <MenuIcon />
-            </IconButton>
+            {props.user === "SHO" ? (
+              <>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  edge="start"
+                  className={clsx(classes.menuButton, {
+                    [classes.hide]: open,
+                  })}
+                >
+                  <MenuIcon />
+                </IconButton>
+              </>
+            ) : null}
+
             <Typography variant="h6" className={classes.title}>
-              SHO Portal
+              {props.user === "SHO" ? <>SHO Portal</> : <>SP Portal</>}
             </Typography>
 
             <Button
@@ -163,68 +168,65 @@ export default function MiniDrawer(props) {
               startIcon={<SettingsBrightnessIcon />}
               size="large"
               style={{ color: purple[50] }}
-            >
-              
-            </Button>
+            ></Button>
             <Button
               startIcon={<ExitToAppIcon />}
               size="large"
               style={{ color: purple[50] }}
               onClick={() => {
-                localStorage.clear()
+                localStorage.clear();
                 window.location.reload(false);
               }}
-              
-            >
-             
-            </Button>
+            ></Button>
           </Toolbar>
         </AppBar>
-        <Drawer
-          variant="permanent"
-          className={clsx(classes.drawer, {
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          })}
-          classes={{
-            paper: clsx({
+        {props.user === "SHO" ? (
+          <Drawer
+            variant="permanent"
+            className={clsx(classes.drawer, {
               [classes.drawerOpen]: open,
               [classes.drawerClose]: !open,
-            }),
-          }}
-        >
-          <div className={classes.toolbar}>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "rtl" ? (
-                <ChevronRightIcon />
-              ) : (
-                <ChevronLeftIcon />
-              )}
-            </IconButton>
-          </div>
-          <Divider />
-          <List>
-            {[
-              "Pending FIR",
-              "Ongoing Investigations",
-              "Completed Investigations",
-            ].map((text, index) => (
-              <ListItem button key={text} component={Link} to={"/" + text}>
-                <ListItemIcon>
-                  {index === 0 ? (
-                    <ListAltIcon />
-                  ) : index === 1 ? (
-                    <AutorenewIcon />
-                  ) : (
-                    <PlaylistAddCheckIcon />
-                  )}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-        </Drawer>
+            })}
+            classes={{
+              paper: clsx({
+                [classes.drawerOpen]: open,
+                [classes.drawerClose]: !open,
+              }),
+            }}
+          >
+            <div className={classes.toolbar}>
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === "rtl" ? (
+                  <ChevronRightIcon />
+                ) : (
+                  <ChevronLeftIcon />
+                )}
+              </IconButton>
+            </div>
+            <Divider />
+            <List>
+              {[
+                "Pending FIR",
+                "Ongoing Investigations",
+                "Completed Investigations",
+              ].map((text, index) => (
+                <ListItem button key={text} component={Link} to={"/" + text}>
+                  <ListItemIcon>
+                    {index === 0 ? (
+                      <ListAltIcon />
+                    ) : index === 1 ? (
+                      <AutorenewIcon />
+                    ) : (
+                      <PlaylistAddCheckIcon />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              ))}
+            </List>
+            <Divider />
+          </Drawer>
+        ) : null}
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
