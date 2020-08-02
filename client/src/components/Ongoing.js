@@ -177,16 +177,31 @@ class Ongoing extends Component {
             console.log(result);
             result.forEach((element) => {
               if (element.acceptance === 1) {
-                var temp = {
-                  name: element.name,
-                  firid: element._id,
-
-                  date: element.date,
-                };
-
-                this.setState({
-                  data: [...this.state.data, temp],
-                });
+                if(JSON.parse(localStorage.getItem('login')).user==="IO" && element.officer === JSON.parse(localStorage.getItem('login')).email){
+                  var temp = {
+                    name: element.name,
+                    firid: element._id,
+  
+                    date: element.date,
+                  };
+  
+                  this.setState({
+                    data: [...this.state.data, temp],
+                  });
+                } 
+                else if(JSON.parse(localStorage.getItem('login')).user!="IO"){
+                  var temp = {
+                    name: element.name,
+                    firid: element._id,
+  
+                    date: element.date,
+                  };
+  
+                  this.setState({
+                    data: [...this.state.data, temp],
+                  });
+                }
+                
               }
             });
           } else {

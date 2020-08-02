@@ -115,6 +115,11 @@ class App extends Component {
       this.setState({
         user:"SP"
       })
+    } else if(this.state.email.substring(2,0).toLowerCase()==="io")
+    {
+      this.setState({
+        user:"IO"
+      })
     }
     else
     {
@@ -140,7 +145,8 @@ class App extends Component {
                 login: true,
                 token: result.token,
                 uin: this.state.uin,
-                user: this.state.email.substring(2,0).toLowerCase()==="sp"?"SP":"SHO"
+                user: this.state.email.substring(2,0).toLowerCase()==="sp"?"SP":this.state.email.substring(2,0).toLowerCase()==="io"?"IO":"SHO",
+                email:this.state.email
               })
             );
             this.storeCollector();
@@ -230,7 +236,7 @@ class App extends Component {
       <BrowserRouter>
         <MiniDrawer user={this.state.user}>
           <Switch>
-            <Route path="/" component={PendingFir} exact />
+            <Route path="/" component={this.state.user!="IO"?PendingFir:Ongoing} exact />
             <Route path="/HomePage" component={HomePage} exact />
             <Route path="/Pending FIR" component={PendingFir} exact />
             <Route path="/Ongoing Investigations" component={Ongoing} exact />

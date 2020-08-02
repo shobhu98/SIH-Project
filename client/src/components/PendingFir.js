@@ -120,6 +120,8 @@ class PendingFir extends Component {
     openMoreInfo: false,
     moreinfoText: null,
     accorrej: null,
+
+    content:null
   };
 
   spam = (event, rowData) => {
@@ -283,14 +285,6 @@ class PendingFir extends Component {
       });
   }
 
-<<<<<<< HEAD
-
-
-
-
-
-=======
->>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
   moreInfo = (event, rowData) => {
     //this.moreInfoStart(rowData.firid);
     this.setState({
@@ -362,6 +356,14 @@ class PendingFir extends Component {
           //console.log(result.errors[0].msg);
           console.log(response.status);
           if (response.status === 200) {
+            this.setState({
+              content:result
+            },() => this.setState({
+              open: true,
+              firid: rowData.firid,
+              status: rowData.status,
+            }))
+
             console.log(result);
           } else {
             var error = new Error(response.statusText);
@@ -373,11 +375,7 @@ class PendingFir extends Component {
       .catch((err) => {
         alert(err);
       });
-    this.setState({
-      open: true,
-      firid: rowData.firid,
-      status: rowData.status,
-    });
+    
   };
   close = () => {
     this.setState({
@@ -390,10 +388,6 @@ class PendingFir extends Component {
       openSignaturePad: false,
     });
   };
-<<<<<<< HEAD
-
-=======
->>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
 
   async componentWillMount() {
     //API Call to fetch pending FIR list
@@ -450,11 +444,7 @@ class PendingFir extends Component {
                   status: "Complainant has updated",
                   date: element.date,
                   spam: element.spam,
-<<<<<<< HEAD
-                }
-=======
                 };
->>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
 
                 this.setState({
                   data: [...this.state.data, temp],
@@ -466,15 +456,12 @@ class PendingFir extends Component {
                   status: "Rejected",
                   date: element.date,
                   spam: element.spam,
-<<<<<<< HEAD
-                }
-=======
                 };
 
                 this.setState({
                   data: [...this.state.data, temp],
                 });
-              } else if (element.acceptance === 10) {
+              } else if (element.acceptance === 10 && JSON.parse(localStorage.getItem('login')).user==="SP") {
                 var temp = {
                   name: element.name,
                   firid: element._id,
@@ -482,7 +469,6 @@ class PendingFir extends Component {
                   date: element.date,
                   spam: element.spam,
                 };
->>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
 
                 this.setState({
                   data: [...this.state.data, temp],
@@ -542,7 +528,7 @@ class PendingFir extends Component {
               data={this.state.data}
               actions={this.state.actions}
             />
-            {this.state.open === true ? (
+            {this.state.open === true && this.state.content!=null? (
               <FIRModal
                 firid={this.state.firid}
                 status={this.state.status}
@@ -550,6 +536,7 @@ class PendingFir extends Component {
                 close={this.close}
                 accept={this.acceptStart}
                 moreInfo={this.moreinfo}
+                content={this.state.content}
               />
             ) : (
               <></>
@@ -598,10 +585,6 @@ class PendingFir extends Component {
                       />
                       <Divider />
                       <Button
-<<<<<<< HEAD
-
-=======
->>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
                         onClick={() => {
                           this.moreInfoStart(
                             this.state.firid,

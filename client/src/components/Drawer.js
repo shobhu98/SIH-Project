@@ -113,10 +113,10 @@ export default function MiniDrawer(props) {
     palette: {
       type: darkMode ? "dark" : "light",
       primary: {
-        main: props.user === "SHO" ? "#673ab7" : "#ff4081",
+        main: props.user === "SHO" ? "#673ab7" : props.user=="SP"?"#ff4081":"#00e5ff",
       },
       secondary: {
-        main: props.user != "SHO" ? "#673ab7" : "#ff4081",
+        main: props.user != "SHO" ? "#673ab7" : props.user=="SP"?"#ff4081":"#ff4081",
         light: "#8748ae",
         dark: "#8748ae",
       },
@@ -160,7 +160,7 @@ export default function MiniDrawer(props) {
             ) : null}
 
             <Typography variant="h6" className={classes.title}>
-              {props.user === "SHO" ? <>SHO Portal</> : <>SP Portal</>}
+              {props.user === "SHO" ? <>SHO Portal</> : <>Virtual Police Station</>}
             </Typography>
 
             <Button
