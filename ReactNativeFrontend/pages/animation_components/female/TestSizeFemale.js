@@ -20,20 +20,15 @@ export default class RequestingDetailsFemale extends React.Component {
     constructor(props) {
         super(props);
         this.images = [
-            require('../../../assets/images/complete_images/female/sizetest.png')
+            require('../../../assets/images/complete_images/female/sizetest2.png')
         ];
-        this.next = this.next.bind(this);
         this.state = {index: 0};
-    }
-
-    componentDidMount() {
-        this.next();
     }
 
     render() {
         return (
             <NoFlickerImage
-                source={this.images[this.state.index]}
+                source={this.images[0]}
                 style={styles.logo}
             />
         )
