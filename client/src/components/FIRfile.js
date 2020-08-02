@@ -97,7 +97,8 @@ export default class FIRfile extends Component {
     open: false,
     status: null,
     notes: null,
-    user_status:null
+    user_status:null,
+    content:null
   };
 
   download(rowData) {}
@@ -175,6 +176,7 @@ export default class FIRfile extends Component {
             this.setState({
               notes: result.notes,
               user_status: result.user_status,
+              content:result
             },()=>console.log(this.state.user_status));
             if (result.acceptance === 4) {
               this.setState({
@@ -307,6 +309,7 @@ export default class FIRfile extends Component {
             <FIRModalOngoing
               firid={this.state.firid}
               close={this.closeOriginal}
+              content={this.state.content}
             />
           ) : (
             <></>
