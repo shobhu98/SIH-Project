@@ -57,6 +57,24 @@ export default class FillForm extends React.Component {
             this.state={
                 response:responseData
             }
+            this.setState({ response: responseData }, () => {
+                this.setState({show:true});
+                console.log("DONE SETTING STATE");
+            })
+            let arr=[];
+            console.log("Array part");
+            arr.push(responseData.DOB);
+            arr.push(responseData.aadhar);
+            arr.push(responseData.address);
+            arr.push(responseData.country);
+            arr.push(responseData.date);
+            arr.push(responseData.email);
+            arr.push(responseData.fathersName);
+            arr.push(responseData.mobile);
+            arr.push(responseData.name);
+            arr.push(responseData.passport);
+            arr.push(responseData.user);
+            console.log(arr);
             this.setState({show:true});
             // this.setState({name:responseData.name,address:responseData.address,mobile:responseData.mobile,email:responseData.email,country:responseData.country,ppnum:responseData.passport,dob:responseData.DOB,fathername:responseData.fathersName,aadhar:responseData.aadhar})
             //console.log(responseData);
@@ -84,10 +102,15 @@ export default class FillForm extends React.Component {
             // this.setState({response:responseData});
             // this.setState({show:true});
             console.log("responsedata");
-            console.log(responseData);
-            // this.setState({ response: JSON.stringify(responseData) }, () => {
-            //     this.setState({show:true});
+            console.log(responseData)
+            // this.state={
+            //     response:JSON.stringify(responseData)
+            // }
+            // this.setState({ response: responseData }, () => {
+            //     //this.setState({show:true});
+            //     console.log("DONE SETTING STATE");
             // })
+            
         }).catch (function (error){
             console.log(error);
         })

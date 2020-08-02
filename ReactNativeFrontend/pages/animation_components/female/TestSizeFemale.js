@@ -20,7 +20,7 @@ export default class RequestingDetailsFemale extends React.Component {
     constructor(props) {
         super(props);
         this.images = [
-            require('../../../assets/images/complete_images/female/sizetest4.png')
+            require('../../../assets/images/complete_images/male/sizetest1.png')
         ];
         this.state = {index: 0};
     }

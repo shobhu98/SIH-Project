@@ -10,6 +10,7 @@ import Language from './pages/Language';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import FileFIR from './pages/FileFIR';
+import TrackStatusButton from './pages/TrackStatusButton';
 import TrackStatus from './pages/TrackStatus';
 import Profile from './pages/Profile';
 import MedicalHelp from './pages/MedicalHelp';
@@ -133,6 +134,12 @@ const FileFIRStack= createStackNavigator({
 });
 
 const TrackStatusStack= createStackNavigator({
+    TrackStatusButton: {
+        screen: TrackStatusButton,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
     TrackStatus: {
       screen: TrackStatus,
       navigationOptions: {

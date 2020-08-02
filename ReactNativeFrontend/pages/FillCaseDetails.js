@@ -10,6 +10,7 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import lan from './global.js'
 import Lan from "./LanguageStrings";
+import * as FileSystem from 'expo-file-system';
 
 
 const theme = {
@@ -51,41 +52,60 @@ export default class FillCaseDetails extends React.Component {
     
     constructor(props) {
         super(props);
-        const { navigation } = this.props;
-        console.log("profile details");
-        console.log(navigation.getParam('response'));
-        var options=Lan.DistrictOptions[lan];
+        
+        // console.log("profile details");
+        // console.log(navigation.getParam('response'));
+        //var options=Lan.DistrictOptions[lan];
+        var options=["Badoni police station","Basai Police Station","Kotwala Datia Police Station","Gohad Police Station","Gohad Chowk Police Station","Mehgaon Police Station","Jabera Thana","Mou Police Station"];
+        var options2=["Badoni police station","Basai Police Station","Kotwala Datia Police Station","Gohad Police Station","Gohad Chowk Police Station","Mehgaon Police Station","Jabera Thana","Mou Police Station"]
         var optionsj=[];
+        var optionsj2=[];
         for(var i=0;i<options.length;i++){
             optionsj.push({
                 name:options[i],
                 key:"key"+i
             });
         }
+        for(var i=0;i<options2.length;i++){
+            optionsj2.push({
+                name:options2[i],
+                key:"key"+i
+            });
+        }
         this.state = {
             selected2: undefined,
+            selected:undefined,
             date:"22-07-2020",
             optionsj:optionsj,
+            optionsj2:optionsj2,
             // nationality: undefined,
             place:"",
             incident:"",
             suspects:"",
             delay:"",
-            uriList:[]
+            uriList:[],
+            //personal:navigation.getParam('response')
         };
+        this.submit=this.submit.bind(this);
     }
     
+    onValueChange(value) {
+        this.setState({
+          selected: value
+        });
+    }
+
     onValueChange2(value) {
         this.setState({
           selected2: value
         });
     }
 
-    onNationalityChange(value) {
-        this.setState({
-          nationality: value
-        });
-    }
+    // onNationalityChange(value) {
+    //     this.setState({
+    //       nationality: value
+    //     });
+    // }
     componentDidMount() {
         this.getPermissionAsync();
     }
@@ -106,7 +126,9 @@ export default class FillCaseDetails extends React.Component {
             quality: 1,
           });
           if (!result.cancelled) {
-            this.setState({ uriList: this.state.uriList.concat(result.uri) });
+            const base64 = await FileSystem.readAsStringAsync(result.uri, { encoding: 'base64' });
+            //this.setState({ uriList: this.state.uriList.concat(result.uri) });
+            this.setState({ uriList: this.state.uriList.concat(base64) });
           }
     
           console.log(result);
@@ -114,6 +136,34 @@ export default class FillCaseDetails extends React.Component {
           console.log(E);
         }
     };
+
+    submit(){
+        //POST request
+        let obj={
+            place:this.state.place,
+            district:this.state.selected2,
+            //police:this.state.selected,
+            incident:this.state.incident,
+            suspects:this.state.suspects,
+            delay:this.state.delay,
+            date:this.state.date,
+            evidence:this.state.uriList
+        }
+        console.log("place "+this.state.place);
+        console.log("district "+this.state.selected2);
+        console.log("police "+this.state.selected);
+        console.log("incident "+this.state.incident);
+        console.log("suspects "+this.state.suspects);
+        console.log("delay "+this.state.delay);
+        console.log("date "+this.state.date);
+        //console.log(this.state.uriList);
+        // this.props.navigation.navigate('Signature',{personal:navigation.getParam('response'),case:obj});
+        const { navigation } = this.props;
+        console.log("logging parsonal");
+        console.log(navigation.getParam('response'));
+        this.props.navigation.navigate('Signature',{personal:navigation.getParam('response'),case:obj});
+        //this.props.navigation.navigate('Signature',{case:obj});
+    }
 
     render(){
 
@@ -124,7 +174,7 @@ export default class FillCaseDetails extends React.Component {
                     <Divider style={styles.divider} />
                     <Text style={styles.text}>Place of Occurence</Text>
                     <Item regular>
-                        <Input placeholder={Lan.PlaceHolderPlace[lan]} />
+                        <Input placeholder={Lan.PlaceHolderPlace[lan]} onChangeText={text => this.setState({place:text})}/>
                     </Item>
                     <Text style={styles.text}>District where incident occured</Text>
                     <Item picker>
@@ -139,7 +189,7 @@ export default class FillCaseDetails extends React.Component {
                             onValueChange={this.onValueChange2.bind(this)}
                         >
                             {this.state.optionsj.map((option, index) => (
-                                <Picker.Item label={option.name} value={option.key} />
+                                <Picker.Item label={option.name} value={option.name} />
                             ))}
                         </Picker>
                     </Item>
@@ -152,37 +202,20 @@ export default class FillCaseDetails extends React.Component {
                             placeholder="Select your District"
                             placeholderStyle={{ color: "#bfc6ea" }}
                             placeholderIconColor="#007aff"
-                            selectedValue={this.state.selected2}
-                            onValueChange={this.onValueChange2.bind(this)}
+                            selectedValue={this.state.selected}
+                            onValueChange={this.onValueChange.bind(this)}
                         >
-                            {this.state.optionsj.map((option, index) => (
-                                <Picker.Item label={option.name} value={option.key} />
+                            {this.state.optionsj2.map((option, index) => (
+                                <Picker.Item label={option.name} value={option.name} />
                             ))}
                         </Picker>
                     </Item>
-                    {/* <Text style={styles.text}>Type of incident</Text>
-                    <Item picker>
-                        <Picker
-                            mode="dropdown"
-                            iosIcon={<Icon name="arrow-down" />}
-                            style={{ width: undefined }}
-                            placeholder="Select your District"
-                            placeholderStyle={{ color: "#bfc6ea" }}
-                            placeholderIconColor="#007aff"
-                            selectedValue={this.state.selected2}
-                            onValueChange={this.onValueChange2.bind(this)}
-                        >
-                            {this.state.optionsj.map((option, index) => (
-                                <Picker.Item label={option.name} value={option.key} />
-                            ))}
-                        </Picker>
-                    </Item> */}
                     <Text style={styles.text}>Brief description of incident</Text>
-                    <Textarea rowSpan={4} bordered placeholder="Description" />
+                    <Textarea rowSpan={4} bordered placeholder="Description" onChangeText={text => this.setState({incident:text})}/>
                     <Text style={styles.text}>Details of Suspects (if any)</Text>
-                    <Textarea rowSpan={4} bordered placeholder="Name and phone number of suspects" />
+                    <Textarea rowSpan={4} bordered placeholder="Name and phone number of suspects" onChangeText={text => this.setState({suspects:text})} />
                     <Text style={styles.text}>Reason for delay (if any)</Text>
-                    <Textarea rowSpan={4} bordered placeholder="Reason" />
+                    <Textarea rowSpan={4} bordered placeholder="Reason" onChangeText={text => this.setState({delay:text})}/>
                     <Text style={styles.text}>Date of Incident</Text>
                     <DatePicker
                         style={{width: 200}}
@@ -241,7 +274,7 @@ export default class FillCaseDetails extends React.Component {
                     ))} */}
                     
                     <PaperProvider theme={theme}>
-                        <Button mode="contained" style={styles.proceedButton}  onPress={() => this.props.navigation.navigate('Signature')} >Proceed</Button>
+                        <Button mode="contained" style={styles.proceedButton}  onPress={this.submit} >Proceed</Button>
                     </PaperProvider>
                     
                 </Content>
