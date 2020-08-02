@@ -283,6 +283,14 @@ class PendingFir extends Component {
       });
   }
 
+<<<<<<< HEAD
+
+
+
+
+
+=======
+>>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
   moreInfo = (event, rowData) => {
     //this.moreInfoStart(rowData.firid);
     this.setState({
@@ -382,6 +390,10 @@ class PendingFir extends Component {
       openSignaturePad: false,
     });
   };
+<<<<<<< HEAD
+
+=======
+>>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
 
   async componentWillMount() {
     //API Call to fetch pending FIR list
@@ -438,7 +450,11 @@ class PendingFir extends Component {
                   status: "Complainant has updated",
                   date: element.date,
                   spam: element.spam,
+<<<<<<< HEAD
+                }
+=======
                 };
+>>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
 
                 this.setState({
                   data: [...this.state.data, temp],
@@ -450,6 +466,9 @@ class PendingFir extends Component {
                   status: "Rejected",
                   date: element.date,
                   spam: element.spam,
+<<<<<<< HEAD
+                }
+=======
                 };
 
                 this.setState({
@@ -463,6 +482,7 @@ class PendingFir extends Component {
                   date: element.date,
                   spam: element.spam,
                 };
+>>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
 
                 this.setState({
                   data: [...this.state.data, temp],
@@ -578,6 +598,10 @@ class PendingFir extends Component {
                       />
                       <Divider />
                       <Button
+<<<<<<< HEAD
+
+=======
+>>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
                         onClick={() => {
                           this.moreInfoStart(
                             this.state.firid,

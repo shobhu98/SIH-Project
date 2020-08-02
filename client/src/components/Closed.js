@@ -86,7 +86,7 @@ class Closed extends Component {
       { title: "Complainant Name", field: "name" },
       { title: "Date", field: "date" },
     ],
-    
+
     data: [],
     actions: [
       (rowData) => ({
@@ -108,7 +108,7 @@ class Closed extends Component {
 
     //var id = this.firIdFinder(rowData.firid)
     window.open("/fir/"+rowData.firid, "_blank")
-    
+
   };
   close = () => {
     this.setState({
@@ -210,7 +210,7 @@ class Closed extends Component {
             exportButton: true,
             exportFileName: "Closed Investigations",
             actionsColumnIndex: -1,
-            
+
           }}
           doubleHorizontalScroll={true}
           onRowClick={(event, rowData) => this.handleRowClick(event, rowData)}
@@ -220,7 +220,7 @@ class Closed extends Component {
           data={this.state.data}
           actions={this.state.actions}
         />
-        
+
       </div>
     );
   }
