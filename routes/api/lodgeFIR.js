@@ -12,7 +12,7 @@ const User=require('../../models/Users');
 // @access Private
 router.post('/',[auth,
     check('name','Name is required').not().isEmpty(),
-    check('email','Email is required').isEmail(),
+    // check('email','Email is required').isEmail(),
     check('mobile','Mobile is required').isLength({min:10}),
     check('incident','Incident Details are required').not().isEmpty(),
 

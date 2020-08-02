@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "firebase serve --only functions:dialogflowFirebaseFulfillment",
+    "deploy": "firebase deploy --only functions:dialogflowFirebaseFulfillment",
     "server": "nodemon server",
     "client": "npm start --prefix client",
     "ReactNativeFrontend": "npm start --prefix ReactNativeFrontend",
@@ -10,6 +12,7 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^5.1.2",
+    "actions-on-google": "^2.12.0",
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.2.0",
     "config": "^3.3.1",
@@ -21,6 +24,8 @@
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "express-validator": "^6.6.0",
+    "firebase-admin": "^9.0.0",
+    "firebase-functions": "^3.9.0",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.20",
