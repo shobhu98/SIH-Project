@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
         height: 50,
     },
     logo: {
-        width: 100,//500
-        height: 100,//700
+        width: 300,//500
+        height: 300,//700
     }
 });
 
@@ -20,7 +20,7 @@ export default class RequestingDetailsFemale extends React.Component {
     constructor(props) {
         super(props);
         this.images = [
-            require('../../../assets/images/complete_images/female/sizetest2.png')
+            require('../../../assets/images/complete_images/female/sizetest4.png')
         ];
         this.state = {index: 0};
     }
