@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
-import NotingDetailsMale from './animation_components/male/NotingDetailsMale';
+import NotingDetailsMale from './animation_components/female/TestSizeFemale';
 import RequestingDetailsMale from "./animation_components/male/RequestingDetailsMale";
 import * as Speech from 'expo-speech';
 

@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
         height: 50,
     },
     logo: {
-        width: 500,//500
-        height: 700,//700
+        width: 200,//500
+        height: 300,//700
     }
 });
 
@@ -22,18 +22,18 @@ export default class RequestingDetailsFemale extends React.Component {
         this.images = [
             require('../../../assets/images/complete_images/female/sizetest.png')
         ];
-        this.next = this.next.bind(this);
-        this.state = {index: 0};
+        //this.next = this.next.bind(this);
+        //this.state = {index: 0};
     }
 
-    componentDidMount() {
-        this.next();
-    }
+    // componentDidMount() {
+    //     this.next();
+    // }
 
     render() {
         return (
             <NoFlickerImage
-                source={this.images[this.state.index]}
+                source={this.images[0]}
                 style={styles.logo}
             />
         )
