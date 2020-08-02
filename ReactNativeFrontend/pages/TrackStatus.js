@@ -62,33 +62,38 @@ export default class TrackStatus extends React.Component {
             }
         }).then((response) => response.json())
         .then((responseData) => {
-          var caseJSON=[];
-          responseData.forEach(function(object){
-            var obj={
-              name:object.FIRNUM,
-              date:object.date,
-              status:object.acceptance
-            };
-            caseJSON.push(obj);
-          })
+          console.log("response")
+          console.log(responseData);
+          // var caseJSON=[];
+          // var components=[];
+          // responseData.forEach(function(object){
+          //   var obj={
+          //     name:object.FIRNUM,
+          //     date:object.date,
+          //     status:object.acceptance
+          //   };
+          //   console.log(obj);
+          //   caseJSON.push(obj);
+          //   components.push(<Text>object.FIRNUM</Text>);
+          // })
           
-          this.state={
-            case:caseJSON,
-            show:true
-          }
+          // this.state={
+          //   case:caseJSON,
+          //   show:true
+          // }
 
-          var components=[];
-          caseJSON.forEach(function(item){
-            components.push(
-              <Text>{item.name}</Text>
-            );
-          });
+          
+          // this.state.case.forEach(function(item){
+          //   components.push(
+          //     <Text>{item.name}</Text>
+          //   );
+          // });
 
           // var components=caseJSON.map(item => <Text>{item.name}</Text>)
-          this.state={
-            cases:components
-          }
-          console.log(this.state.cases);
+          // this.state={
+          //   cases:components
+          // }
+          // console.log(this.state.cases);
           
         }).catch (function (error){
             console.log(error);
