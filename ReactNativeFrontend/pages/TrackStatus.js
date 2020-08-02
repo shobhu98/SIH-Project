@@ -71,45 +71,64 @@ export default class TrackStatus extends React.Component {
             };
             caseJSON.push(obj);
           })
-          // var components=[];
-          // caseJSON.forEach(function(item){
-          //   components.push(
-          //     <Text>{item.name}</Text>
-          //   );
-          // });
+          
           this.state={
             case:caseJSON,
             show:true
           }
+
+          var components=[];
+          caseJSON.forEach(function(item){
+            components.push(
+              <Text>{item.name}</Text>
+            );
+          });
+
           // var components=caseJSON.map(item => <Text>{item.name}</Text>)
-          // this.state={
-          //   case:components
-          // }
-          // console.log(this.state.case);
+          this.state={
+            cases:components
+          }
+          console.log(this.state.cases);
           
         }).catch (function (error){
             console.log(error);
         })
     }) );
-
+    this.lapsList=this.lapsList.bind(this);
   }
+
+  lapsList=() =>{
+    console.log(this.state.case)
+    return this.state.case.map((data) => {
+      return (
+        <View><Text>{data.name}</Text></View>
+      )
+    })
+
+}
+
   render(){
     return(
       <Content padder>
+        <Text>Blah blal</Text>
         {/* <NavigationEvents
           onWillFocus={() => {
               AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
           }}
         /> */}
-        {this.state.show && <FlatList 
+        {/* {this.state.show && <FlatList 
           data={this.state.case}
           renderItem={({item})=>(
             <Text>{item.name}</Text>
           )}
-        />}
-        <Text>blah</Text>
+        />} */}
+        {/* <Text>blah</Text> */}
         
-        {/* {this.state.show && this.state.case.map(item => <Text>{item.name}</Text>)} */}
+      {/* {this.state.show && this.state.case.map(item => {
+        return(<Text>{item.name}</Text>)
+      })} */}
+      {/* {this.state.show ?this.lapsList():null} */}
+      {this.state.cases}
       </Content>
       
     );
