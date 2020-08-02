@@ -107,4 +107,63 @@ router.post('/:id',auth,[
 });
 
 
+router.patch('/spam/:id',auth,[
+//   check('acceptance','should be 0 or 1').not().isEmpty(),
+//   check('type_of_crime','please mention the type of crime').not().isEmpty(),
+//   check('signature',"signature must exist").not().isEmpty()
+],async function (req,res) {
+
+
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+    }
+    console.log(req.body);
+    console.log(req.params);
+    const {spam,acceptance}=req.body;
+
+    try {
+        let fir= await FIRDetails.findById(req.params.id);
+
+
+        const  update={
+
+            "$set":{
+                spam:spam,
+                acceptance:acceptance
+            }
+        };
+
+
+        if(fir){
+            //Update
+            // console.log(fir);
+            fir=await FIRDetails.findOneAndUpdate({_id:req.params.id},
+                {$set:req.body}
+                // {new:false}
+                 );
+            console.log(fir);
+            await fir.save();
+        }
+
+        // fir=new FIRDetails(acceptance);
+
+
+
+        res.json(fir);
+    }catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+
+});
+
+
+
+
+
+
+
+
+
 module.exports=router;

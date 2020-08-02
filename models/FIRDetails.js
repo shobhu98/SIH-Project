@@ -62,7 +62,7 @@ const PostSchema=new Schema({
         type:String
     },
     acceptance:{
-        type:Number,
+        type:String,
     },
     type_of_crime:{
         type:String,
