@@ -160,7 +160,7 @@ class App extends Component {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              SHO Portal Sign in
+              Virtual Police Station Sign in
             </Typography>
             <form className={classes.form}>
               <TextField

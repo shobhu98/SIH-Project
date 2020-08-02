@@ -178,13 +178,13 @@ class PendingFir extends Component {
       firid: firid,
     }));
   };
-  rec = (sign, type) => {
-    console.log(this.state.firid + "  " + type + "  " + sign);
-    this.state.accorrej==="accept"?this.acceptFIR(this.state.firid, type, sign):
+  rec = (sign, type, officer) => {
+    console.log(this.state.firid + "  " + type + "  " + sign+" "+officer);
+    this.state.accorrej==="accept"?this.acceptFIR(this.state.firid, type, sign, officer):
     this.rejectFIR(this.state.firid, type, sign);
   };
-  acceptFIR(firid, type, sign) {
-    var body = { acceptance: "1", type_of_crime: type, signature: sign };
+  acceptFIR(firid, type, sign, officer) {
+    var body = { acceptance: "1", type_of_crime: type, signature: sign, officer:officer };
 
     fetch("http://localhost:7000/api/admin_side/" + firid, {
       method: "POST",

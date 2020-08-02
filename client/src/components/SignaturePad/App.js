@@ -2,14 +2,24 @@ import React, { useState, useRef } from "react";
 import Popup from "reactjs-popup";
 import SignaturePad from "react-signature-canvas";
 import "./sigCanvas.css";
-import { Button,TextField, makeStyles, MuiThemeProvider, createMuiTheme, ThemeProvider,Grid,Paper, Typography } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  makeStyles,
+  MuiThemeProvider,
+  createMuiTheme,
+  ThemeProvider,
+  Grid,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 
-
-function App({closeSignaturePad, rec, open, accorrej}) {
+function App({ closeSignaturePad, rec, open, accorrej }) {
   //closeSignaturePad = closeSignaturePad.bind(this);
   const [imageURL, setImageURL] = useState(null); // create a state that will contain our image url
   const [type, setType] = useState(null);
   const [submit, setSubmit] = useState(null);
+  const [officer, setOfficer] = useState(null);
   //var type="Dowry";
   const sigCanvas = useRef({});
   //const accorrej = accorrej()
@@ -24,21 +34,19 @@ function App({closeSignaturePad, rec, open, accorrej}) {
 
   React.useEffect(() => {
     //console.log(accorrej)
-    if (imageURL && type && submit){
-      rec(imageURL,type)
+    if (imageURL && type && submit) {
+
+      rec(imageURL, type);
       //console.log(accorrej)
       closeSignaturePad();
-
     }
   });
 
   const save = () => {
-    
-    if(!imageURL)
-      alert("Please Sign in the white box");
-    else if (!type)
-      alert("Please enter Type of crime");
-    else{
+    if (!imageURL) alert("Please Sign in the white box");
+    else if (!type) alert("Please enter Type of crime");
+    else if(!officer && accorrej=="accept") alert("Please assign the case to an Investigating Officer")
+    else {
       setSubmit(true);
       //open=false
       //closeSignaturePad()
@@ -48,70 +56,99 @@ function App({closeSignaturePad, rec, open, accorrej}) {
   };
 
   const styles = makeStyles({
-    multilineColor:{
-        color:'black'
-    }
+    multilineColor: {
+      color: "black",
+    },
   });
-  const theme=createMuiTheme({
-      
+  const theme = createMuiTheme({
     palette: {
-      type:"light",
-      
-      
-    }
-  
+      type: "light",
+    },
   });
 
-const classes = styles();
+  const classes = styles();
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
-      <Grid>
-      <Popup
-        modal
-        
-        on="focus"
-        open={open}
-        //onClose={closeSignaturePad()}
-        closeOnDocumentClick={false}
-        defaultOpen={true}
-      >
-        {(close) => (
-          
-          <>
-          <Typography variant="subtitle1" className={classes.multilineColor}>Please Sign in the box below</Typography>
-            <SignaturePad
-              ref={sigCanvas}
-              canvasProps={{
-                className: "signatureCanvas",
-              }}
-              onEnd={()=>setImageURL((sigCanvas.current.getTrimmedCanvas().toDataURL("image/png")))}
-            />
-            <TextField
-                
-                margin="normal"
-                required
-                fullWidth
-                name="type"
-                label={accorrej==="accept"?"Enter IPC Section code(s)":"Reason for rejection"}
-                
-                autoFocus
-                onChange={(event) => {
-                  setType(event.target.value);
-                }}
-                InputProps={{
-                  className: classes.multilineColor
-                }}
-              />
-            {/* Button to trigger save canvas image */}
-            <Button onClick={save} color="primary">Submit</Button>
-            <Button onClick={clear} color="secondary">Clear</Button>
-            <Button onClick={closeSignaturePad}>Close</Button>
-          </>
-        )}
-      </Popup>
-      
-      </Grid>
+        <Grid>
+          <Popup
+            modal
+            on="focus"
+            open={open}
+            //onClose={closeSignaturePad()}
+            closeOnDocumentClick={false}
+            defaultOpen={true}
+          >
+            {(close) => (
+              <>
+                <Typography
+                  variant="subtitle1"
+                  className={classes.multilineColor}
+                >
+                  Please Sign in the box below
+                </Typography>
+                <SignaturePad
+                  ref={sigCanvas}
+                  canvasProps={{
+                    className: "signatureCanvas",
+                  }}
+                  onEnd={() =>
+                    setImageURL(
+                      sigCanvas.current
+                        .getTrimmedCanvas()
+                        .toDataURL("image/png")
+                    )
+                  }
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="type"
+                  label={
+                    accorrej === "accept"
+                      ? "Enter IPC Section code(s)"
+                      : "Reason for rejection"
+                  }
+                  autoFocus
+                  onChange={(event) => {
+                    setType(event.target.value);
+                  }}
+                  InputProps={{
+                    className: classes.multilineColor,
+                  }}
+                />
+
+                {accorrej === "accept" ? (
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="officer"
+                    type="email"
+                    label="Investigating officers email id"
+                    
+                    onChange={(event) => {
+                      setOfficer(event.target.value);
+                    }}
+                    InputProps={{
+                      className: classes.multilineColor,
+                    }}
+                  />
+                ) : null}
+
+                {/* Button to trigger save canvas image */}
+                <Button onClick={save} color="primary">
+                  Submit
+                </Button>
+                <Button onClick={clear} color="secondary">
+                  Clear
+                </Button>
+                <Button onClick={closeSignaturePad}>Close</Button>
+              </>
+            )}
+          </Popup>
+        </Grid>
       </MuiThemeProvider>
     </div>
   );
