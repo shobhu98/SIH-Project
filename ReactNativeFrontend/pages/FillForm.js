@@ -147,7 +147,7 @@ export default class FillForm extends React.Component {
         
         // }
 
-        //this.props.navigation.navigate('FillCaseDetails');
+        this.props.navigation.navigate('FillCaseDetails');
 
     }
 

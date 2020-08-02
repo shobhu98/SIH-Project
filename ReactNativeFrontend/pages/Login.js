@@ -4,7 +4,7 @@ import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/variables';
 import { Button } from 'react-native-paper';
 import { DefaultTheme, Provider as PaperProvider, Divider } from 'react-native-paper';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, StatusBar} from 'react-native';
 import {Dimensions } from "react-native";
 import NamasteMale from "./animation_components/male/NamasteMale";
 import NamasteFemale from "./animation_components/female/NamasteFemale";
@@ -181,7 +181,9 @@ export default class Login extends React.Component {
     render(){
         return(
             <StyleProvider style={getTheme(material)}>
+                
                 <Container style={{backgroundColor:"white"}}>
+                <StatusBar backgroundColor="#16335C"/>
                     {/* <Header >
                         <Title>Virtual Police Station</Title>
                     </Header> */}

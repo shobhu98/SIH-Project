@@ -51,6 +51,9 @@ export default class FillCaseDetails extends React.Component {
     
     constructor(props) {
         super(props);
+        const { navigation } = this.props;
+        console.log("profile details");
+        console.log(navigation.getParam('response'));
         var options=Lan.DistrictOptions[lan];
         var optionsj=[];
         for(var i=0;i<options.length;i++){

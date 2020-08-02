@@ -30,15 +30,15 @@ const styles = StyleSheet.create({
         borderColor: "#dbdbdb",
     },
     tinyLogo: {
-        height: 140,
-        width: 110,
+        height: 140,//140
+        width: 100,//110
         resizeMode: 'contain',
     },
     content:{
-        backgroundColor:"white"
+        backgroundColor:"white",
     },
     cardcontent:{
-        paddingBottom:20
+        paddingBottom:20,
     }
 });
 
@@ -114,7 +114,7 @@ export default class FileFIR extends React.Component {
                         <Card.Title
                             title={this.state.titles.Title2[this.state.lan]}
                             subtitle={this.state.titles.Subtitle2[this.state.lan]}
-                            right={(props) => <Image style={styles.tinyLogo} source={require('../assets/form.png')} resizeMethod="scale"/>}
+                            right={(props) => <Image style={styles.tinyLogo} source={require('../assets/volunteer.png')} resizeMethod="scale"/>}
                             theme={theme}
                         />
                         <Card.Actions style={styles.cardcontent}>
