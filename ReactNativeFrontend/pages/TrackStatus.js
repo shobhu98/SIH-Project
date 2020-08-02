@@ -62,54 +62,78 @@ export default class TrackStatus extends React.Component {
             }
         }).then((response) => response.json())
         .then((responseData) => {
-          var caseJSON=[];
-          responseData.forEach(function(object){
-            var obj={
-              name:object.FIRNUM,
-              date:object.date,
-              status:object.acceptance
-            };
-            caseJSON.push(obj);
-          })
+          console.log("response")
+          console.log(responseData);
+          // var caseJSON=[];
           // var components=[];
-          // caseJSON.forEach(function(item){
+          // responseData.forEach(function(object){
+          //   var obj={
+          //     name:object.FIRNUM,
+          //     date:object.date,
+          //     status:object.acceptance
+          //   };
+          //   console.log(obj);
+          //   caseJSON.push(obj);
+          //   components.push(<Text>object.FIRNUM</Text>);
+          // })
+          
+          // this.state={
+          //   case:caseJSON,
+          //   show:true
+          // }
+
+          
+          // this.state.case.forEach(function(item){
           //   components.push(
           //     <Text>{item.name}</Text>
           //   );
           // });
-          this.state={
-            case:caseJSON,
-            show:true
-          }
+
           // var components=caseJSON.map(item => <Text>{item.name}</Text>)
           // this.state={
-          //   case:components
+          //   cases:components
           // }
-          // console.log(this.state.case);
+          // console.log(this.state.cases);
           
         }).catch (function (error){
             console.log(error);
         })
     }) );
-
+    this.lapsList=this.lapsList.bind(this);
   }
+
+  lapsList=() =>{
+    console.log(this.state.case)
+    return this.state.case.map((data) => {
+      return (
+        <View><Text>{data.name}</Text></View>
+      )
+    })
+
+}
+
   render(){
     return(
       <Content padder>
+        <Text>Track Status</Text>
         {/* <NavigationEvents
           onWillFocus={() => {
               AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
           }}
         /> */}
-        {this.state.show && <FlatList 
+        {/* {this.state.show && <FlatList 
           data={this.state.case}
           renderItem={({item})=>(
             <Text>{item.name}</Text>
           )}
-        />}
-        <Text>blah</Text>
+        />} */}
+        {/* <Text>blah</Text> */}
         
-        {/* {this.state.show && this.state.case.map(item => <Text>{item.name}</Text>)} */}
+      {/* {this.state.show && this.state.case.map(item => {
+        return(<Text>{item.name}</Text>)
+      })} */}
+      {/* {this.state.show ?this.lapsList():null} */}
+      {this.state.cases}
       </Content>
       
     );

@@ -6,7 +6,6 @@ import Fade from "@material-ui/core/Fade";
 import { DropzoneArea } from "material-ui-dropzone";
 import MaterialTable from "material-table";
 
-
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
@@ -22,7 +21,6 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-
 
 import {
   Divider,
@@ -41,8 +39,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { forwardRef } from "react";
 
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import DeleteIcon from '@material-ui/icons/Delete';
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -68,7 +66,6 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-
 export default class FIRfile extends Component {
   constructor(props) {
     super(props);
@@ -81,12 +78,9 @@ export default class FIRfile extends Component {
     status: null,
     files: [],
 
-    columns: [
-      
-      { title: "Name", field: "name" },
-    ],
+    columns: [{ title: "Name", field: "name" }],
 
-    data: [{name:"evidence1"}],
+    data: [{ name: "evidence1" }],
     actions: [
       (rowData) => ({
         icon: () => <CloudDownloadIcon />,
@@ -97,40 +91,66 @@ export default class FIRfile extends Component {
         icon: () => <DeleteIcon />,
         tooltip: "Delete",
         onClick: (rowData) => this.delete(rowData),
-        disabled: this.state.status==="closed"?true:false
+        disabled: this.state.status === "closed" ? true : false,
       }),
     ],
     open: false,
-    firid: null,
-    status: null
+    status: null,
+    notes: null,
+    user_status:null
   };
 
   download(rowData) {}
   delete(rowData) {}
 
   handleChange(files) {
-    this.setState({
-      files: files,
-    });
-
-    console.log(this.state.files);
+    this.setState(
+      {
+        files: files,
+      },
+      () => this.upload
+    );
   }
   upload() {
     const data = new FormData();
     data.append("file", this.state.files[0]);
-    data.append("filename", "uploadedData");
-
+    console.log(data);
     console.log(this.state.files[0]);
-    fetch("https://localhost:7000/dataChange", {
-      method: "POST",
-      body: data,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert(data);
-      });
+    this.updateFIR({
+      case_Details: {
+        name: this.state.files[0].name,
+        img: this.state.files,
+      },
+      uin: JSON.parse(localStorage.getItem("login")).uin,
+    });
   }
-
+  updateFIR = (body) => {
+    fetch("http://localhost:7000/api/admin_side/" + this.state.firid, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(result);
+            alert("Successful");
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
   componentWillMount() {
     this.fetch();
   }
@@ -152,10 +172,14 @@ export default class FIRfile extends Component {
 
           if (response.status === 200) {
             console.log(result);
-            if(result.acceptance === 4){
+            this.setState({
+              notes: result.notes,
+              user_status: result.user_status,
+            },()=>console.log(this.state.user_status));
+            if (result.acceptance === 4) {
               this.setState({
-                status:"closed"
-              })
+                status: "closed",
+              });
             }
           } else {
             var error = new Error(response.statusText);
@@ -254,18 +278,22 @@ export default class FIRfile extends Component {
                       style={{ height: "100%", width: "100%" }}
                       label="Status(for complainant)"
                       variant="filled"
-                      defaultValue={this.state.status}
+                      
                       onChange={(e) => {
-                        this.setState({ status: e.target.value });
+                        this.setState({ user_status: e.target.value });
                       }}
+                      key={this.state.user_status ? 'notLoadedYet' : 'loaded'}
+                      defaultValue={this.state.user_status!=null?this.state.user_status:null}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Button
                       style={{ height: "100%", width: "100%" }}
                       variant="outlined"
-                      onClick={this.setStatus}
-                      disabled= {this.state.status==="closed"?true:false}
+                      onClick={() => {
+                        this.updateFIR({ user_status: this.state.user_status });
+                      }}
+                      disabled={this.state.status === "closed" ? true : false}
                     >
                       Set Status
                     </Button>
@@ -296,7 +324,6 @@ export default class FIRfile extends Component {
                             actionsColumnIndex: -1,
                           }}
                           doubleHorizontalScroll={true}
-                          
                           icons={tableIcons}
                           title="Files"
                           columns={this.state.columns}
@@ -305,36 +332,37 @@ export default class FIRfile extends Component {
                         />
                       </Grid>
 
-                      {this.state.status!="closed"?<>
-                      <Grid item xs={12} >
-                        <DropzoneArea
-                          className="zone"
-                          acceptedFiles={[
-                            ".csv",
-                            ".xlsx",
-                            ".png",
-                            ".jpg",
-                            ".jpeg",
-                          ]}
-                          minSize={0}
-                          maxFileSize={10242880}
-                          onChange={this.handleChange.bind(this)}
-                          filesLimit={1}
-                          showFileNames={true}
-                          style={{ height: 100 }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Button
-                          variant="outlined"
-                          style={{ width: "100%" }}
-                          onClick={this.upload.bind(this)}
-                          
-                        >
-                          Upload
-                        </Button>
-                      </Grid>
-                      </>:null}
+                      {this.state.status != "closed" ? (
+                        <>
+                          <Grid item xs={12}>
+                            <DropzoneArea
+                              className="zone"
+                              acceptedFiles={[
+                                ".csv",
+                                ".xlsx",
+                                ".png",
+                                ".jpg",
+                                ".jpeg",
+                              ]}
+                              minSize={0}
+                              maxFileSize={10242880}
+                              onChange={this.handleChange.bind(this)}
+                              filesLimit={1}
+                              showFileNames={true}
+                              style={{ height: 100 }}
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Button
+                              variant="outlined"
+                              style={{ width: "100%" }}
+                              onClick={this.upload.bind(this)}
+                            >
+                              Upload
+                            </Button>
+                          </Grid>
+                        </>
+                      ) : null}
                     </Grid>
                   </Box>
                 </Paper>
@@ -347,7 +375,7 @@ export default class FIRfile extends Component {
               {this.state.caseAssets === true ? (
                 <Paper>
                   <Box m={2} p={3}>
-                  <Typography variant="h4">Assets</Typography>
+                    <Typography variant="h4">Assets</Typography>
                     <Grid container spacing={1}>
                       <Grid item xs={12} className="list">
                         <MaterialTable
@@ -355,7 +383,6 @@ export default class FIRfile extends Component {
                             actionsColumnIndex: -1,
                           }}
                           doubleHorizontalScroll={true}
-                          
                           icons={tableIcons}
                           title="Files"
                           columns={this.state.columns}
@@ -363,40 +390,38 @@ export default class FIRfile extends Component {
                           actions={this.state.actions}
                         />
                       </Grid>
-                      {this.state.status!="closed"?<>
-                      <Grid item xs={12} >
-                        <DropzoneArea
-                          className="zone"
-                          acceptedFiles={[
-                            ".csv",
-                            ".xlsx",
-                            ".png",
-                            ".jpg",
-                            ".jpeg",
-                          ]}
-                          minSize={0}
-                          maxFileSize={10242880}
-                          onChange={this.handleChange.bind(this)}
-                          filesLimit={1}
-                          showFileNames={true}
-                          style={{ height: 100 }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Button
-                          variant="outlined"
-                          style={{ width: "100%" }}
-                          onClick={this.upload.bind(this)}
-                          
-                        >
-                          Upload
-                        </Button>
-                      </Grid>
-                      </>:null}
-                      
+                      {this.state.status != "closed" ? (
+                        <>
+                          <Grid item xs={12}>
+                            <DropzoneArea
+                              className="zone"
+                              acceptedFiles={[
+                                ".csv",
+                                ".xlsx",
+                                ".png",
+                                ".jpg",
+                                ".jpeg",
+                              ]}
+                              minSize={0}
+                              maxFileSize={10242880}
+                              onChange={this.handleChange.bind(this)}
+                              filesLimit={1}
+                              showFileNames={true}
+                              style={{ height: 100 }}
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Button
+                              variant="outlined"
+                              style={{ width: "100%" }}
+                              onClick={this.upload.bind(this)}
+                            >
+                              Upload
+                            </Button>
+                          </Grid>
+                        </>
+                      ) : null}
                     </Grid>
-
-                    
                   </Box>
                 </Paper>
               ) : (
@@ -417,8 +442,21 @@ export default class FIRfile extends Component {
                       rowsMin={26}
                       fullWidth={true}
                       style={{ width: "100%" }}
+                      onChange={(e) => {
+                        this.setState({
+                          notes: e.target.value,
+                        });
+                      }}
+                      defaultValue={this.state.notes}
                     ></TextareaAutosize>
-                    <Button variant="outlined" style={{ width: "100%" }} disabled= {this.state.status==="closed"?true:false}>
+                    <Button
+                      variant="outlined"
+                      style={{ width: "100%" }}
+                      disabled={this.state.status === "closed" ? true : false}
+                      onClick={() => {
+                        this.updateFIR({ notes: this.state.notes });
+                      }}
+                    >
                       Save
                     </Button>
                   </Box>
@@ -438,8 +476,13 @@ export default class FIRfile extends Component {
                       rowsMin={20}
                       fullWidth={true}
                       style={{ width: "100%" }}
+                      defaultValue={this.state.notes}
                     ></TextareaAutosize>
-                    <Button variant="outlined" style={{ width: "100%" }} disabled= {this.state.status==="closed"?true:false}>
+                    <Button
+                      variant="outlined"
+                      style={{ width: "100%" }}
+                      disabled={this.state.status === "closed" ? true : false}
+                    >
                       Save
                     </Button>
                   </Box>

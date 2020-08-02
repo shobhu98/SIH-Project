@@ -34,7 +34,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import InfoIcon from "@material-ui/icons/Info";
-import BlockIcon from '@material-ui/icons/Block';
+import BlockIcon from "@material-ui/icons/Block";
 
 const styles = (theme) => ({
   modal: {
@@ -120,14 +120,13 @@ class PendingFir extends Component {
     openMoreInfo: false,
     moreinfoText: null,
     accorrej: null,
-
   };
 
   spam = (event, rowData) => {
     //alert("clicked");
-    var spam=0
-    rowData.spam===1?spam=0:spam=1;
-    var body = { spam:spam+"", acceptance: "0"};
+    var spam = 0;
+    rowData.spam === 1 ? (spam = 0) : (spam = 1);
+    var body = { spam: spam };
     fetch("http://localhost:7000/api/admin_side/" + rowData.firid, {
       method: "POST",
       headers: {
@@ -142,12 +141,11 @@ class PendingFir extends Component {
           console.log(response.status);
           if (response.status === 200) {
             console.log(result);
-           if(result.spam===1){
-             alert("Marked as Spam");
-           }
-           else{
-             alert("Unmarked as Spam");
-           }
+            if (result.spam === 1) {
+              alert("Unmarked as Spam");
+            } else {
+              alert("Marked as Spam");
+            }
             this.setState(
               {
                 data: [],
@@ -171,19 +169,30 @@ class PendingFir extends Component {
     this.acceptStart(rowData.firid);
   };
   acceptStart = (firid) => {
-    this.setState({
-      openSignaturePad: true,
-      firid: firid,
-      accorrej: "accept",
-    });
+    this.setState(
+      {
+        accorrej: "accept",
+      },
+      () =>
+        this.setState({
+          openSignaturePad: true,
+          firid: firid,
+        })
+    );
   };
-  rec = (sign, type) => {
-    console.log(this.state.firid + "  " + type + "  " + sign);
-    this.state.accorej==="Accept"?this.acceptFIR(this.state.firid, type, sign):
-    this.rejectFIR(this.state.firid, type, sign);
+  rec = (sign, type, officer) => {
+    console.log(this.state.firid + "  " + type + "  " + sign + " " + officer);
+    this.state.accorrej === "accept"
+      ? this.acceptFIR(this.state.firid, type, sign, officer)
+      : this.rejectFIR(this.state.firid, type, sign);
   };
-  acceptFIR(firid, type, sign) {
-    var body = { acceptance: "1", type_of_crime: type, signature: sign };
+  acceptFIR(firid, type, sign, officer) {
+    var body = {
+      acceptance: "1",
+      type_of_crime: type,
+      signature: sign,
+      officer: officer,
+    };
 
     fetch("http://localhost:7000/api/admin_side/" + firid, {
       method: "POST",
@@ -218,24 +227,21 @@ class PendingFir extends Component {
       });
   }
 
-
-
-
-
-
-
-
-
   reject = (event, rowData) => {
     //this.acceptFIR(rowData.firid)
     this.rejectStart(rowData.firid);
   };
   rejectStart = (firid) => {
-    this.setState({
-      openSignaturePad: true,
-      firid: firid,
-      accorrej:"reject"
-    });
+    this.setState(
+      {
+        accorrej: "reject",
+      },
+      () =>
+        this.setState({
+          openSignaturePad: true,
+          firid: firid,
+        })
+    );
   };
   // rec = (sign, type) => {
   //   console.log(this.state.firid + "  " + type + "  " + sign);
@@ -277,11 +283,14 @@ class PendingFir extends Component {
       });
   }
 
+<<<<<<< HEAD
 
 
 
 
 
+=======
+>>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
   moreInfo = (event, rowData) => {
     //this.moreInfoStart(rowData.firid);
     this.setState({
@@ -292,7 +301,7 @@ class PendingFir extends Component {
   };
   moreInfoStart = (firid, data) => {
     //alert("clicked");
-    var body = { acceptance: "2", moreinfo: data };
+    var body = { acceptance: "2", more_info: data };
     fetch("http://localhost:7000/api/admin_side/" + firid, {
       method: "POST",
       headers: {
@@ -381,7 +390,10 @@ class PendingFir extends Component {
       openSignaturePad: false,
     });
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
 
   async componentWillMount() {
     //API Call to fetch pending FIR list
@@ -438,7 +450,11 @@ class PendingFir extends Component {
                   status: "Complainant has updated",
                   date: element.date,
                   spam: element.spam,
+<<<<<<< HEAD
                 }
+=======
+                };
+>>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
 
                 this.setState({
                   data: [...this.state.data, temp],
@@ -450,7 +466,23 @@ class PendingFir extends Component {
                   status: "Rejected",
                   date: element.date,
                   spam: element.spam,
+<<<<<<< HEAD
                 }
+=======
+                };
+
+                this.setState({
+                  data: [...this.state.data, temp],
+                });
+              } else if (element.acceptance === 10) {
+                var temp = {
+                  name: element.name,
+                  firid: element._id,
+                  status: "Appeal from complainant",
+                  date: element.date,
+                  spam: element.spam,
+                };
+>>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
 
                 this.setState({
                   data: [...this.state.data, temp],
@@ -468,6 +500,9 @@ class PendingFir extends Component {
         alert(err);
       });
   }
+  accorrej = () => {
+    return this.state.accorrej;
+  };
 
   render() {
     const { classes } = this.props;
@@ -486,9 +521,15 @@ class PendingFir extends Component {
                       ? "6px solid red"
                       : "More information requested" === rowData.status
                       ? "6px solid yellow"
-                      :"Rejected" === rowData.status
+                      : "Rejected" === rowData.status
                       ? "6px solid gray"
                       : "6px solid green",
+
+                  backgroundColor:
+                   
+                      "Appeal from complainant" === rowData.status
+                      ? "red"
+                      : null
                 }),
               }}
               doubleHorizontalScroll={true}
@@ -509,7 +550,6 @@ class PendingFir extends Component {
                 close={this.close}
                 accept={this.acceptStart}
                 moreInfo={this.moreinfo}
-                accorrej={this.state.accorrej}
               />
             ) : (
               <></>
@@ -521,6 +561,7 @@ class PendingFir extends Component {
                 closeSignaturePad={this.closeSignaturePad}
                 rec={this.rec}
                 open={this.state.openSignaturePad}
+                accorrej={this.state.accorrej}
               />
             ) : (
               <></>
@@ -557,7 +598,10 @@ class PendingFir extends Component {
                       />
                       <Divider />
                       <Button
+<<<<<<< HEAD
 
+=======
+>>>>>>> cf6ad3dd3fbb5b2a6088956848a13705fa8a38ae
                         onClick={() => {
                           this.moreInfoStart(
                             this.state.firid,

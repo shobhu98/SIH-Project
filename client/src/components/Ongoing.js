@@ -34,6 +34,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import FIRfile from './FIRfile'
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 const styles = (theme) => ({
   modal: {
@@ -89,8 +90,8 @@ class Ongoing extends Component {
     data: [],
     actions: [
       (rowData) => ({
-        icon: () => <CloseIcon />,
-        tooltip: "Close case",
+        icon: () => <AssignmentTurnedInIcon />,
+        tooltip: "Mark as completed",
         onClick: this.closef
       }),
     ],
