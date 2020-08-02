@@ -91,7 +91,7 @@ class Closed extends Component {
     actions: [
       (rowData) => ({
         icon: () => <RestoreFromTrashIcon />,
-        tooltip: "Close case",
+        tooltip: "Move to Ongoing investigations",
         onClick: this.closef
       }),
     ],

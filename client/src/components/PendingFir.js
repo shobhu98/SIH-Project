@@ -127,7 +127,7 @@ class PendingFir extends Component {
     //alert("clicked");
     var spam=0
     rowData.spam===1?spam=0:spam=1;
-    var body = { spam:spam+"", acceptance: "0"};
+    var body = { spam:spam};
     fetch("http://localhost:7000/api/admin_side/" + rowData.firid, {
       method: "POST",
       headers: {
@@ -143,10 +143,10 @@ class PendingFir extends Component {
           if (response.status === 200) {
             console.log(result);
            if(result.spam===1){
-             alert("Marked as Spam");
+             alert("Unmarked as Spam");
            }
            else{
-             alert("Unmarked as Spam");
+             alert("Marked as Spam");
            }
             this.setState(
               {
@@ -172,14 +172,16 @@ class PendingFir extends Component {
   };
   acceptStart = (firid) => {
     this.setState({
+      
+      accorrej: "accept",
+    },()=>this.setState({
       openSignaturePad: true,
       firid: firid,
-      accorrej: "accept",
-    });
+    }));
   };
   rec = (sign, type) => {
     console.log(this.state.firid + "  " + type + "  " + sign);
-    this.state.accorej==="Accept"?this.acceptFIR(this.state.firid, type, sign):
+    this.state.accorrej==="accept"?this.acceptFIR(this.state.firid, type, sign):
     this.rejectFIR(this.state.firid, type, sign);
   };
   acceptFIR(firid, type, sign) {
@@ -232,10 +234,12 @@ class PendingFir extends Component {
   };
   rejectStart = (firid) => {
     this.setState({
+      
+      accorrej:"reject"
+    },()=>this.setState({
       openSignaturePad: true,
       firid: firid,
-      accorrej:"reject"
-    });
+    }));
   };
   // rec = (sign, type) => {
   //   console.log(this.state.firid + "  " + type + "  " + sign);
@@ -292,7 +296,7 @@ class PendingFir extends Component {
   };
   moreInfoStart = (firid, data) => {
     //alert("clicked");
-    var body = { acceptance: "2", moreinfo: data };
+    var body = { acceptance: "2", more_info: data };
     fetch("http://localhost:7000/api/admin_side/" + firid, {
       method: "POST",
       headers: {
@@ -467,6 +471,9 @@ class PendingFir extends Component {
       .catch((err) => {
         alert(err);
       });
+  }
+  accorrej =()=>{
+    return(this.state.accorrej)
   }
 
   render() {

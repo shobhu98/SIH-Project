@@ -11,6 +11,7 @@ function App({closeSignaturePad, rec, open, accorrej}) {
   const [submit, setSubmit] = useState(null);
   //var type="Dowry";
   const sigCanvas = useRef({});
+  //const accorrej = accorrej()
 
   /* a function that uses the canvas ref to clear the canvas 
   via a method given by react-signature-canvas */
@@ -21,10 +22,10 @@ function App({closeSignaturePad, rec, open, accorrej}) {
   then saves it in our state */
 
   React.useEffect(() => {
-    console.log("In use efffect")
+    //console.log(accorrej)
     if (imageURL && type && submit){
       rec(imageURL,type)
-      console.log("recced")
+      //console.log(accorrej)
       closeSignaturePad();
 
     }
@@ -91,7 +92,7 @@ const classes = styles();
                 required
                 fullWidth
                 name="type"
-                label={accorrej==="accept"?"Type of Crime":"Reason for rejection"}
+                label={accorrej!="accept"?"Enter type/reason":"Reason for rejection"}
                 
                 autoFocus
                 onChange={(event) => {
