@@ -1,0 +1,1 @@
+{"ast":null,"code":"export * from \"./GiftedChat\";","map":{"version":3,"sources":["../src/index.ts"],"names":[],"mappings":"AAAA","sourceRoot":"","sourcesContent":["export * from './GiftedChat';\n//# sourceMappingURL=index.js.map"]},"metadata":{},"sourceType":"module"}
