@@ -63,17 +63,15 @@ const PostSchema=new Schema({
     },
     acceptance:{
         type:Number,
-        default: 0,
     },
     type_of_crime:{
         type:String,
     },
     signature:{
-        type:Object
+        type:Object,
     },
     spam:{
         type:Number,
-        default:0,
     },
 
     case_Details:[
@@ -86,6 +84,9 @@ const PostSchema=new Schema({
 
         }
     ],
+    more_info:{
+        type:String
+    },
 
 
     date:{

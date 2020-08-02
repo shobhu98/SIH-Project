@@ -32,21 +32,24 @@ router.post('/',[
     try{
         let user=await User.findOne({number:number});
         if(user){
-            res.status(400).json({errors:[{msg:'User already exist'}]});
+            res.status(400).send({errors:[{msg:'User already exist'}]});
 
         }
-        console.log("here");
-        twilio.verify.services(twilio_credentials.servideID).verifications.create({
-                to:"+91"+number,
-                channel:"sms"
-         }
+        else {
+            console.log("here");
+            twilio.verify.services(twilio_credentials.servideID).verifications.create({
+                    to:"+91"+number,
+                    channel:"sms"
+                }
 
-        ).then(data=>{
+            ).then(data=>{
 
-         console.log("hello");
-         res.json({data,number,password});
+                console.log("hello");
+                res.json({data,number,password});
 
-        });
+            });
+        }
+
 
     }catch (err) {
         console.error(err.message);
@@ -63,7 +66,7 @@ router.post('/save',[
     check('password','please enter minimum 6 digit password ').isLength({min:6}),
 ],async function (req,res) {
 
- const {number,password,code,name}=req.body;
+    const {number,password,code,name}=req.body;
 //  const number="8920862975";
 //  const name="St";
 //  const password="123456";
@@ -75,11 +78,11 @@ router.post('/save',[
                 code: code
             }
         ).then(data => {
-           if(data.data.valid==='false'){
-               res.json.status(500)({msg:"Incorrect OTP"})
-           }
+            if(data.data.valid==='false'){
+                res.json.status(500)({msg:"Incorrect OTP"})
+            }
         });
-    let    user=new User({
+        let    user=new User({
             // name,number,password
             number,password,name
         });
@@ -111,48 +114,5 @@ router.post('/save',[
 
     }
 });
-
-
-
-// router.get('/save/:number/:name/:password',async function (req,res) {
-//     // Registering the new user using the User Model-> models/User.js
-//     const name=req.params.name;
-//     const number=req.params.number;
-//     const password=req.params.password;
-//     try{
-//         user=new User({
-//             name,number,password
-//         });
-//         // encrypting the password using bcrypt(SHA-256 Algorithm)
-//         const  salt=await  bcrypt.genSalt(10);
-//         user.password=await bcrypt.hash(password,salt);
-//
-//         // Saving the user in mongoDB database
-//         await  user.save();
-//         // creating a code for unique session
-//         const payload={
-//             user:{
-//                 id:user.id
-//             }
-//         };
-//         // encrypting the above code using JWT authentication
-//         jwt.sign(payload,
-//             config.get('jwtSecret'),
-//             {expiresIn:360000},
-//             function (err,token) {
-//                 if(err){
-//                     throw err;
-//                 }
-//                 res.json({token});
-//
-//             });
-//     }catch (err) {
-//         console.error(err.message);
-//         res.status(500).send("Server Error");
-//     }
-//
-// });
-//
-
 
 module.exports=router;
