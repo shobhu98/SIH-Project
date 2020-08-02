@@ -101,8 +101,8 @@ export default class FIRfile extends Component {
       }),
     ],
     open: false,
-    firid: null,
-    status: null
+    status: null,
+    notes: null
   };
 
   download(rowData) {}
@@ -111,26 +111,49 @@ export default class FIRfile extends Component {
   handleChange(files) {
     this.setState({
       files: files,
-    });
+    },()=>this.upload);
 
-    console.log(this.state.files);
+    
   }
   upload() {
-    const data = new FormData();
-    data.append("file", this.state.files[0]);
-    data.append("filename", "uploadedData");
+    // const data = new FormData();
+    // data.append("file", this.state.files[0]);
 
     console.log(this.state.files[0]);
-    fetch("https://localhost:7000/dataChange", {
-      method: "POST",
-      body: data,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert(data);
-      });
+    this.updateFIR({case_Details:{
+      name:this.state.files[0].name,
+      img:this.state.files
+      
+    },
+  uin:JSON.parse(localStorage.getItem('login')).uin})
   }
-
+  updateFIR = (body) => {
+    fetch("http://localhost:7000/api/admin_side/" + this.state.firid, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(result);
+            alert("Successful");
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
   componentWillMount() {
     this.fetch();
   }
@@ -264,7 +287,7 @@ export default class FIRfile extends Component {
                     <Button
                       style={{ height: "100%", width: "100%" }}
                       variant="outlined"
-                      onClick={this.setStatus}
+                      onClick={() => {this.updateFIR({user_status:this.state.status})}}
                       disabled= {this.state.status==="closed"?true:false}
                     >
                       Set Status
@@ -412,13 +435,18 @@ export default class FIRfile extends Component {
                   <Box m={2} p={3}>
                     <Typography variant="h4">Notes</Typography>
                     <TextareaAutosize
+
                       className="notes"
                       aria-label="minimum height"
                       rowsMin={26}
                       fullWidth={true}
                       style={{ width: "100%" }}
+                      onChange={(e)=>{this.setState({
+                        notes:e.target.value
+                      })}}
                     ></TextareaAutosize>
-                    <Button variant="outlined" style={{ width: "100%" }} disabled= {this.state.status==="closed"?true:false}>
+                    <Button variant="outlined" style={{ width: "100%" }} disabled= {this.state.status==="closed"?true:false}
+                    onClick={() => {this.updateFIR({notes:this.state.notes})}}>
                       Save
                     </Button>
                   </Box>
