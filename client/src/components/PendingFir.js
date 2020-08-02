@@ -281,7 +281,7 @@ class PendingFir extends Component {
 
 
 
-  
+
   moreInfo = (event, rowData) => {
     //this.moreInfoStart(rowData.firid);
     this.setState({
@@ -381,7 +381,7 @@ class PendingFir extends Component {
       openSignaturePad: false,
     });
   };
-  
+
 
   async componentWillMount() {
     //API Call to fetch pending FIR list
@@ -390,7 +390,7 @@ class PendingFir extends Component {
   }
   fetchFIRList() {
     //console.log("http://localhost:7000/api/admin_side?uin="+JSON.parse(localStorage.getItem("login")).uin)
-    fetch("http://192.168.43.195:7000/api/admin_side/fir", {
+    fetch("http://localhost:7000/api/admin_side/fir", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -438,7 +438,7 @@ class PendingFir extends Component {
                   status: "Complainant has updated",
                   date: element.date,
                   spam: element.spam,
-                } 
+                }
 
                 this.setState({
                   data: [...this.state.data, temp],
@@ -450,7 +450,7 @@ class PendingFir extends Component {
                   status: "Rejected",
                   date: element.date,
                   spam: element.spam,
-                } 
+                }
 
                 this.setState({
                   data: [...this.state.data, temp],
@@ -557,7 +557,7 @@ class PendingFir extends Component {
                       />
                       <Divider />
                       <Button
-                        
+
                         onClick={() => {
                           this.moreInfoStart(
                             this.state.firid,

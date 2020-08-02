@@ -85,7 +85,7 @@ class Ongoing extends Component {
       { title: "Complainant Name", field: "name" },
       { title: "Date", field: "date" },
     ],
-    
+
     data: [],
     actions: [
       (rowData) => ({
@@ -107,7 +107,7 @@ class Ongoing extends Component {
 
     //var id = this.firIdFinder(rowData.firid)
     window.open("/fir/"+rowData.firid, "_blank")
-    
+
   };
   close = () => {
     this.setState({
@@ -158,7 +158,7 @@ class Ongoing extends Component {
   }
   fetchFIRList() {
     //console.log("http://localhost:7000/api/admin_side?uin="+JSON.parse(localStorage.getItem("login")).uin)
-    fetch("http://192.168.43.195:7000/api/admin_side/fir", {
+    fetch("http://localhost:7000/api/admin_side/fir", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -209,7 +209,7 @@ class Ongoing extends Component {
             exportButton: true,
             exportFileName: "Ongoing Investigations",
             actionsColumnIndex: -1,
-            
+
           }}
           doubleHorizontalScroll={true}
           onRowClick={(event, rowData) => this.handleRowClick(event, rowData)}
@@ -219,7 +219,7 @@ class Ongoing extends Component {
           data={this.state.data}
           actions={this.state.actions}
         />
-        
+
       </div>
     );
   }

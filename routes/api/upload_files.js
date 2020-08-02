@@ -8,6 +8,8 @@ let router=express.Router();
 const FIR=require('../../models/FIRDetails');
 let auth=require('../../middleware/auth');
 const {check,validationResult}=require('express-validator');
+const fileUpload=require('express-fileupload');
+router.use(fileUpload());
 
 
 
@@ -67,7 +69,8 @@ router.post('/',[auth,
 
             name: req.body.name,
             img: {
-                data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.body.img)),
+                // data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.body.img)),
+                data:req.files.file,
                 contentType: 'image/jpg',
             }
         };
