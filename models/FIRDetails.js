@@ -5,6 +5,10 @@ const PostSchema = new Schema({
   user: {
     type: Schema.Types.ObjectID,
     ref: "users",
+    default:"5f2302000f60b55ed89e23c9"
+  },
+  station:{
+    type:String,
   },
   notes: {
     type: String,
@@ -14,7 +18,8 @@ const PostSchema = new Schema({
   },
   name: {
     type: String,
-    required: true,
+    // required: true,
+    default:"Shobhit"
   },
   fathersName: {
     type: String,
@@ -26,7 +31,8 @@ const PostSchema = new Schema({
   },
   mobile: {
     type: Number,
-    required: true,
+    // required: true,
+    default:1234567891
   },
   aadhar: {
     type: String,
@@ -39,6 +45,7 @@ const PostSchema = new Schema({
   },
   country: {
     type: String,
+    default:"India"
   },
   passport: {
     type: String,
@@ -48,7 +55,7 @@ const PostSchema = new Schema({
   },
   incident: {
     type: String,
-    required: true,
+    // required: true,
   },
   FIRNUM: {
     type: String,
@@ -56,6 +63,7 @@ const PostSchema = new Schema({
   UIN: {
     type: String,
     required: true,
+    default:"103245"
   },
   addrOfCrime: {
     type: String,

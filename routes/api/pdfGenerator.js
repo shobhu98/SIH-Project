@@ -8,7 +8,6 @@ router.get('/',async function (req,res) {
     try{
         const browser=await puppeteer.launch();
         const page=await  browser.newPage();
-
         await page.setContent('<h1>Jackson</h1><br>')
         await page.emulateMediaType('screen');
         await page.pdf({
