@@ -175,13 +175,23 @@ this.state.content.ipc_sections!=undefined?(
   */
   pdf = () => {
     //var content = this.state.content;
+
+    var ipc = this.state.content.ipc_sections!=undefined?(
+      "<p>AI IPC Sections:"+ this.state.content.ipc_sections.map((element,i) => {
+        
+        return element+", "
+      })+
+      "</p>")
+    :"<p><p/>"
+
+
     var htmldata="<div>"+
       "<h4"+
         "FIR ID :"+this.state.content._id+
       "</h4>"+
       "<br></br>"+
       
-            
+            ipc+
               "<p>IPC Sections(As set by SHO): "+ this.state.content.type_of_crime+"</p>"+
            
               "<p>Current Status: "+ this.state.content.name+"</p>"+
@@ -217,12 +227,12 @@ this.state.content.ipc_sections!=undefined?(
             "<br></br>"+
             
             "<p>SHO</p>"+
-              "<img"+
+              "<img "+
               "src="+this.state.content.signature+"></img>"+
            
             
             "<p>Complainant</p>"+
-              "<img"+
+              "<img "+
               "src="+this.state.content.signature_user+"></img>"+
            
        
