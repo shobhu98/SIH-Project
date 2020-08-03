@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {Content, H2, Text} from 'native-base';
-import {StyleSheet, View, FlatList} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Button,DefaultTheme , Provider as PaperProvider, Divider} from 'react-native-paper';
 import Lan from "./LanguageStrings";
 import lan from "./global";
 // import { NavigationEvents } from 'react-navigation';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const theme = {
   ...DefaultTheme,
@@ -45,95 +44,84 @@ const styles = StyleSheet.create({
 export default class TrackStatus extends React.Component {
   constructor(props){
     super(props);
-    
-    this.state={
-      auth:"",
-      show:false
+    const { navigation } = this.props;
+    console.log("STUFF");
+    console.log(navigation.getParam('stuff'))
+    let caseJSON=navigation.getParam('stuff');
+    statusCodes={
+      0:"Pending",
+      1:"Accepted",
+      2:"More information requested",
+      3:"Pending",
+      4:"Submitted by SHO",
+      5:"Rejected",
+      10:"Appealed to SP"
     }
+    // let caseJSON={
+    //   0:{
+    //     name:"Case name 1",
+    //     status:"Accepted",
+    //     date:"01/01/2020",
+    //     viewbutton:true,
+    //     editbutton:false
+    //   },
+    //   1:{
+    //     name:"Case name 2",
+    //     status:"Under Review",
+    //     date:"01/01/2020",
+    //     viewbutton:true,
+    //     editbutton:false
+    //   },
+    //   2:{
+    //     name:"Case name 3",
+    //     status:"Rejected",
+    //     date:"01/01/2020",
+    //     viewbutton:true,
+    //     editbutton:false
+    //   },
+    //   3:{
+    //     name:"Case name 4",
+    //     status:"More details required",
+    //     date:"01/01/2020",
+    //     viewbutton:false,
+    //     editbutton:true
+    //   }
+    // };
+    var i=0;
+    var component=[];
+    while(caseJSON[i]){
+      var name=caseJSON[i].name;
+      var status=caseJSON[i].status;
+      var id=i;
+      component.push(
+        <View>
+          <View style={styles.view}>
+          <H2 style={styles.h2}>{caseJSON[i].name}</H2>
+          <Text style={styles.text}>{caseJSON[i].date}</Text>
+          </View>
+          {/* <Text >Hello World</Text> */}
+          <Text style={styles.btext}>{caseJSON[i].status}</Text>
+          {caseJSON[i].viewbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('ViewFIR',{name:name,status:status, id:id})}>{Lan.ViewReportButton[lan]}</Button></PaperProvider>}
+          {caseJSON[i].editbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('EditFIR',{name:caseJSON[i].name,status:caseJSON[i].status})}>{Lan.EditReportButton[lan]}</Button></PaperProvider>}
+          <Divider style={styles.divider}></Divider>
+        </View>
+        );
+      i++;
+    }
+    this.state = {
+      cases:component
+    }; 
 
-    AsyncStorage.getItem("@auth").then((value)=>this.setState({ auth: value }, () => {
-        console.log(this.state.auth, 'value');
-        fetch('http://192.168.1.10:7000/api/lodgeFIR', {
-            method: 'GET',
-            headers: {
-                // Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'x-auth-token':this.state.auth
-            }
-        }).then((response) => response.json())
-        .then((responseData) => {
-          console.log("response")
-          console.log(responseData);
-          // var caseJSON=[];
-          // var components=[];
-          // responseData.forEach(function(object){
-          //   var obj={
-          //     name:object.FIRNUM,
-          //     date:object.date,
-          //     status:object.acceptance
-          //   };
-          //   console.log(obj);
-          //   caseJSON.push(obj);
-          //   components.push(<Text>object.FIRNUM</Text>);
-          // })
-          
-          // this.state={
-          //   case:caseJSON,
-          //   show:true
-          // }
-
-          
-          // this.state.case.forEach(function(item){
-          //   components.push(
-          //     <Text>{item.name}</Text>
-          //   );
-          // });
-
-          // var components=caseJSON.map(item => <Text>{item.name}</Text>)
-          // this.state={
-          //   cases:components
-          // }
-          // console.log(this.state.cases);
-          
-        }).catch (function (error){
-            console.log(error);
-        })
-    }) );
-    this.lapsList=this.lapsList.bind(this);
   }
-
-  lapsList=() =>{
-    console.log(this.state.case)
-    return this.state.case.map((data) => {
-      return (
-        <View><Text>{data.name}</Text></View>
-      )
-    })
-
-}
-
   render(){
     return(
       <Content padder>
-        <Text>Track Status</Text>
         {/* <NavigationEvents
           onWillFocus={() => {
               AsyncStorage.getItem("@lang").then((value)=>this.setState({lan:value})); 
           }}
         /> */}
-        {/* {this.state.show && <FlatList 
-          data={this.state.case}
-          renderItem={({item})=>(
-            <Text>{item.name}</Text>
-          )}
-        />} */}
-        {/* <Text>blah</Text> */}
-        
-      {/* {this.state.show && this.state.case.map(item => {
-        return(<Text>{item.name}</Text>)
-      })} */}
-      {/* {this.state.show ?this.lapsList():null} */}
-      {this.state.cases}
+        {this.state.cases}
       </Content>
       
     );

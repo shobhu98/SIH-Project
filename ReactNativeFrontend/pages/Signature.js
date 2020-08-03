@@ -37,17 +37,24 @@ const styles = StyleSheet.create({
 });
 
 export default class Signature extends React.Component {
+  constructor(props){
+    super(props);
+    console.log("FROM HERE")
+    const { navigation } = this.props;
+    console.log(navigation.getParam('personal'));
+    console.log(navigation.getParam('case'));
+  }
   clearCanvas = () => {
     this.refs.signatureCanvas.clear()
   }
   saveCanvas = async () => {
-    // const signature_result = await
-    // this.refs.signatureCanvas.takeSnapshotAsync({
-    //   format: 'jpeg', // 'png' also supported
-    //   quality: 0.5, // quality 0 for very poor 1 for very good
-    //   result: 'file' // 
-    // })
-
+    const signature_result = await
+    this.refs.signatureCanvas.takeSnapshotAsync({
+      format: 'jpeg', // 'png' also supported
+      quality: 0.5, // quality 0 for very poor 1 for very good
+      result: 'file' // 
+    })
+    const base64 = await FileSystem.readAsStringAsync(signature_result.uri, { encoding: 'base64' });
     //yourFnToSaveItInYourAPI(signature_result)
     // inside the fn above, use signature_result.uri to get the absolute file path
     this.props.navigation.navigate('FIRsaved');

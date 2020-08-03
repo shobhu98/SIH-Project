@@ -29,9 +29,19 @@ router.post('/',[auth,
             email:req.body.email,
             mobile:req.body.mobile,
             fathersName: req.body.fathersName,
+            DOB:req.body.dob,
+            aadhar:req.body.aadhar,
+            address:req.body.address,
+            country:req.body.country,
+            passport:req.body.passport,
+            district:req.body.incident,
+            addrOfCrime:req.body.addrOfCrime,
             incident:req.body.incident,
-            UIN:req.body.UIN,
+            // UIN:req.body.UIN,
+            UIN:"103245",
             user:user.id,
+            delay:req.body.delay,
+            suspects:req.body.suspects
         });
         const post=await newPost.save();
         res.json(post);
