@@ -6,7 +6,9 @@ const PORT = process.env.PORT || 7000;
 const app = express();
 let cors=require('cors');
 const  connectDB=require('./config/db');
+var bodyParser = require('body-parser')
 app.use(cors());
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -14,7 +16,7 @@ app.use(cookieParser());
 // Mongodb connection is called from config/db.js
  connectDB();
 
-
+ app.use(bodyParser.json({limit: '10000kb'}));
 
 //Various apis are called here from routes/api
 app.use("/api/user", require("./routes/api/user"));

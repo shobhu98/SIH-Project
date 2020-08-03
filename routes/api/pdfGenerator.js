@@ -3,21 +3,30 @@ const express=require('express');
 const router=express.Router();
 
 
-router.get('/',async function (req,res) {
+router.post('/',async function (req,res) {
 
     try{
         const browser=await puppeteer.launch();
         const page=await  browser.newPage();
-
-        await page.setContent('<h1>Jackson</h1><br>')
+        console.log(req.body.html)
+        await page.setContent(req.body.html)
         await page.emulateMediaType('screen');
         await page.pdf({
             path:'testing.pdf',
             format:'A4',
             printBackground:true
         });
+        var buffer = await page.pdf({
+            path:'testing.pdf',
+            format:'A4',
+            printBackground:true
+        });
+
         await browser.close();
-        process.exit();
+        
+        //process.exit();
+        res.end(buffer)
+
     }catch (err) {
         console.log(err);
 
