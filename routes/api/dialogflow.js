@@ -65,8 +65,8 @@ router.post('/textquery',async function (req,res) {
         const responses = await sessionClient.detectIntent(request);
         console.log('Detected intent');
         const result = responses[0].queryResult;
-        // console.log(`  Query: ${result.queryText}`);
-        // console.log(`  Response: ${result.fulfillmentText}`);
+        console.log(`  Query: ${result.queryText}`);
+        console.log(`  Response: ${result.fulfillmentText}`);
 
         console.log(result.outputContexts.parameters);
 
@@ -87,7 +87,7 @@ router.post('/textquery',async function (req,res) {
 
 
 
-router.get('/agent2',auth,async function (req,res) {
+router.post('/agent2',async function (req,res) {
     // Sending information from client to DialogFlow API
     console.log("here agent 2");
     // Create a new chatbot session for interacting with chatbot
@@ -128,7 +128,7 @@ router.get('/agent2',auth,async function (req,res) {
 
 
 
-router.post('/hindi1',auth,async function (req,res) {
+router.post('/hindi1',async function (req,res) {
     // Sending information from client to DialogFlow API
     // console.log("here agent 2");
     // Create a new chatbot session for interacting with chatbot

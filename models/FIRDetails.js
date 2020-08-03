@@ -84,7 +84,7 @@ const PostSchema = new Schema({
 
   case_Details: [
     {
-      name: "String",
+      name: String,
       img: {
         type: Object
       },
@@ -93,7 +93,15 @@ const PostSchema = new Schema({
   more_info: {
     type: String,
   },
-
+  signature_user:{
+    type:String
+  },
+  date_of_incident:{
+    type:Date
+  },
+  evidence:[
+    {type:String}
+  ],
   date: {
     type: Date,
     default: Date.now,

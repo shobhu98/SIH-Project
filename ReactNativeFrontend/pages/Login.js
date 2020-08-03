@@ -188,8 +188,8 @@ export default class Login extends React.Component {
                         <Title>Virtual Police Station</Title>
                     </Header> */}
                     <View style={{flexDirection:'row', position:'absolute'}}>
-                        {/* <NamasteMale/>
-                        <NamasteFemale style={{left:250}}/> */}
+                        <NamasteMale/>
+                        <NamasteFemale style={{left:250}}/>
                     </View>
                     <View style={styles.blueview}>
                         <View style={{alignItems:'center', marginBottom:10}}>

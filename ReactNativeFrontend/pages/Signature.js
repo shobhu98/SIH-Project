@@ -6,6 +6,8 @@ import {Dimensions } from "react-native";
 import {Content, H2} from 'native-base';
 import Lan from "./LanguageStrings";
 import lan from "./global";
+import AsyncStorage from '@react-native-community/async-storage';
+import * as FileSystem from 'expo-file-system';
 
 
 const styles = StyleSheet.create({
@@ -41,8 +43,14 @@ export default class Signature extends React.Component {
     super(props);
     console.log("FROM HERE")
     const { navigation } = this.props;
-    console.log(navigation.getParam('personal'));
-    console.log(navigation.getParam('case'));
+    // console.log(navigation.getParam('personal'));
+    // console.log(navigation.getParam('case'));
+    this.state={
+      auth:"",
+      personal:navigation.getParam('personal'),
+      case:navigation.getParam('case')
+    }
+    this.goMyChild=this.goMyChild.bind(this);
   }
   clearCanvas = () => {
     this.refs.signatureCanvas.clear()
@@ -55,10 +63,52 @@ export default class Signature extends React.Component {
       result: 'file' // 
     })
     const base64 = await FileSystem.readAsStringAsync(signature_result.uri, { encoding: 'base64' });
-    //yourFnToSaveItInYourAPI(signature_result)
-    // inside the fn above, use signature_result.uri to get the absolute file path
+    console.log(this.state.personal);
+    console.log(this.state.case);
+    // console.log("Signature")
+    // console.log(base64);
+    AsyncStorage.getItem("@auth").then((value)=>this.setState({ auth: value }, () => {
+      fetch('http://192.168.1.10:7000/api/lodgeFIR', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-auth-token':this.state.auth
+            },
+            body: JSON.stringify({
+              name:this.state.personal.name,
+              email:this.state.personal.email,
+              mobile:this.state.personal.mobile,
+              fathersName: this.state.personal.fathersName,
+              DOB:this.state.personal.DOB,
+              aadhar:this.state.personal.aadhar,
+              address:this.state.personal.address,
+              country:this.state.personal.country,
+              passport:this.state.personal.passport,
+              district:this.state.case.district,
+              addrOfCrime:this.state.case.place,
+              incident:this.state.case.incident,
+              UIN:"103245",
+              delay:this.state.case.delay,
+              suspects:this.state.case.suspects,
+              date_of_incident:Date.parse(this.state.case.date),
+              acceptance:0,
+              signature_user:base64
+            })
+        }).then(function(res){
+            console.log(res)
+            alert("FIR filed");
+            //this.goMyChild()
+        }).catch (function (error){
+            console.log(error);
+        })
+    }))
+    
+  }
+
+  goMyChild=()=>{
     this.props.navigation.navigate('FIRsaved');
   }
+
   render() {
     return (
       <Content padder>
