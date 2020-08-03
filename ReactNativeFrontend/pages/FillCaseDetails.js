@@ -75,7 +75,7 @@ export default class FillCaseDetails extends React.Component {
         this.state = {
             selected2: undefined,
             selected:undefined,
-            date:"22-07-2020",
+            date:"07/22/2020",
             optionsj:optionsj,
             optionsj2:optionsj2,
             // nationality: undefined,
@@ -222,9 +222,9 @@ export default class FillCaseDetails extends React.Component {
                         date={this.state.date}
                         mode="datetime"
                         placeholder="select date"
-                        format="DD-MM-YYYY"
-                        minDate="01-05-1947"
-                        maxDate="22-07-2020"
+                        format="MM/DD/YYYY"
+                        minDate="01/05/1947"
+                        maxDate="08/03/2020"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
                         customStyles={{

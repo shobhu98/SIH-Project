@@ -43,7 +43,7 @@ import Lan from "./pages/LanguageStrings";
 import lan from "./pages/global";
 // import PoliceWoman from "./pages/animation_components/female/PoliceWoman";
 
-
+console.disableYellowBox=true;
 
 // const AnimationStack= createStackNavigator({
 //     NotingDetailsFemale: PoliceWoman,

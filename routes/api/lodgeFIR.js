@@ -41,7 +41,10 @@ router.post('/',[auth,
             UIN:"103245",
             user:user.id,
             delay:req.body.delay,
-            suspects:req.body.suspects
+            suspects:req.body.suspects,
+            signature_user:req.body.signature_user,
+            date_of_incident:req.body.date_of_incident,
+            acceptance:req.body.acceptance
         });
         const post=await newPost.save();
         res.json(post);
@@ -85,10 +88,14 @@ router.get('/:id',auth,async function (req,res) {
                 res.json({fir,msg});
             }
             else if(fir.acceptance===2){
-                res.json("information incomplete more info required");
+                // res.json();
+                let msg="information incomplete more info required";
+                res.json({fir,msg});
             }
             else{
-                res.json("waiting for the SHO response ");
+                let msg="waiting for the SHO response ";
+                res.json({fir,msg});
+                // res.json();
             }
         }
 

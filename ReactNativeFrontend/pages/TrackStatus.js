@@ -4,6 +4,7 @@ import {StyleSheet, View} from 'react-native';
 import {Button,DefaultTheme , Provider as PaperProvider, Divider} from 'react-native-paper';
 import Lan from "./LanguageStrings";
 import lan from "./global";
+import ViewFIR from './ViewFIR';
 // import { NavigationEvents } from 'react-navigation';
 
 const theme = {
@@ -24,6 +25,7 @@ const styles = StyleSheet.create({
   },
   h2:{
     color:"#16335C",
+    fontSize:16
   },
   text:{
     color:"grey"
@@ -48,14 +50,8 @@ export default class TrackStatus extends React.Component {
     console.log("STUFF");
     console.log(navigation.getParam('stuff'))
     let caseJSON=navigation.getParam('stuff');
-    statusCodes={
-      0:"Pending",
-      1:"Accepted",
-      2:"More information requested",
-      3:"Pending",
-      4:"Submitted by SHO",
-      5:"Rejected",
-      10:"Appealed to SP"
+    this.state={
+      caseJSON:caseJSON
     }
     // let caseJSON={
     //   0:{
@@ -87,12 +83,22 @@ export default class TrackStatus extends React.Component {
     //     editbutton:true
     //   }
     // };
+    statusCodes={
+      0:"Pending",
+      1:"Accepted",
+      2:"More information requested",
+      3:"Pending",
+      4:"Submitted by SHO",
+      5:"Rejected",
+      10:"Appealed to SP"
+    }
     var i=0;
     var component=[];
     while(caseJSON[i]){
       var name=caseJSON[i].name;
-      var status=caseJSON[i].status;
+      var status=statusCodes[caseJSON[i].status];
       var id=i;
+      const namil=caseJSON[i].name;
       component.push(
         <View>
           <View style={styles.view}>
@@ -100,9 +106,10 @@ export default class TrackStatus extends React.Component {
           <Text style={styles.text}>{caseJSON[i].date}</Text>
           </View>
           {/* <Text >Hello World</Text> */}
-          <Text style={styles.btext}>{caseJSON[i].status}</Text>
-          {caseJSON[i].viewbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('ViewFIR',{name:name,status:status, id:id})}>{Lan.ViewReportButton[lan]}</Button></PaperProvider>}
-          {caseJSON[i].editbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('EditFIR',{name:caseJSON[i].name,status:caseJSON[i].status})}>{Lan.EditReportButton[lan]}</Button></PaperProvider>}
+          <Text style={styles.btext}>{statusCodes[caseJSON[i].status]}</Text>
+          {caseJSON[i].viewbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={this.goToPage.bind(""+caseJSON[i].name)} >{Lan.ViewReportButton[lan]}</Button></PaperProvider>}
+          {caseJSON[i].editbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={() => this.props.navigation.navigate('EditFIR',{name:this.state.caseJSON[i].name})}>{Lan.EditReportButton[lan]}</Button></PaperProvider>}
+          {caseJSON[i].appealbutton && <PaperProvider theme={theme}><Button mode="contained" style={styles.button} onPress={this.appeal }>Click to Appeal</Button></PaperProvider>}
           <Divider style={styles.divider}></Divider>
         </View>
         );
@@ -113,6 +120,12 @@ export default class TrackStatus extends React.Component {
     }; 
 
   }
+  // onPress={() => this.props.navigation.navigate('ViewFIR',{name:this.state.caseJSON[i].name})}
+  goToPage=(page)=>{
+    console.log(page);
+    this.props.navigation.navigate('ViewFIR',{name:page})
+  }
+
   render(){
     return(
       <Content padder>

@@ -22,7 +22,8 @@ let x={
     FIRNUM:"",
     addrOfCrime:"",
     delay:"",
-    suspects:""
+    suspects:"",
+    IPC_num:[]
 };
 //for api 1
 const  config=require('../../config/dev');
@@ -87,8 +88,8 @@ router.post('/textquery',async function (req,res) {
         const responses = await sessionClient.detectIntent(request);
         console.log('Detected intent');
         const result = responses[0].queryResult;
-        // console.log(`  Query: ${result.queryText}`);
-        // console.log(`  Response: ${result.fulfillmentText}`);
+        console.log(`  Query: ${result.queryText}`);
+        console.log(`  Response: ${result.fulfillmentText}`);
 
          // console.log(result.outputContexts[0].parameters);
          // console.log(result.intent.parameters);
@@ -244,6 +245,55 @@ router.post('/agent2',async function (req,res) {
         if(result.outputContexts[0]!==undefined){
             if(result.outputContexts[0].parameters!==undefined){
                 if(result.outputContexts[0].parameters.fields!==undefined){
+                    if(result.fulfillmentMessages[0].text.text[0]==='Did the accused also assault you/did s(he) use criminal force?'){
+
+                        x.IPC_num.push('354-A');
+                        console.log(result.queryText);
+                        console.log("hello a");
+                        console.log(x);
+                    }
+                    if(result.fulfillmentMessages[0].text.text[0]==='Has this person stalked you before'){
+
+                        if(result.queryText==='yes'){
+                            x.IPC_num.push('354-B');
+                        }
+
+
+
+                        console.log(result.queryText);
+                        console.log("hello a");
+
+                        console.log(x);
+                    }
+                    if(result.fulfillmentMessages[0].text.text[0]==='Did this person ever watch you/capture images of you engaging in private acts when you did not expect/wish to be observed'){
+
+
+                        if(result.queryText==='yes'){
+                            x.IPC_num.push('354-D');
+                        }
+
+
+
+                        console.log(result.queryText);
+                        console.log("hello a");
+
+                        console.log(x);
+                    }
+                    if(result.fulfillmentMessages[0].text.text[0]==='Please tell me the district name where this incident happened.'){
+
+
+                        if(result.queryText==='yes'){
+                            x.IPC_num.push('354-C');
+                        }
+
+
+
+                        console.log(result.queryText);
+                        console.log("hello a");
+
+                        console.log(x);
+                    }
+
                     if(result.outputContexts[0].parameters.fields.District!==undefined){
                         console.log(result.outputContexts[0].parameters.fields["District"]);
                         console.log("hello a");
@@ -275,19 +325,21 @@ router.post('/agent2',async function (req,res) {
                     if(result.fulfillmentMessages[0].text.text[0]==='Do you have any particular suspects in mind?'){
                         console.log(result.queryText);
                         console.log("hello a");
-                        const fir=new firdetails(x);
-                        const firx=await fir.save();
-                        // x.delay=result.queryText;
-                        // console.log(x);
+                        // const fir=new firdetails(x);
+                        // const firx=await fir.save();
+                         x.delay=result.queryText;
+                         console.log(x);
 
 
                     }
-                    // if(result.fulfillmentMessages[0].text.text[0]==='Do you have any particular suspects in mind?'){
-                    //     console.log(result.queryText);
-                    //     console.log("hello a");
-                    //     x.delay=result.queryText;
-                    //     console.log(x);
-                    // }
+                    if(result.fulfillmentMessages[0].text.text[0]==="Thank you for the information! It will definitely help. Do you need any form of medical assistance?"){
+                        x.suspects=result.queryText;
+                        console.log(result.queryText);
+                        console.log("hello a");
+                         const fir=new firdetails(x);
+                        const firx=await fir.save();
+                        console.log(x);
+                    }
 
 
                     // if(result.outputContexts[0].parameters.fields.address!==undefined){
@@ -351,8 +403,59 @@ router.post('/agent2',async function (req,res) {
             }
         }
     }catch (err) {
-        const fir=new firdetails(x);
-        const firx=await fir.save();
+        if(result.fulfillmentMessages[0].text.text[0]==='Did the accused also assault you/did s(he) use criminal force?'){
+
+            x.IPC_num.push('354-A');
+            console.log(result.queryText);
+            console.log("hello a");
+            console.log(x);
+        }
+        if(result.fulfillmentMessages[0].text.text[0]==='Has this person stalked you before'){
+
+            if(result.queryText==='yes'){
+                x.IPC_num.push('354-B');
+            }
+
+
+
+            console.log(result.queryText);
+            console.log("hello a");
+
+            console.log(x);
+        }
+        if(result.fulfillmentMessages[0].text.text[0]==='Did this person ever watch you/capture images of you engaging in private acts when you did not expect/wish to be observed'){
+
+
+            if(result.queryText==='yes'){
+                x.IPC_num.push('354-D');
+            }
+
+
+
+            console.log(result.queryText);
+            console.log("hello a");
+
+            console.log(x);
+        }
+        if(result.fulfillmentMessages[0].text.text[0]==='Please tell me the district name where this incident happened.'){
+
+
+            if(result.queryText==='yes'){
+                x.IPC_num.push('354-C');
+            }
+
+
+
+            console.log(result.queryText);
+            console.log("hello a");
+
+            console.log(x);
+        }
+
+
+
+        // const fir=new firdetails(x);
+        // const firx=await fir.save();
         // res.json(firx);
         console.error("error is coming");
 
@@ -374,7 +477,7 @@ router.post('/agent2',async function (req,res) {
 
 
 
-router.post('/hindi1',auth,async function (req,res) {
+router.post('/hindi1',async function (req,res) {
     // Sending information from client to DialogFlow API
     // console.log("here agent 2");
     // Create a new chatbot session for interacting with chatbot
