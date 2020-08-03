@@ -67,12 +67,12 @@ export default function TransitionsModal({ close, firid, accept,moreinfo,status,
             
               <Typography id="transition-modal-description" className="modal-body">
                 <Grid spacing={3} container >
-                  <Grid item xs={12}>
+                  {content.ipc_sections?<Grid item xs={12}>
                     <Typography variant="h6">AI IPC Sections: {content.ipc_sections.map((element,i) => {
                       console.log(element)
                       return element+", "
                     })}</Typography>
-                  </Grid>
+                  </Grid>:null}
                   <Grid item xs={12}>
                     <Typography variant="h6">IPC Sections(As set by SHO): {content.type_of_crime}</Typography>
                   </Grid>

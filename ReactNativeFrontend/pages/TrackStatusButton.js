@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button,DefaultTheme , Provider as PaperProvider, Divider} from 'react-native-paper';
+import {Text,DefaultTheme , Provider as PaperProvider, Divider} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default class TrackStatus extends React.Component{
@@ -25,15 +25,44 @@ export default class TrackStatus extends React.Component{
             let arr=[];
             let i=0;
             while(responseData[i]){
-                let js={
-                    name:responseData[i]._id,
-                    status:responseData[i].UIN,
-                    date:"01/01/2020",
-                    viewbutton:false,
-                    editbutton:true
+                if(responseData[i].__v===2){
+                    let js={
+                        name:responseData[i]._id,
+                        status:responseData[i].__v,
+                        date:responseData[i].date,
+                        viewbutton:false,
+                        editbutton:true,
+                        appealbutton:false
+                    }
+                    arr.push(js);
+                    i++;
                 }
-                arr.push(js);
-                i++;
+                else if(responseData[i].__v===5){
+                    let js={
+                        name:responseData[i]._id,
+                        status:responseData[i].__v,
+                        date:responseData[i].date,
+                        viewbutton:false,
+                        editbutton:false,
+                        appealbutton:true
+                    }
+                    arr.push(js);
+                    i++;
+                }
+                else{
+                    let js={
+                        name:responseData[i]._id,
+                        status:responseData[i].__v,
+                        date:responseData[i].date,
+                        viewbutton:true,
+                        editbutton:false,
+                        appealbutton:false
+                    }
+                    arr.push(js);
+                    i++;
+                }
+                
+                
             }
             console.log(arr);
             this.props.navigation.navigate('TrackStatus',{stuff:arr});
@@ -44,7 +73,7 @@ export default class TrackStatus extends React.Component{
     }
     render(){
         return(
-            <Button>Blah blah</Button>
+            <Text>Loading</Text>
         );
     }
 }
