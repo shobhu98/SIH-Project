@@ -32,7 +32,7 @@ const PostSchema = new Schema({
   mobile: {
     type: Number,
     // required: true,
-    default:1234567891
+    // default:1234567891
   },
   aadhar: {
     type: String,
@@ -76,6 +76,7 @@ const PostSchema = new Schema({
   },
   acceptance: {
     type: Number,
+      default:0,
   },
   type_of_crime: {
     type: String,
@@ -89,6 +90,11 @@ const PostSchema = new Schema({
   officer: {
       type: String
   },
+
+    IPC_num:[
+
+    ],
+
 
   case_Details: [
     {
