@@ -91,6 +91,11 @@ const PostSchema = new Schema({
       type: String
   },
 
+    IPC_num:[
+
+    ],
+
+
   case_Details: [
     {
       name: "String",

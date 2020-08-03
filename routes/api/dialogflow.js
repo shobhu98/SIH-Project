@@ -22,7 +22,8 @@ let x={
     FIRNUM:"",
     addrOfCrime:"",
     delay:"",
-    suspects:""
+    suspects:"",
+    IPC_num:[]
 };
 //for api 1
 const  config=require('../../config/dev');
@@ -244,6 +245,55 @@ router.post('/agent2',async function (req,res) {
         if(result.outputContexts[0]!==undefined){
             if(result.outputContexts[0].parameters!==undefined){
                 if(result.outputContexts[0].parameters.fields!==undefined){
+                    if(result.fulfillmentMessages[0].text.text[0]==='Did the accused also assault you/did s(he) use criminal force?'){
+
+                        x.IPC_num.push('354-A');
+                        console.log(result.queryText);
+                        console.log("hello a");
+                        console.log(x);
+                    }
+                    if(result.fulfillmentMessages[0].text.text[0]==='Has this person stalked you before'){
+
+                        if(result.queryText==='yes'){
+                            x.IPC_num.push('354-B');
+                        }
+
+
+
+                        console.log(result.queryText);
+                        console.log("hello a");
+
+                        console.log(x);
+                    }
+                    if(result.fulfillmentMessages[0].text.text[0]==='Did this person ever watch you/capture images of you engaging in private acts when you did not expect/wish to be observed'){
+
+
+                        if(result.queryText==='yes'){
+                            x.IPC_num.push('354-D');
+                        }
+
+
+
+                        console.log(result.queryText);
+                        console.log("hello a");
+
+                        console.log(x);
+                    }
+                    if(result.fulfillmentMessages[0].text.text[0]==='Please tell me the district name where this incident happened.'){
+
+
+                        if(result.queryText==='yes'){
+                            x.IPC_num.push('354-C');
+                        }
+
+
+
+                        console.log(result.queryText);
+                        console.log("hello a");
+
+                        console.log(x);
+                    }
+
                     if(result.outputContexts[0].parameters.fields.District!==undefined){
                         console.log(result.outputContexts[0].parameters.fields["District"]);
                         console.log("hello a");
@@ -353,8 +403,59 @@ router.post('/agent2',async function (req,res) {
             }
         }
     }catch (err) {
-        const fir=new firdetails(x);
-        const firx=await fir.save();
+        if(result.fulfillmentMessages[0].text.text[0]==='Did the accused also assault you/did s(he) use criminal force?'){
+
+            x.IPC_num.push('354-A');
+            console.log(result.queryText);
+            console.log("hello a");
+            console.log(x);
+        }
+        if(result.fulfillmentMessages[0].text.text[0]==='Has this person stalked you before'){
+
+            if(result.queryText==='yes'){
+                x.IPC_num.push('354-B');
+            }
+
+
+
+            console.log(result.queryText);
+            console.log("hello a");
+
+            console.log(x);
+        }
+        if(result.fulfillmentMessages[0].text.text[0]==='Did this person ever watch you/capture images of you engaging in private acts when you did not expect/wish to be observed'){
+
+
+            if(result.queryText==='yes'){
+                x.IPC_num.push('354-D');
+            }
+
+
+
+            console.log(result.queryText);
+            console.log("hello a");
+
+            console.log(x);
+        }
+        if(result.fulfillmentMessages[0].text.text[0]==='Please tell me the district name where this incident happened.'){
+
+
+            if(result.queryText==='yes'){
+                x.IPC_num.push('354-C');
+            }
+
+
+
+            console.log(result.queryText);
+            console.log("hello a");
+
+            console.log(x);
+        }
+
+
+
+        // const fir=new firdetails(x);
+        // const firx=await fir.save();
         // res.json(firx);
         console.error("error is coming");
 
