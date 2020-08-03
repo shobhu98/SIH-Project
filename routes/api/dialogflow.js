@@ -275,19 +275,21 @@ router.post('/agent2',async function (req,res) {
                     if(result.fulfillmentMessages[0].text.text[0]==='Do you have any particular suspects in mind?'){
                         console.log(result.queryText);
                         console.log("hello a");
-                        const fir=new firdetails(x);
-                        const firx=await fir.save();
-                        // x.delay=result.queryText;
-                        // console.log(x);
+                        // const fir=new firdetails(x);
+                        // const firx=await fir.save();
+                         x.delay=result.queryText;
+                         console.log(x);
 
 
                     }
-                    // if(result.fulfillmentMessages[0].text.text[0]==='Do you have any particular suspects in mind?'){
-                    //     console.log(result.queryText);
-                    //     console.log("hello a");
-                    //     x.delay=result.queryText;
-                    //     console.log(x);
-                    // }
+                    if(result.fulfillmentMessages[0].text.text[0]==="Thank you for the information! It will definitely help. Do you need any form of medical assistance?"){
+                        x.suspects=result.queryText;
+                        console.log(result.queryText);
+                        console.log("hello a");
+                         const fir=new firdetails(x);
+                        const firx=await fir.save();
+                        console.log(x);
+                    }
 
 
                     // if(result.outputContexts[0].parameters.fields.address!==undefined){
