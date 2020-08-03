@@ -65,8 +65,8 @@ export default class ChooseGender extends React.Component {
                 <StatusBar backgroundColor="#16335C"/>
                 <PaperProvider theme={theme}>
                     {/* <Title>Choose gender of officer</Title> */}
-                    <Button mode="outlined" style={styles.englishButton} labelStyle={styles.labelstyle} onPress={() => this.props.navigation.navigate('EMan')} >{this.state.titles.Male[this.state.lan]}</Button>
-                    <Button mode="outlined" style={styles.hindiButton} labelStyle={styles.labelstyle} onPress={() => this.props.navigation.navigate('EWoman')}>{this.state.titles.Female[this.state.lan]}</Button>
+                    <Button mode="outlined" style={styles.englishButton} labelStyle={styles.labelstyle} onPress={() => this.props.navigation.navigate('HMan')} >{this.state.titles.Male[this.state.lan]}</Button>
+                    <Button mode="outlined" style={styles.hindiButton} labelStyle={styles.labelstyle} onPress={() => this.props.navigation.navigate('HWoman')}>{this.state.titles.Female[this.state.lan]}</Button>
                 </PaperProvider>
             </Content>
         );
