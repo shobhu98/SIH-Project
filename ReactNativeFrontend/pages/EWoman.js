@@ -105,7 +105,7 @@ export default class App extends React.Component {
               speak:false,
             })
           };
-          Speech.speak(result.fulfillmentMessages[0].text.text[0],{language:"hi-IN", pitch:1, rate:0.8, 
+          Speech.speak(result.fulfillmentMessages[0].text.text[0],{language:"hi-IN", pitch:1, rate:1, 
             onStart:start ,
             onDone: end
           });

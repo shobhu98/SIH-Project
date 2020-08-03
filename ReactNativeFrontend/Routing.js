@@ -288,18 +288,19 @@ const AppNavigator = createStackNavigator({
     //         headerShown: false,
     //     }
     //   },
+    Login: {
+        screen: Login,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
     MainPage: {
         screen: TabNavigator,
         navigationOptions: {
             headerShown: false,
         }
       },
-    Login: {
-      screen: Login,
-      navigationOptions: {
-          headerShown: false,
-      }
-    },
+    
     Register: {
         screen: Register,
         navigationOptions: {
