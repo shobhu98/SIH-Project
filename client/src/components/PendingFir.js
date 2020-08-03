@@ -24,7 +24,7 @@ import WarningIcon from "@material-ui/icons/Warning";
 import FIRModal from "./FIRModal";
 import App from "./SignaturePad/App";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import { Divider, Button } from "@material-ui/core";
+import { Divider, Button, Typography } from "@material-ui/core";
 
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -35,6 +35,8 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import InfoIcon from "@material-ui/icons/Info";
 import BlockIcon from "@material-ui/icons/Block";
+import { saveAs } from 'file-saver';
+import GetAppIcon from "@material-ui/icons/GetApp";
 
 const styles = (theme) => ({
   modal: {
@@ -112,6 +114,11 @@ class PendingFir extends Component {
         tooltip: "Toggle Spam",
         onClick: (event, rowData) => this.spam(event, rowData),
       }),
+      (rowData) => ({
+        icon: () => <GetAppIcon />,
+        tooltip: "Download",
+        onClick: (event, rowData) => this.contentSet(event, rowData),
+      }),
     ],
     open: false,
     firid: null,
@@ -121,7 +128,127 @@ class PendingFir extends Component {
     moreinfoText: null,
     accorrej: null,
 
-    content:null
+    content: null,
+  };
+  contentSet = (event,rowData) => {
+    fetch("http://localhost:7000/api/admin_side/" + rowData.firid, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          //console.log(result.errors[0].msg);
+          console.log(response.status);
+          if (response.status === 200) {
+            this.setState(
+              {
+                content: result,
+              },
+              () =>
+                this.pdf()
+            );
+
+            console.log(result);
+          } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+          }
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+  /*
+this.state.content.ipc_sections!=undefined?(
+              "<p>AI IPC Sections:"+ this.state.content.ipc_sections.map((element,i) => {
+                
+                return element+", "
+              })+
+              "</p>")
+            :"<></>"
+            +
+  */
+  pdf = () => {
+    //var content = this.state.content;
+    var htmldata="<div>"+
+      "<h4"+
+        "FIR ID :"+this.state.content._id+
+      "</h4>"+
+      "<br></br>"+
+      
+            
+              "<p>IPC Sections(As set by SHO): "+ this.state.content.type_of_crime+"</p>"+
+           
+              "<p>Current Status: "+ this.state.content.name+"</p>"+
+      
+              "<p >Name: "+ this.state.content.name+"</p>"+
+    
+              "<p >Email: "+this.state.content.email+"</p>"+
+   
+              "<p >Father's Name: "+this.state.content.fathersName+"</p>"+
+  
+              "<p >DOB: "+this.state.content.DOB+"</p>"+
+    
+              "<p>Mobile number: "+this.state.content.mobile+"</p>"+
+          
+              "<p >Complainant's Resident Country: "+this.state.content.country+"</p>"+
+        
+              "<p >Incident District: "+this.state.content.District+"</p>"+
+     
+              "<p >Incident</p>"+
+      
+            
+              +this.state.content.incident+
+           
+         
+              "<p >Reason for Delay(if any)</p>"+
+    
+              this.state.content.delay+
+          
+              "<p >Possible Suspects</p>"
+  
+              +this.state.content.suspects+
+            
+            "<br></br>"+
+            
+            "<p>SHO</p>"+
+              "<img"+
+              "src="+this.state.content.signature+"></img>"+
+           
+            
+            "<p>Complainant</p>"+
+              "<img"+
+              "src="+this.state.content.signature_user+"></img>"+
+           
+       
+        "</div>"+"";
+        console.log(htmldata)
+    var body={html:htmldata}
+    fetch("http://localhost:7000/api/pdfGenerate", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": JSON.parse(localStorage.getItem("login")).token,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => {
+        return res
+                .arrayBuffer()
+                .then(res => {
+                    const blob = new Blob([res], { type: 'application/pdf' })
+                    saveAs(blob, 'fir.pdf')
+                })
+                .catch(e => alert(e))
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   spam = (event, rowData) => {
@@ -356,13 +483,17 @@ class PendingFir extends Component {
           //console.log(result.errors[0].msg);
           console.log(response.status);
           if (response.status === 200) {
-            this.setState({
-              content:result
-            },() => this.setState({
-              open: true,
-              firid: rowData.firid,
-              status: rowData.status,
-            }))
+            this.setState(
+              {
+                content: result,
+              },
+              () =>
+                this.setState({
+                  open: true,
+                  firid: rowData.firid,
+                  status: rowData.status,
+                })
+            );
 
             console.log(result);
           } else {
@@ -375,7 +506,6 @@ class PendingFir extends Component {
       .catch((err) => {
         alert(err);
       });
-    
   };
   close = () => {
     this.setState({
@@ -461,7 +591,10 @@ class PendingFir extends Component {
                 this.setState({
                   data: [...this.state.data, temp],
                 });
-              } else if (element.acceptance === 10 && JSON.parse(localStorage.getItem('login')).user==="SP") {
+              } else if (
+                element.acceptance === 10 &&
+                JSON.parse(localStorage.getItem("login")).user === "SP"
+              ) {
                 var temp = {
                   name: element.name,
                   firid: element._id,
@@ -512,10 +645,7 @@ class PendingFir extends Component {
                       : "6px solid green",
 
                   backgroundColor:
-                   
-                      "Appeal from complainant" === rowData.status
-                      ? "red"
-                      : null
+                    "Appeal from complainant" === rowData.status ? "red" : null,
                 }),
               }}
               doubleHorizontalScroll={true}
@@ -528,7 +658,7 @@ class PendingFir extends Component {
               data={this.state.data}
               actions={this.state.actions}
             />
-            {this.state.open === true && this.state.content!=null? (
+            {this.state.open === true && this.state.content != null ? (
               <FIRModal
                 firid={this.state.firid}
                 status={this.state.status}
