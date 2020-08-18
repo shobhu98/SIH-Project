@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {Content, H2, Text} from 'native-base';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, WebView} from 'react-native';
 import {Button,DefaultTheme , Provider as PaperProvider, Divider} from 'react-native-paper';
 import Lan from "./LanguageStrings";
 import lan from "./global";
 import ViewFIR from './ViewFIR';
 // import { NavigationEvents } from 'react-navigation';
+import * as FileSystem from 'expo-file-system';
 
 const theme = {
   ...DefaultTheme,
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     width:180
   }
 });
+
 
 export default class TrackStatus extends React.Component {
   constructor(props){
@@ -124,6 +126,17 @@ export default class TrackStatus extends React.Component {
   goToPage=(page)=>{
     console.log(page);
     this.props.navigation.navigate('ViewFIR',{name:page})
+    //this.props.navigation.navigate('FIR')
+    // FileSystem.downloadAsync(
+    //   '../testing.pdf',
+    //   FileSystem.documentDirectory + 'fir.pdf'
+    // )
+    //   .then(({ uri }) => {
+    //     console.log('Finished downloading to ', uri);
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //   });
   }
 
   render(){

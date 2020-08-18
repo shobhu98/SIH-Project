@@ -15,13 +15,18 @@ import TrackStatus from './pages/TrackStatus';
 import Profile from './pages/Profile';
 import MedicalHelp from './pages/MedicalHelp';
 import ChooseGender from './pages/ChooseGender';
+import ChooseGender2 from './pages/ChooseGender2';
 import FillForm from './pages/FillForm';
 import Policeman from './pages/Policeman';
 import Policewoman from './pages/Policewoman';
 import FillCaseDetails from './pages/FillCaseDetails';
 import Signature from './pages/Signature';
 import CallForHelp from './pages/CallForHelp';
-import Chatbot from './pages/Policeman';
+import ChatbotGender from './pages/ChatbotGender';
+import EMan from './pages/EMan';
+import EWoman from './pages/EWoman';
+import HMan from './pages/HMan';
+import HWoman from './pages/HWoman';
 import FillProfile from './pages/FillProfile';
 import FIRsaved from './pages/FIRsaved';
 import PLanguage from './pages/PLanguage';
@@ -33,12 +38,13 @@ import PickImage from './pages/PickImage';
 
 import ViewFIR from './pages/ViewFIR';
 import EditFIR from './pages/EditFIR';
+// import FIR from './pages/PDF';
 
 // import PoliceMan from './pages/animation_components/male/PoliceMan';
-import NotingDetailsMale from './pages/animation_components/male/NotingDetailsMale';
-import RequestingDetailsMale from "./pages/animation_components/male/RequestingDetailsMale";
-import NotingDetailsFemale from "./pages/animation_components/female/NotingDetailsFemale";
-import RequestingDetailsFemale from "./pages/animation_components/female/RequestingDetailsFemale";
+// import NotingDetailsMale from './pages/animation_components/male/NotingDetailsMale';
+// import RequestingDetailsMale from "./pages/animation_components/male/RequestingDetailsMale";
+// import NotingDetailsFemale from "./pages/animation_components/female/NotingDetailsFemale";
+// import RequestingDetailsFemale from "./pages/animation_components/female/RequestingDetailsFemale";
 import Lan from "./pages/LanguageStrings";
 import lan from "./pages/global";
 // import PoliceWoman from "./pages/animation_components/female/PoliceWoman";
@@ -77,18 +83,54 @@ const FileFIRStack= createStackNavigator({
           headerShown: false,
       }
     },
-    MAnimationStack: {
-        screen: Chatbot,
+    ChooseGender2: {
+        screen: ChooseGender2,
+        navigationOptions: {
+            headerShown: false,
+        }
+      },
+    EMan: {
+        screen: EMan,
         navigationOptions: {
             headerShown: false,
         }
     },
-    FAnimationStack: {
-        screen: Policewoman,
+    EWoman: {
+        screen: EWoman,
         navigationOptions: {
             headerShown: false,
         }
     },
+    HMan: {
+        screen: HMan,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    HWoman: {
+        screen: HWoman,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    ChatbotGender:{
+        screen: ChatbotGender,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    // MAnimationStack: {
+    //     screen: Chatbot,
+    //     navigationOptions: {
+    //         headerShown: false,
+    //     }
+    // },
+    // FAnimationStack: {
+    //     screen: Policewoman,
+    //     navigationOptions: {
+    //         headerShown: false,
+    //     }
+    // },
     FillForm: {
         screen: FillForm,
         navigationOptions: {
@@ -157,7 +199,7 @@ const TrackStatusStack= createStackNavigator({
         navigationOptions: {
             headerShown: false,
         }
-    },
+    }
 });
 
 const ProfileStack=createStackNavigator({
@@ -246,18 +288,19 @@ const AppNavigator = createStackNavigator({
     //         headerShown: false,
     //     }
     //   },
+    Login: {
+        screen: Login,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
     MainPage: {
         screen: TabNavigator,
         navigationOptions: {
             headerShown: false,
         }
       },
-    Login: {
-      screen: Login,
-      navigationOptions: {
-          headerShown: false,
-      }
-    },
+    
     Register: {
         screen: Register,
         navigationOptions: {

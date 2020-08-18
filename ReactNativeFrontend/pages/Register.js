@@ -173,7 +173,7 @@ export default class Login extends React.Component {
                                 </Button> */}
                                 
                                 <Item regular style={styles.input}>
-                                    <Input placeholder={Lan.EnterPasswordPrompt[lan]} onChangeText={text => this.setState({password:text})}/>
+                                    <Input secureTextEntry={true} placeholder={Lan.EnterPasswordPrompt[lan]} onChangeText={text => this.setState({password:text})}/>
                                 </Item>
                                 <Button mode="contained" onPress={this.sendOTP} style={styles.button}>
                                     Send OTP
