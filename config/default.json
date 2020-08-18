@@ -1,5 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://dadriboiz:dadriboiz123@cluster0-osqe5.mongodb.net/dadriboiz?retryWrites=true&w=majority",
-  "jwtSecret": "mysectoken"
-
-}
